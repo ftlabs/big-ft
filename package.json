@@ -20,5 +20,8 @@
   },
   "author": "FT Labs",
   "license": "",
-  "description": "Big FT front-end and back-end"
+  "description": "Big FT front-end and back-end",
+  "engines" : {
+    "node" : "5.0.0"
+  }
 }
