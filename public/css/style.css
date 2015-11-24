@@ -60,6 +60,11 @@ body {
 	width: auto;
 	height: 100%;
 	overflow: hidden;
+	opacity: 0;
+	transition: opacity 1s ease;
+}
+.main-stories__media--current {
+	opacity: 1;
 }
 .main-stories__headlines {
 	list-style-type: none;
