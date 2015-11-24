@@ -1,0 +1,14 @@
+{
+	"schemaVersion": 1,
+	"name": "big-ft",
+	"purpose": "Displays FT content in a UI designed for non-interactive big-screen installations",
+	"audience": "public",
+	"serviceTier": "bronze",
+	"dateCreated": "2015-11-24",
+	"contacts": [
+		{ "name":"FT Labs team", "email":"ftlabs@ft.com", "rel":"owner", "domain":"All support enquiries" }
+	],
+	"links": [
+		{ "url":"http://git.svc.ft.com/projects/LABSPROT/repos/big-ft/browse", "category":"repo" }
+	]
+}
