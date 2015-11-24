@@ -4,5 +4,19 @@
     "express": "^4.13.3",
     "express-handlebars": "^2.0.1",
     "request-promise": "^1.0.2"
-  }
+  },
+  "name": "big-ft",
+  "version": "1.0.0",
+  "main": "main.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@git.svc.ft.com:7999/labsprot/big-ft.git"
+  },
+  "author": "FT Labs",
+  "license": "",
+  "description": "Big FT front-end and back-end"
 }
