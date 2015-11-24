@@ -3,9 +3,19 @@ require('dotenv').load({silent: true});
 const express = require('express');
 const exphbs = require('express-handlebars');
 const app = express();
+const ftwebservice = require('express-ftwebservice');
+
+ftwebservice(app, {
+	manifestPath: __dirname + '/package.json',
+	about: require('./runbook.json'),
+	healthCheck: require('./healthcheck'),
+	goodToGoTest: function() {
+		return Promise.resolve(true) // TODO
+	},
+})
 
 const hbs = exphbs.create({
-    helpers: {}
+	helpers: {}
 });
 
 app.engine('handlebars', hbs.engine);
