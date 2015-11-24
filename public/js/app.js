@@ -1,3 +1,4 @@
+/* global $ */
 $(function() {
 	$('.ticker').ticker();
 });
