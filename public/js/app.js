@@ -1,3 +1,4 @@
+/* global $ */
 
 function nextMainStory() {
 	['main-stories__story--current', 'main-stories__media--current'].forEach(function(c) {
