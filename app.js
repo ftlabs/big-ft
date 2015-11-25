@@ -6,6 +6,11 @@ const bodyParser = require('body-parser');
 const routes = require('./routes/index');
 const app = express();
 const ftwebservice = require('express-ftwebservice');
+const hbs = require('express-hbs');
+
+app.engine('hbs', hbs.express4({
+  partialsDir: path.join(__dirname, '/views/partials')
+}));
 
 ftwebservice(app, {
 	manifestPath: path.join(__dirname, '/package.json'),
