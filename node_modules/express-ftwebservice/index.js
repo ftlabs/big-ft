@@ -67,8 +67,8 @@ module.exports = function(app, options) {
 		opts.healthCheck().then(function(checks) {
 			res.json({
 				schemaVersion: 1,
-				name: serviceName,
-				description: serviceDescription,
+				name: opts.about.name,
+				description: opts.about.purpose,
 				checks: checks
 			});
 		}).catch(function(e) {
