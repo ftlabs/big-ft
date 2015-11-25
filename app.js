@@ -4,6 +4,7 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const routes = require('./routes/index');
+const data = require('./routes/data');
 const app = express();
 const ftwebservice = require('express-ftwebservice');
 const hbs = require('express-hbs');
@@ -30,6 +31,7 @@ app.use(cookieParser());
 app.use('/static', express.static(__dirname + '/public'));
 
 app.use('/', routes);
+app.use('/data', data);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
