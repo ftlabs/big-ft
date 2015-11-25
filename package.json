@@ -14,10 +14,15 @@
   "name": "big-ft",
   "version": "1.0.0",
   "main": "bin/www",
-  "devDependencies": {},
+  "devDependencies": {
+    "mocha": "^2.3.4",
+    "mockery": "^1.4.0",
+    "supertest": "^1.1.0"
+  },
   "scripts": {
     "start": "node ./bin/www",
-    "test": "obt verify --excludeFiles='!public/js/vendor/*.js'"
+    "test": "npm run verify && mocha ./tests --recursive",
+    "verify": "obt verify --excludeFiles='!public/js/vendor/*.js'"
   },
   "repository": {
     "type": "git",
