@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router(); //eslint-disable-line new-cap
 const topStories = require('../lib/top-stories');
+const cors = require('../middleware/cors');
 
+router.use(cors);
 router.get('/top-stories', (req, res) => {
   const sendJson = res.json.bind(res);
   const send503 = res.sendStatus.bind(res,503);
