@@ -2,16 +2,14 @@
   "dependencies": {
     "dotenv": "^1.2.0",
     "express": "^4.13.3",
-    "express-ftwebservice": "git+http://git.svc.ft.com:8080/scm/ot/express-ftwebservice.git",
-    "express-handlebars": "^2.0.1",
-    "request-promise": "^1.0.2"
+    "express-ftwebservice": "git+http://git.svc.ft.com:8080/scm/ot/express-ftwebservice.git"
   },
   "name": "big-ft",
   "version": "1.0.0",
-  "main": "main.js",
+  "main": "bin/www",
   "devDependencies": {},
   "scripts": {
-    "start": "node ./main.js",
+    "start": "node ./bin/www",
     "test": "obt verify --excludeFiles='!public/js/vendor/*.js'"
   },
   "repository": {
@@ -20,5 +18,9 @@
   },
   "author": "FT Labs",
   "license": "",
-  "description": "Big FT front-end and back-end"
+  "description": "Big FT front-end and back-end",
+  "engines" : {
+    "node" : "5.0.0"
+  },
+  "private": true
 }
