@@ -4,7 +4,7 @@ var __bigFT = (function(){
 
 	'use strict';
 
-	const serviceURL = "";
+	const serviceURL = "http://ftlabs-big-ft.herokuapp.com/data/";
 	const interstitial = new Interstitial();
 	var mediaHolder = undefined;
 
@@ -144,7 +144,9 @@ var __bigFT = (function(){
 
 		var amount = amount || 3;
 		
-		return spoofStories();
+		return fetch(serviceURL + "/top-stories?startFrom=1&numberOfArticles=" + amount)
+			.then(response => response.json())
+		;
 
 	}
 
@@ -165,6 +167,7 @@ var __bigFT = (function(){
 		
 		getStories()
 			.then(stories => {
+				console.log(stories);
 				interstitial.show();
 				populateMainStories(stories);
 			})
@@ -175,6 +178,7 @@ var __bigFT = (function(){
 			})
 			.catch(function(err){
 				interstitial.hide();
+				console.log(err);
 			})
 		;
 
