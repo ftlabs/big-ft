@@ -4,7 +4,8 @@ var __bigFT = (function(){
 
 	'use strict';
 
-	const serviceURL = ""
+	const serviceURL = "";
+	const interstitial = new Interstitial();
 	var mediaHolder = undefined;
 
 	var mainStoryTransition = undefined;
@@ -156,26 +157,24 @@ var __bigFT = (function(){
 			}
 		});
 	}
-	
+
 	function initialise(){
 		$('.ticker').ticker();
 
 		mediaHolder = document.getElementsByClassName('main-stories')[0];
-
+		
 		getStories()
 			.then(stories => {
-				showInterstitial();
+				interstitial.show();
 				populateMainStories(stories);
 			})
 			.then(function(){
-				hideInterstitial();
+				interstitial.hide();
 				clearTimeout(mainStoryTransition);
 				mainStoryTransition = setInterval(nextMainStory, 5000);
-
 			})
 			.catch(function(err){
-				hideInterstitial();
-				console.log(err);
+				interstitial.hide();
 			})
 		;
 
