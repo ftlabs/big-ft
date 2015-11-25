@@ -7,13 +7,13 @@ module.exports = function() {
 	return new Promise(function(resolve, reject) {
 		resolve([
 			{
-				name: "TODO - create some healthchecks",
+				name: 'TODO - create some healthchecks',
 				ok: true,
 				severity: 2,
-				businessImpact: "TODO",
-				technicalSummary: "TODO",
-				panicGuide: "TODO",
-				checkOutput: "TODO",
+				businessImpact: 'TODO',
+				technicalSummary: 'TODO',
+				panicGuide: 'TODO',
+				checkOutput: 'TODO',
 				lastUpdated: new Date().toISOString()
 			}
 		]);
