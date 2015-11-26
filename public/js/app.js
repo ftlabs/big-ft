@@ -150,9 +150,6 @@ var __bigFT = (function(){
 	}
 
 	function updateClocks(){
-
-		debugger;
-
 		[].forEach.call(clocks, function(clock){
 
 			const timezone = clock.getAttribute('data-tz');
