@@ -129,7 +129,6 @@ var __bigFT = (function(){
 
 				setTimeout(function(){
 					return Promise.all( [ populateMainStories( stories.slice(0, 3) ), populateTicker( stories.slice( 3, stories.length ) ) ]);
-
 				}, 1000);
 
 			})
