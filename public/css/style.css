@@ -16,35 +16,37 @@ body {
 .flex-col { flex-flow: column; display: flex; }
 .flex-row > *, .flex-col > * { flex: 1 0 auto; position: relative; }
 
-.flex-col > h1 {
-	flex: 0 0 auto;
-	padding: 0.7em 0;
-	margin: 0;
-	font-size: 1em;
-	border-bottom: 1px dotted #bbb;
-}
-
-.ft-masthead {
-    background-image: url('//image.webservices.ft.com/v1/images/raw/fticon:brand-ft-masthead?width=300&format=png&source=big-ft');
-    background-image: url('//image.webservices.ft.com/v1/images/raw/fticon:brand-ft-masthead?format=svg&source=big-ft'), none;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: 50% 50%;
-    width: 100%;
-    height: 1em;
-    display: inline-block;
-    vertical-align: middle;
-}
 .ft-logo-square {
     background-image: url('//image.webservices.ft.com/v1/images/raw/fticon:brand-ft-logo-square?width=100&format=png&source=big-ft');
     background-image: url('//image.webservices.ft.com/v1/images/raw/fticon:brand-ft-logo-square?format=svg&source=big-ft'), none;
     background-size: contain;
     background-repeat: no-repeat;
-    background-position: 50% 50%;
+    background-position: 0 0;
     width: 1em;
-    height: 1em;
     display: inline-block;
     vertical-align: middle;
+    position: relative;
+}
+.ft-logo-square:before {
+	content: '';
+	display: block;
+	padding-top: 100%;
+}
+
+.flex-col > h1 {
+	flex: 0 0 auto;
+	padding: 0.3em 0;
+	border-bottom: 1px dotted #bbb;
+	font-size: 1.8em;
+	text-align: center;
+}
+
+h1 {
+	margin: 0;
+	font-size: 1em;
+	text-transform: uppercase;
+	font-weight: 300;
+	white-space: nowrap;
 }
 
 .main-stories {
@@ -139,4 +141,70 @@ body {
 }
 .footer-cards__card--dim > * {
 	opacity: 0.4;
+}
+
+
+.pageload-overlay {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	visibility: hidden;
+}
+
+.pageload-overlay.show {
+	visibility: visible;
+}
+
+.pageload-overlay svg {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.pageload-overlay svg path {
+	fill: #333;
+}
+
+.pageload-overlay .brand {
+	display: inline-block;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translateX(-50%) translateY(-50%);
+	opacity: 0;
+	transition: opacity 0.4s ease;
+	color: white;
+	text-shadow: 0 0 4vw black;
+}
+.pageload-overlay .brand {
+	font-size: 9vw;
+}
+.pageload-overlay .brand .strap {
+	font-size: 0.8em;
+	font-style: italic;
+	font-weight: 300;
+}
+.pageload-overlay.show .brand {
+	animation: zoomin 3s linear 1 forwards;
+}
+.pageload-overlay.pageload-loading .brand {
+	opacity: 1;
+}
+@keyframes zoomin {
+	from {
+		transform: translateX(-50%) translateY(-50%) scale(0.8);
+		text-shadow: -4vw -2vh 4vw #000;
+	}
+	30% {
+		transform: translateX(-50%) translateY(-50%) scale(0.9);
+	}
+	60% {
+		transform: translateX(-50%) translateY(-50%) scale(0.96);
+	}
+	to {
+		transform: translateX(-50%) translateY(-50%) scale(1);
+		text-shadow: 4vw -2vh 4vw #000;
+	}
 }
