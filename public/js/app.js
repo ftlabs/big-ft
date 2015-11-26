@@ -64,7 +64,7 @@ var __bigFT = (function(){
 					});
 
 					resolve();
-					
+
 					mediaHolder.innerHTML = "";
 
 					mediaHolder.appendChild(media);
@@ -83,7 +83,7 @@ var __bigFT = (function(){
 	}
 
 		function populateTicker(stories){
-		
+
 		return new Promise(function(resolve, reject){
 
 			stories.forEach(function(story){
@@ -103,9 +103,11 @@ var __bigFT = (function(){
 	function getStories(amount){
 
 		var amount = amount || 3;
-		
+
 		return fetch(serviceURL + "/top-stories?startFrom=1&numberOfArticles=" + amount)
-			.then(response => response.json())
+			.then(function(response) {
+				return response.json();
+			})
 		;
 
 	}
@@ -123,7 +125,7 @@ var __bigFT = (function(){
 	function updateContent(){
 
 		getStories(10)
-			.then(stories => {
+			.then(function(stories) {
 
 				interstitial.show();
 
@@ -151,7 +153,7 @@ var __bigFT = (function(){
 		updateContent();
 
 		setInterval(updateContent, updateInterval);
-			
+
 	}
 
 	return {
