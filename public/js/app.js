@@ -151,7 +151,6 @@ var __bigFT = (function(){
 
 	function updateClocks(){
 
-		const time = moment();
 		debugger;
 
 		[].forEach.call(clocks, function(clock){
