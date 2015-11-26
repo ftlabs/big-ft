@@ -132,6 +132,7 @@ h1 {
 	border-right: 1px dotted #888;
 	padding: 0.1em 0.3em;
 	text-align: center;
+	box-sizing: border-box;
 }
 .footer-cards__card > h3 {
 	text-transform: uppercase;

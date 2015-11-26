@@ -161,7 +161,12 @@
 		// Add a new item to the ticker.  Pass a reference to an LI that is to be added to the ticker
 		this.addMsg = function(el) {
 			if (typeof el === 'string') el = $('<li>'+el+'</li>');
-			if (!el.attr('id')) el.attr('id', 'msg'+Math.ceil(Math.random()*99999999));
+			if (!el.attr('id')) {
+				el.attr('id', 'msg'+Math.ceil(Math.random()*99999999));
+			}
+			if(!el.attr('class')){
+				el.attr('class', 'ticker__story');
+			}
 			if (isscrolling) {
 				addqueue.push(el);
 			} else {

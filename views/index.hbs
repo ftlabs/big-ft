@@ -3,14 +3,17 @@
 <head>
 	<title>Big FT</title>
 
+	<link rel="shortcut icon" href="http://im.ft-static.com/m/icons/favicon.ico" type="image/x-icon" />
+	
 	<link rel="stylesheet" type="text/css" href="/static/css/style.css" />
 	<link rel="stylesheet" type="text/css" href="/static/css/origamibundle.css" />
-
+	<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=fetch,promise"></script>
+	<script src="/static/js/vendor/moment-with-locales.min-2.10.6.js"></script>
 	<script src="/static/js/vendor/jquery-3.0.0-alpha1.min.js"></script>
 	<script src="/static/js/vendor/ticker.js"></script>
 	<script src="/static/js/vendor/snap-svg.min.js"></script>
 	<script src="/static/js/vendor/svgLoader.js"></script>
-	<script src="/static/js/app.js"></script>
+
 </head>
 <body class='flex-col'>
 
@@ -18,22 +21,22 @@
 
 <div class="main-stories flex-row">
 	<div class="main-stories__media-container">
-		<img class='main-stories__media main-stories__media--current' src="https://next-geebee.ft.com/image/v1/images/raw/http%3A%2F%2Fcom.ft.imagepublish.prod.s3.amazonaws.com%2F8ad8636a-9296-11e5-bd82-c1fb87bef7af?source=next&fit=scale-down&width=2000">
+		<!--<img class='main-stories__media main-stories__media--current' src="https://next-geebee.ft.com/image/v1/images/raw/http%3A%2F%2Fcom.ft.imagepublish.prod.s3.amazonaws.com%2F8ad8636a-9296-11e5-bd82-c1fb87bef7af?source=next&fit=scale-down&width=2000">
 		<img class='main-stories__media' src="https://next-geebee.ft.com/image/v1/images/raw/http%3A%2F%2Fcom.ft.imagepublish.prod.s3.amazonaws.com%2F251609b6-83e5-11e5-8e80-1574112844fd?source=next&fit=scale-down&width=2000">
-		<img class='main-stories__media' src="https://next-geebee.ft.com/image/v1/images/raw/http%3A%2F%2Fcom.ft.imagepublish.prod.s3.amazonaws.com%2Fe9afef64-23cb-11e5-bd83-71cb60e8f08c?source=next&fit=scale-down&width=2000">
+		<img class='main-stories__media' src="https://next-geebee.ft.com/image/v1/images/raw/http%3A%2F%2Fcom.ft.imagepublish.prod.s3.amazonaws.com%2Fe9afef64-23cb-11e5-bd83-71cb60e8f08c?source=next&fit=scale-down&width=2000">-->
 	</div>
 	<ol class="main-stories__headlines flex-col">
-		<li class="main-stories__story main-stories__story--current">Turkey shoots down Russian fighter jet on Syrian border</li>
+		<!--<li class="main-stories__story main-stories__story--current">Turkey shoots down Russian fighter jet on Syrian border</li>
 		<li class="main-stories__story">British university fees more expensive than US on average</li>
-		<li class="main-stories__story">Rolls-Royce pledges cost cuts in strategic overhaul</li>
+		<li class="main-stories__story">Rolls-Royce pledges cost cuts in strategic overhaul</li>-->
 	</ol>
 </div>
 
 <div class="ticker">
 	<ul>
-		<li class="ticker__story">Toyota hires robotics expert for AI push</li>
-		<li class="ticker__story">Tesco set to pull out of Nigera</li>
-		<li class="ticker__story">News tickers judged "extremely annoying" by readers' poll</li>
+		{{!-- <li class="ticker__story">Toyota hires robotics expert for AI push</li> --}}
+		{{!-- <li class="ticker__story">Tesco set to pull out of Nigera</li> --}}
+		{{!-- <li class="ticker__story">News tickers judged "extremely annoying" by readers' poll</li> --}}
 	</ul>
 </div>
 
@@ -48,6 +51,7 @@
 		<!--<li><time data-tz='Europe/London'>17:54</time></li>-->
 		<!--<li><div class="weather">21C, fine</div></li>-->
 		<!--<li><i class="ft-logo-square"></i> ft.com</li>-->
+		<li class="last-updated footer-cards__card--dim"></li>
 		<li>www.ft.com</li>
 	</ul>
 </div>
@@ -61,6 +65,8 @@
 		<div class='strap'>It is what you know</div>
 	</div>
 </div>
+
+<script src="/static/js/app.js"></script>
 
 </body>
 </html>
