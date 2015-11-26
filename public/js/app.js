@@ -13,7 +13,7 @@ var __bigFT = (function(){
 	const newsTicker = $('.ticker').ticker();
 	const mediaHolder = document.getElementsByClassName('main-stories')[0];
 	const clocks = document.querySelectorAll('[data-tz]');
-	
+
 	var mainStoryTransition = undefined;
 
 	function populateMainStories(stories){
@@ -150,16 +150,15 @@ var __bigFT = (function(){
 	}
 
 	function updateClocks(){
-		
-		const hour = moment().hour();
+
+		const time = moment();
+		debugger;
 
 		[].forEach.call(clocks, function(clock){
 
-			const offset = parseInt(clock.getAttribute('data-tz'));
+			const timezone = clock.getAttribute('data-tz');
 
-			var adjustedTime = hour + offset;
-
-			clock.innerHTML = moment().hours(adjustedTime).format("HH") + ":" + moment().minute();
+			clock.innerHTML = moment().tz(timezone).format('HH:mm');
 
 		});
 
