@@ -9,10 +9,11 @@
 	<link rel="stylesheet" type="text/css" href="/static/css/origamibundle.css" />
 
 	<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=fetch,promise"></script>
+	<script src="http://momentjs.com/downloads/moment-with-locales.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/locale/en-gb.js"></script>
 	<script src="/static/js/vendor/jquery-3.0.0-alpha1.min.js"></script>
 	<script src="/static/js/vendor/ticker.js"></script>
 	<script src="/static/js/interstitial.js"></script>
-	<script src="/static/js/app.js"></script>
 
 </head>
 <body class='flex-col'>
@@ -34,9 +35,9 @@
 
 <div class="ticker">
 	<ul>
-		<li class="ticker__story">Toyota hires robotics expert for AI push</li>
-		<li class="ticker__story">Tesco set to pull out of Nigera</li>
-		<li class="ticker__story">News tickers judged "extremely annoying" by readers' poll</li>
+		{{!-- <li class="ticker__story">Toyota hires robotics expert for AI push</li> --}}
+		{{!-- <li class="ticker__story">Tesco set to pull out of Nigera</li> --}}
+		{{!-- <li class="ticker__story">News tickers judged "extremely annoying" by readers' poll</li> --}}
 	</ul>
 </div>
 
@@ -50,9 +51,10 @@
 	<ul class="footer-meta">
 		<!--<li><time data-tz='Europe/London'>17:54</time></li>-->
 		<!--<li><div class="weather">21C, fine</div></li>-->
+		<li class="last-updated footer-cards__card--dim"></li>
 		<li><i class="ft-logo-square"></i> ft.com</li>
 	</ul>
 </div>
-
+<script src="/static/js/app.js"></script>
 </body>
 </html>

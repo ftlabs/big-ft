@@ -6,8 +6,12 @@ var __bigFT = (function(){
 
 	const serviceURL = "http://ftlabs-big-ft.herokuapp.com/data/";
 	const interstitial = new Interstitial();
-	var mediaHolder = undefined;
+	const updateInterval = 60 * 1000;
+	const lastUpdated = document.getElementsByClassName('last-updated')[0];
 
+	var newsTicker = undefined;
+
+	var mediaHolder = undefined;
 	var mainStoryTransition = undefined;
 
 	function spoofStories(){
@@ -123,16 +127,37 @@ var __bigFT = (function(){
 
 					});
 
+					resolve();
+					
+					mediaHolder.innerHTML = "";
+
+					mediaHolder.appendChild(media);
+					mediaHolder.appendChild(headlines);
+
 				})
 				.catch(function(err){
 					reject();
 				})
 			;
 
-			mediaHolder.innerHTML = "";
 
-			mediaHolder.appendChild(media);
-			mediaHolder.appendChild(headlines);
+
+		});
+
+	}
+
+		function populateTicker(stories){
+		
+		return new Promise(function(resolve, reject){
+
+			stories.forEach(function(story){
+
+				console.log(story.headline);
+				newsTicker.addMsg(story.headline);
+
+			});
+
+			newsTicker.start();
 
 			resolve();
 
@@ -160,21 +185,23 @@ var __bigFT = (function(){
 		});
 	}
 
-	function initialise(){
-		$('.ticker').ticker();
+	function updateContent(){
 
-		mediaHolder = document.getElementsByClassName('main-stories')[0];
-		
-		getStories()
+		getStories(10)
 			.then(stories => {
 				console.log(stories);
 				interstitial.show();
-				populateMainStories(stories);
+				
+				populateMainStories(stories.slice(0, 3));
+				populateTicker(stories.slice(3, stories.length));
+
 			})
 			.then(function(){
 				interstitial.hide();
 				clearTimeout(mainStoryTransition);
 				mainStoryTransition = setInterval(nextMainStory, 5000);
+				lastUpdated.innerHTML = "Last updated: " + moment().format("h:mm:ss");
+				// console.log(moment().format("h:mm"));
 			})
 			.catch(function(err){
 				interstitial.hide();
@@ -182,6 +209,18 @@ var __bigFT = (function(){
 			})
 		;
 
+
+	}
+
+	function initialise(){
+
+		newsTicker = $('.ticker').ticker();
+
+		mediaHolder = document.getElementsByClassName('main-stories')[0];
+			
+		updateContent();
+
+		setInterval(updateContent, updateInterval);
 			
 	}
 
