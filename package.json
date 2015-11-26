@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "bluebird": "^3.0.5",
     "body-parser": "^1.14.1",
     "cookie-parser": "^1.4.0",
     "debug": "^2.2.0",
@@ -7,9 +8,9 @@
     "express": "^4.13.3",
     "express-ftwebservice": "git+http://git.svc.ft.com:8080/scm/ot/express-ftwebservice.git",
     "express-hbs": "^0.8.4",
-    "lodash": "^3.10.1",
     "morgan": "^1.6.1",
-    "node-fetch": "^1.3.3"
+    "node-fetch": "^1.3.3",
+    "ramda": "^0.18.0"
   },
   "name": "big-ft",
   "version": "1.0.0",
