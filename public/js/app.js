@@ -11,8 +11,19 @@ function nextMainStory() {
 	});
 }
 
+
 $(function() {
+	var interstitial;
+
 	$('.ticker').ticker();
 
 	setInterval(nextMainStory, 5000);
+
+	interstitial = new SVGLoader( document.getElementById( 'loader' ), { speedIn : 700, easingIn : mina.easeinout } );
+
+	// Demo for Sean
+	setTimeout(function() {
+		interstitial.show();
+		setTimeout(interstitial.hide.bind(interstitial), 1500);
+	}, 1000);
 });
