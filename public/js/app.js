@@ -12,7 +12,8 @@ var __bigFT = (function(){
 
 	const newsTicker = $('.ticker').ticker();
 	const mediaHolder = document.getElementsByClassName('main-stories')[0];
-
+	const clocks = document.querySelectorAll('[data-tz]');
+	
 	var mainStoryTransition = undefined;
 
 	function populateMainStories(stories){
@@ -149,7 +150,7 @@ var __bigFT = (function(){
 	}
 
 	function updateClocks(){
-		const clocks = document.querySelectorAll('[data-tz]');
+		
 		const hour = moment().hour();
 
 		[].forEach.call(clocks, function(clock){
