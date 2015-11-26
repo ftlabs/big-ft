@@ -1,4 +1,5 @@
 /* global $ */
+/*eslint no-var:0*/
 
 var __bigFT = (function(){
 
@@ -229,6 +230,7 @@ var __bigFT = (function(){
 	};
 
 })();
+
 
 $(function() {
 
