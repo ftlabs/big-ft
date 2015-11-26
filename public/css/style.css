@@ -9,7 +9,7 @@ html, body {
 
 body {
 	font-family: FinancierDisplayWeb, serif;
-	font-size: 6vh;
+	font-size: 5vh;
 }
 
 .flex-row { flex-flow: row; display: flex; }
@@ -79,6 +79,9 @@ h1 {
 }
 .main-stories__headlines > .main-stories__story {
 	padding: 0.5em 0.5em;
+	display: flex;
+	align-items: center;
+	font-size: 1.1em;
 }
 .main-stories__story--current {
 	background: #E2CBB6;   /* TODO: use o-colors */
