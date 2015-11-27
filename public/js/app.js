@@ -2,22 +2,46 @@
 /* eslint-env browser */
 /*eslint no-var:0*/
 'use strict';
+/*
+	Customisation
+	?primaryType=topStories
+	&primarySearch=
+	&primaryOffset=0
+	&primaryMax=3
+	&secondaryType=search
+	&secondarySearch=banks
+	&secondaryOffset=0
+	&secondaryMax=10
+*/
+
+const parsed = queryString.parse(location.search);
+console.log(parsed);
+
+const primaryType = parsed.primaryType;
+const primarySearch = parsed.primarySearch;
+const primaryOffset = parsed.primaryOffset;
+const primaryMax = isNan(parseInt(parsed.primaryMax)) ? 3 : parsed.primaryMax;
+
+const secondaryType = parsed.secondaryType;
+const secondarySearch = parsed.secondarySearch;
+const secondaryOffset = parsed.secondaryOffset;
+const secondaryMax = isNan(parseInt(parsed.secondaryMax) ? 10 : parsed.secondaryMax;
+
+const serviceURL = 'http://ftlabs-big-ft.herokuapp.com/data/';
 
 function getStories (amount) {
 
-	var amount = amount || 3;
+	var amount = amount;
 
 	return fetch(serviceURL + '/top-stories?startFrom=1&numberOfArticles=' + amount)
 		.then(function(response) {
 			return response.json();
 		})
 	;
-
 }
 
 var __bigFT = (function(){
 
-	const serviceURL = "http://ftlabs-big-ft.herokuapp.com/data/";
 	const updateInterval = 60 * 1000;
 	const lastUpdated = document.getElementsByClassName('last-updated')[0];
 	const interstitial = new SVGLoader( document.getElementById( 'loader' ), { speedIn : 700, easingIn : mina.easeinout } );
@@ -110,18 +134,6 @@ var __bigFT = (function(){
 			resolve();
 
 		});
-
-	}
-
-	function getStories(amount){
-
-		var amount = amount || 3;
-
-		return fetch(serviceURL + "/top-stories?startFrom=1&numberOfArticles=" + amount)
-			.then(function(response) {
-				return response.json();
-			})
-		;
 
 	}
 
