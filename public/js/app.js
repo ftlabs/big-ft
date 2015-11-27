@@ -1,11 +1,65 @@
-/* global $ */
+/* global $, queryString, SVGLoader, moment, mina */
+/* eslint-env browser */
 /*eslint no-var:0*/
+'use strict';
+/*
+	Customisation
+	?primaryType=topStories
+	&primarySearch=
+	&primaryOffset=0
+	&primaryMax=3
+	&secondaryType=search
+	&secondarySearch=banks
+	&secondaryOffset=0
+	&secondaryMax=10
+*/
+
+const parsed = queryString.parse(location.search);
+
+const primaryType = parsed.primaryType;
+const primarySearch = parsed.primarySearch;
+const primaryOffset = isNaN(parseInt(parsed.primaryOffset)) ? 0 : parseInt(parsed.primaryOffset);
+const primaryMax = isNaN(parseInt(parsed.primaryMax)) ? 3 : parseInt(parsed.primaryMax);
+
+const secondaryType = parsed.secondaryType;
+const secondarySearch = parsed.secondarySearch;
+const secondaryOffset = isNaN(parseInt(parsed.secondaryOffset)) ? 3 : parseInt(parsed.secondaryOffset);
+const secondaryMax = isNaN(parseInt(parsed.secondaryMax)) ? 10 : parseInt(parsed.secondaryMax);
+
+const serviceUrl = '/data';
+const topStoriesUrl = serviceUrl + '/top-stories';
+const searchStoriesUrl = serviceUrl + '/search';
+
+function getStories(type, offset, amount, term) {
+	switch (type) {
+		case 'search':
+			return getSearchStories(offset, amount, term);
+			break
+		case 'topStories':
+			return getTopStories(offset, amount);
+			break;
+		default:
+			return getTopStories(offset, amount);
+	}
+}
+
+function getTopStories (offset, amount) {
+	return fetch(topStoriesUrl + '?startFrom=' + offset + '&numberOfArticles=' + amount)
+		.then(function(response) {
+			return response.json();
+		})
+	;
+}
+
+function getSearchStories (offset, amount, term) {
+	return fetch(searchStoriesUrl + '?startFrom=' + offset + '&numberOfArticles=' + amount + '&keyword=' + term)
+		.then(function(response) {
+			return response.json();
+		})
+	;
+}
 
 var __bigFT = (function(){
-
-	'use strict';
-
-	const serviceURL = "/data";
 	const updateInterval = 60 * 1000;
 	const lastUpdated = document.getElementsByClassName('last-updated')[0];
 	const interstitial = new SVGLoader( document.getElementById( 'loader' ), { speedIn : 700, easingIn : mina.easeinout } );
@@ -23,9 +77,9 @@ var __bigFT = (function(){
 
 		return new Promise(function(resolve, reject){
 
-			var media = document.createElement('div'),
-				headlines = document.createElement('ol'),
-				images = [];
+			var media = document.createElement('div');
+			var headlines = document.createElement('ol');
+			var images = [];
 
 			media.setAttribute('class', 'main-stories__media-container');
 			headlines.setAttribute('class', 'main-stories__headlines flex-col');
@@ -35,12 +89,12 @@ var __bigFT = (function(){
 				var img = new Image();
 				var text = document.createElement('li');
 
-				var imgClass = "main-stories__media";
-				var textClass = "main-stories__story";
+				var imgClass = 'main-stories__media';
+				var textClass = 'main-stories__story';
 
 				if(idx === 0){
-					imgClass += " main-stories__media--current";
-					textClass += " main-stories__story--current"
+					imgClass += ' main-stories__media--current';
+					textClass += ' main-stories__story--current'
 				}
 
 				img.setAttribute('class', imgClass);
@@ -61,7 +115,7 @@ var __bigFT = (function(){
 			Promise.all(images)
 				.then(function(images){
 
-					images.forEach(function(image, idx){
+					images.forEach(function(image){
 
 						media.appendChild(image);
 
@@ -69,13 +123,13 @@ var __bigFT = (function(){
 
 					resolve();
 
-					mediaHolder.innerHTML = "";
+					mediaHolder.innerHTML = '';
 
 					mediaHolder.appendChild(media);
 					mediaHolder.appendChild(headlines);
 
 				})
-				.catch(function(err){
+				.catch(function(){
 					reject();
 				})
 			;
@@ -86,9 +140,9 @@ var __bigFT = (function(){
 
 	}
 
-		function populateTicker(stories){
+	function populateTicker(stories){
 
-		return new Promise(function(resolve, reject){
+		return new Promise(function(resolve){
 
 			stories.forEach(function(story){
 
@@ -104,18 +158,6 @@ var __bigFT = (function(){
 
 	}
 
-	function getStories(amount){
-
-		var amount = amount || 3;
-
-		return fetch(serviceURL + "/top-stories?startFrom=1&numberOfArticles=" + amount)
-			.then(function(response) {
-				return response.json();
-			})
-		;
-
-	}
-
 	function nextMainStory() {
 		['main-stories__story--current', 'main-stories__media--current'].forEach(function(c) {
 			var existing = $('.'+c);
@@ -127,14 +169,17 @@ var __bigFT = (function(){
 	}
 
 	function updateContent(){
+		const primaryStories = getStories(primaryType, primaryOffset, primaryMax, primarySearch);
+		const secondaryStories = getStories(secondaryType, secondaryOffset, secondaryMax, secondarySearch);
 
-		getStories(10)
+		Promise.all([primaryStories, secondaryStories])
 			.then(function(stories) {
-
+				const primaryStories = stories[0];
+				const secondaryStories = stories[1];
 				interstitial.show();
 
 				setTimeout(function(){
-					return Promise.all( [ populateMainStories( stories.slice(0, 3) ), populateTicker( stories.slice( 3, stories.length ) ) ]);
+					return Promise.all([populateMainStories(primaryStories), populateTicker(secondaryStories)]);
 				}, 1000);
 
 			})
@@ -142,9 +187,9 @@ var __bigFT = (function(){
 				setTimeout(interstitial.hide.bind(interstitial), 3000);
 				clearTimeout(mainStoryTransition);
 				mainStoryTransition = setInterval(nextMainStory, 10000);
-				lastUpdated.innerHTML = "Last updated: " + moment().format("HH:mm");
+				lastUpdated.innerHTML = 'Last updated: ' + moment().format('HH:mm');
 			})
-			.catch(function(err){
+			.catch(function(){
 				setTimeout(interstitial.hide.bind(interstitial), 5000);
 			})
 		;
@@ -186,7 +231,7 @@ var __bigFT = (function(){
 		init : initialise
 	};
 
-})();
+}());
 
 
 $(function() {

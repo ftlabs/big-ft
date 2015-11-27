@@ -33,9 +33,8 @@ app.use('/static', express.static(__dirname + '/public'));
 app.use('/', routes);
 app.use('/data', data);
 
-app.use(function(req, res, next) {
-  res.status(404);
-  res.send('Not found');
+app.use(function(req, res) {
+  res.sendStatus(404);
 });
 
 // error handlers
