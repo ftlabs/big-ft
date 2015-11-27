@@ -73,6 +73,7 @@ h1 {
 	height: 100%;
 	overflow: hidden;
 	opacity: 0;
+	will-change: opacity;
 	transition: opacity 1s ease;
 }
 .main-stories__media--current {
@@ -186,6 +187,7 @@ h1 {
 	left: 50%;
 	transform: translateX(-50%) translateY(-50%);
 	opacity: 0;
+	will-change: opacity;
 	transition: opacity 0.4s ease;
 	color: white;
 	text-shadow: 0 0 4vw black;
@@ -199,6 +201,7 @@ h1 {
 	font-weight: 300;
 }
 .pageload-overlay.show .brand {
+	will-change: transform;
 	animation: zoomin 3s linear 1 forwards;
 }
 .pageload-overlay.pageload-loading .brand {
