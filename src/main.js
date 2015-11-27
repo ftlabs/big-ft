@@ -157,6 +157,14 @@ function updateClocks(){
 
 		clock.innerHTML = moment().tz(timezone).format('HH:mm');
 
+		const currentHour = moment.tz(timezone).hours();
+
+		if (currentHour > openingHour && currentHour < closingHour) {
+			$(clock).closest('li').removeClass('footer-cards__card--dim');
+		} else {
+			$(clock).closest('li').addClass('footer-cards__card--dim');
+		}
+
 	});
 
 }
