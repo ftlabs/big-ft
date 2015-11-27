@@ -1,0 +1,58 @@
+.pageload-overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    visibility: hidden
+}
+.pageload-overlay.show {
+    visibility: visible
+}
+.pageload-overlay svg {
+    position: absolute;
+    top: 0;
+    left: 0
+}
+.pageload-overlay svg path {
+    fill: #333
+}
+.pageload-overlay .brand {
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    opacity: 0;
+    transition: opacity .4s ease;
+    color: #fff;
+    text-shadow: 0 0 4vw #000;
+    font-size: 9vw
+}
+.pageload-overlay .brand .strap {
+    font-size: .8em;
+    font-style: italic;
+    font-weight: 300
+}
+.pageload-overlay.show .brand {
+    animation: zoomin 3s linear 1 forwards
+}
+.pageload-overlay.pageload-loading .brand {
+    opacity: 1
+}
+@keyframes zoomin {
+    from {
+        transform: translateX(-50%) translateY(-50%) scale(.8);
+        text-shadow: -4vw -2vh 4vw #000
+    }
+    30% {
+        transform: translateX(-50%) translateY(-50%) scale(.9)
+    }
+    60% {
+        transform: translateX(-50%) translateY(-50%) scale(.96)
+    }
+    to {
+        transform: translateX(-50%) translateY(-50%) scale(1);
+        text-shadow: 4vw -2vh 4vw #000
+    }
+}
