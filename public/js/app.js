@@ -30,6 +30,12 @@ const serviceUrl = '/data';
 const topStoriesUrl = serviceUrl + '/top-stories';
 const searchStoriesUrl = serviceUrl + '/search';
 
+function wait(ms) {
+	return new Promise(function(resolve, reject) {
+		setTimeout(resolve, ms);
+	});
+}
+
 function getStories(type, offset, amount, term) {
 	switch (type) {
 		case 'search':
@@ -207,14 +213,17 @@ var __bigFT = (function(){
 				const oldStories = Array.prototype.slice.call(document.querySelectorAll('.main-stories__story'));
 				interstitial.show();
 
-				setTimeout(function(){
+				populateTicker(secondaryStories);
+
+				return wait(1000).then(function(){
 					
 					return checkForChanges(primaryStories, oldStories)
 						.then(function(){
-							return Promise.all([populateMainStories(primaryStories), populateTicker(secondaryStories)]);
+							return populateMainStories(primaryStories);
 						})
+					;
 
-				}, 1000);
+				})
 
 			})
 			.then(function(){
