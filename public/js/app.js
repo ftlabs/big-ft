@@ -15,25 +15,44 @@
 */
 
 const parsed = queryString.parse(location.search);
-console.log(parsed);
 
 const primaryType = parsed.primaryType;
 const primarySearch = parsed.primarySearch;
-const primaryOffset = parsed.primaryOffset;
-const primaryMax = isNan(parseInt(parsed.primaryMax)) ? 3 : parsed.primaryMax;
+const primaryOffset = isNaN(parseInt(parsed.primaryOffset)) ? 0 : parseInt(parsed.primaryOffset);
+const primaryMax = isNaN(parseInt(parsed.primaryMax)) ? 3 : parseInt(parsed.primaryMax);
 
 const secondaryType = parsed.secondaryType;
 const secondarySearch = parsed.secondarySearch;
-const secondaryOffset = parsed.secondaryOffset;
-const secondaryMax = isNan(parseInt(parsed.secondaryMax) ? 10 : parsed.secondaryMax;
+const secondaryOffset = isNaN(parseInt(parsed.secondaryOffset)) ? 3 : parseInt(parsed.secondaryOffset);
+const secondaryMax = isNaN(parseInt(parsed.secondaryMax)) ? 10 : parseInt(parsed.secondaryMax);
 
-const serviceURL = 'http://ftlabs-big-ft.herokuapp.com/data/';
+const serviceUrl = 'http://ftlabs-big-ft.herokuapp.com/data/';
+const topStoriesUrl = serviceUrl + '/top-stories';
+const searchStoriesUrl = serviceUrl + '/search';
 
-function getStories (amount) {
+function getStories(type, offset, amount, term) {
+	switch (type) {
+		case 'search':
+			return getSearchStories(offset, amount, term);
+			break
+		case 'topStories':
+			return getTopStories(offset, amount);
+			break;
+		default:
+			return getTopStories(offset, amount);
+	}
+}
 
-	var amount = amount;
+function getTopStories (offset, amount) {
+	return fetch(topStoriesUrl + '?startFrom=' + offset + '&numberOfArticles=' + amount)
+		.then(function(response) {
+			return response.json();
+		})
+	;
+}
 
-	return fetch(serviceURL + '/top-stories?startFrom=1&numberOfArticles=' + amount)
+function getSearchStories (offset, amount, term) {
+	return fetch(searchStoriesUrl + '?startFrom=' + offset + '&numberOfArticles=' + amount + '&keyword=' + term)
 		.then(function(response) {
 			return response.json();
 		})
@@ -119,7 +138,7 @@ var __bigFT = (function(){
 
 	}
 
-		function populateTicker(stories){
+	function populateTicker(stories){
 
 		return new Promise(function(resolve){
 
@@ -148,14 +167,17 @@ var __bigFT = (function(){
 	}
 
 	function updateContent(){
+		const primaryStories = getStories(primaryType, primaryOffset, primaryMax, primarySearch);
+		const secondaryStories = getStories(secondaryType, secondaryOffset, secondaryMax, secondarySearch);
 
-		getStories(10)
+		Promise.all([primaryStories, secondaryStories])
 			.then(function(stories) {
-
+				const primaryStories = stories[0];
+				const secondaryStories = stories[1];
 				interstitial.show();
 
 				setTimeout(function(){
-					return Promise.all( [ populateMainStories( stories.slice(0, 3) ), populateTicker( stories.slice( 3, stories.length ) ) ]);
+					return Promise.all([populateMainStories(primaryStories), populateTicker(secondaryStories)]);
 				}, 1000);
 
 			})
