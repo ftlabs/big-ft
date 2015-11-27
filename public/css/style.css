@@ -48,6 +48,14 @@ h1 {
 	font-weight: 300;
 	white-space: nowrap;
 }
+.last-updated {
+	font-family: MetricWeb;
+	color: #808080;
+	font-size: 0.2em;
+	position: absolute;
+	right: 1vw;
+	bottom: 2.3em;
+}
 
 .main-stories {
 	border-bottom: 1vh solid #9b164f;   /* TODO: use o-colors */
@@ -144,7 +152,7 @@ h1 {
 	margin: 0;
 }
 .footer-cards__card--dim > * {
-	opacity: 0.4;
+	opacity: 0.3;
 }
 
 

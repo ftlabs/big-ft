@@ -26,7 +26,7 @@ const secondarySearch = parsed.secondarySearch;
 const secondaryOffset = isNaN(parseInt(parsed.secondaryOffset)) ? 3 : parseInt(parsed.secondaryOffset);
 const secondaryMax = isNaN(parseInt(parsed.secondaryMax)) ? 10 : parseInt(parsed.secondaryMax);
 
-const serviceUrl = 'http://ftlabs-big-ft.herokuapp.com/data/';
+const serviceUrl = '/data';
 const topStoriesUrl = serviceUrl + '/top-stories';
 const searchStoriesUrl = serviceUrl + '/search';
 
@@ -60,7 +60,6 @@ function getSearchStories (offset, amount, term) {
 }
 
 var __bigFT = (function(){
-
 	const updateInterval = 60 * 1000;
 	const lastUpdated = document.getElementsByClassName('last-updated')[0];
 	const interstitial = new SVGLoader( document.getElementById( 'loader' ), { speedIn : 700, easingIn : mina.easeinout } );
@@ -68,6 +67,9 @@ var __bigFT = (function(){
 	const newsTicker = $('.ticker').ticker();
 	const mediaHolder = document.getElementsByClassName('main-stories')[0];
 	const clocks = document.querySelectorAll('[data-tz]');
+
+	const openingHour = 9;
+	const closingHour = 18;
 
 	var mainStoryTransition = undefined;
 
@@ -182,7 +184,7 @@ var __bigFT = (function(){
 
 			})
 			.then(function(){
-				setTimeout(interstitial.hide.bind(interstitial), 5000);
+				setTimeout(interstitial.hide.bind(interstitial), 3000);
 				clearTimeout(mainStoryTransition);
 				mainStoryTransition = setInterval(nextMainStory, 10000);
 				lastUpdated.innerHTML = 'Last updated: ' + moment().format('HH:mm');
@@ -196,11 +198,20 @@ var __bigFT = (function(){
 	}
 
 	function updateClocks(){
+
 		[].forEach.call(clocks, function(clock){
 
 			const timezone = clock.getAttribute('data-tz');
 
 			clock.innerHTML = moment().tz(timezone).format('HH:mm');
+
+			const currentHour = moment.tz(timezone).hours();
+
+			if(currentHour > openingHour && currentHour < closingHour){
+				$(clock).closest('li').removeClass('footer-cards__card--dim');
+			} else {
+				$(clock).closest('li').addClass('footer-cards__card--dim');
+			}
 
 		});
 
