@@ -5,7 +5,7 @@ var __bigFT = (function(){
 
 	'use strict';
 
-	const serviceURL = "http://ftlabs-big-ft.herokuapp.com/data/";
+	const serviceURL = "/data";
 	const updateInterval = 60 * 1000;
 	const lastUpdated = document.getElementsByClassName('last-updated')[0];
 	const interstitial = new SVGLoader( document.getElementById( 'loader' ), { speedIn : 700, easingIn : mina.easeinout } );
