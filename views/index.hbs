@@ -14,11 +14,12 @@
 	<script src="/static/js/vendor/snap-svg.min.js"></script>
 	<script src="/static/js/vendor/svgLoader.js"></script>
 	<script src="/static/js/vendor/moment-timezone.min.js"></script>
+	<script src="/static/js/vendor/query-string-3.0.0.js"></script>
 
 </head>
 <body class='flex-col'>
 
-<h1>FINANCIAL TIMES</h1>
+<h1>FINANCIAL TIMES<span class="last-updated"></span></h1>
 
 <div class="main-stories flex-row">
 	<div class="main-stories__media-container">
@@ -43,17 +44,16 @@
 
 <div class="footer flex-row">
 	<ul class="footer-cards">
-		<li class="footer-cards__card "><h3>London</h3><p><time data-tz='Europe/London'>21:54</time></p></li>
 		<li class="footer-cards__card footer-cards__card--light"><h3>New York</h3><p><time data-tz='America/New_York'>13:54</time></p></li>
+		<li class="footer-cards__card "><h3>London</h3><p><time data-tz='Europe/London'>21:54</time></p></li>
 		<li class="footer-cards__card footer-cards__card--light"><h3>Beijing</h3><p><time data-tz='Asia/Shanghai'>17:54</time></p></li>
-		<li class="footer-cards__card "><h3>Tokyo</h3><p><time data-tz='Asia/Tokyo'>19:54</time></p></li>
 		<li class="footer-cards__card "><h3>Hong Kong</h3><p><time data-tz='Asia/Hong_Kong'>19:54</time></p></li>
+		<li class="footer-cards__card "><h3>Tokyo</h3><p><time data-tz='Asia/Tokyo'>19:54</time></p></li>
 	</ul>
 	<ul class="footer-meta">
 		<!--<li><time data-tz='Europe/London'>17:54</time></li>-->
 		<!--<li><div class="weather">21C, fine</div></li>-->
 		<!--<li><i class="ft-logo-square"></i> ft.com</li>-->
-		<li class="last-updated footer-cards__card--dim"></li>
 		<li>www.ft.com</li>
 	</ul>
 </div>
