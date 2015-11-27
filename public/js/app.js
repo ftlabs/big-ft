@@ -30,6 +30,12 @@ const serviceUrl = '/data';
 const topStoriesUrl = serviceUrl + '/top-stories';
 const searchStoriesUrl = serviceUrl + '/search';
 
+function wait(ms) {
+	return new Promise(function(resolve, reject) {
+		setTimeout(resolve, ms);
+	});
+}
+
 function getStories(type, offset, amount, term) {
 	switch (type) {
 		case 'search':
@@ -60,6 +66,7 @@ function getSearchStories (offset, amount, term) {
 }
 
 var __bigFT = (function(){
+
 	const updateInterval = 60 * 1000;
 	const lastUpdated = document.getElementsByClassName('last-updated')[0];
 	const interstitial = new SVGLoader( document.getElementById( 'loader' ), { speedIn : 700, easingIn : mina.easeinout } );
@@ -158,6 +165,33 @@ var __bigFT = (function(){
 
 	}
 
+	function checkForChanges(newStories, oldStories){
+
+		if (oldStories.length < newStories.length) {
+			return Promise.resolve(newStories);
+		};
+
+		return new Promise(function(resolve, reject){
+
+			var thereWasADifference = newStories.some(function(story, idx){
+
+				var oldStory = oldStories[idx].textContent.toLowerCase();
+				var newStory = story.headline.toLowerCase();
+
+				return newStory !== oldStory;
+
+			});
+
+			if(thereWasADifference){
+				resolve(newStories);
+			} else {
+				reject();
+			}
+
+		});
+
+	}
+
 	function nextMainStory() {
 		['main-stories__story--current', 'main-stories__media--current'].forEach(function(c) {
 			var existing = $('.'+c);
@@ -176,11 +210,20 @@ var __bigFT = (function(){
 			.then(function(stories) {
 				const primaryStories = stories[0];
 				const secondaryStories = stories[1];
+				const oldStories = Array.prototype.slice.call(document.querySelectorAll('.main-stories__story'));
 				interstitial.show();
 
-				setTimeout(function(){
-					return Promise.all([populateMainStories(primaryStories), populateTicker(secondaryStories)]);
-				}, 1000);
+				populateTicker(secondaryStories);
+
+				return wait(1000).then(function(){
+					
+					return checkForChanges(primaryStories, oldStories)
+						.then(function(){
+							return populateMainStories(primaryStories);
+						})
+					;
+
+				})
 
 			})
 			.then(function(){
