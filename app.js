@@ -33,11 +33,9 @@ app.use('/static', express.static(__dirname + '/public'));
 app.use('/', routes);
 app.use('/data', data);
 
-// catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  const err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+  res.status(404);
+  res.send('Not found');
 });
 
 // error handlers
