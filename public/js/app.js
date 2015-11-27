@@ -6,7 +6,7 @@ var __bigFT = (function(){
 	'use strict';
 
 	const serviceURL = "http://ftlabs-big-ft.herokuapp.com/data/";
-	const updateInterval = 60 * 1000;
+	const updateInterval = 10 * 1000;
 	const lastUpdated = document.getElementsByClassName('last-updated')[0];
 	const interstitial = new SVGLoader( document.getElementById( 'loader' ), { speedIn : 700, easingIn : mina.easeinout } );
 
@@ -104,15 +104,51 @@ var __bigFT = (function(){
 
 	}
 
+	function checkForChanges(newStories, oldStories){
+
+		if (oldStories.length < newStories.length) {
+			return Promise.resolve(newStories);
+		};
+
+		return new Promise(function(resolve, reject){
+
+			var thereWasADifference = newStories.some(function(story, idx){
+
+				var oldStory = oldStories[idx].textContent.toLowerCase();
+				var newStory = story.headline.toLowerCase();
+
+				return newStory !== oldStory;
+
+			});
+
+			if(thereWasADifference){
+				resolve(newStories);
+			} else {
+				reject();
+			}
+
+		});
+
+	}
+
 	function getStories(amount){
 
 		var amount = amount || 3;
 
-		return fetch(serviceURL + "/top-stories?startFrom=1&numberOfArticles=" + amount)
+		return fetch(serviceURL + "/top-stories?startFrom=0&numberOfArticles=" + amount)
 			.then(function(response) {
 				return response.json();
 			})
 		;
+
+	}
+
+	function getFilteredStories(amount, from){
+
+		var amount = amount || 10;
+		var from = from || 0;
+
+
 
 	}
 
@@ -128,15 +164,17 @@ var __bigFT = (function(){
 
 	function updateContent(){
 
-		getStories(10)
+		getStories(3)
 			.then(function(stories) {
 
-				interstitial.show();
+				return checkForChanges(stories, Array.prototype.slice.call(document.querySelectorAll('.main-stories__story')));
 
+			})
+			.then(function(stories){
+				interstitial.show();
 				setTimeout(function(){
 					return Promise.all( [ populateMainStories( stories.slice(0, 3) ), populateTicker( stories.slice( 3, stories.length ) ) ]);
 				}, 1000);
-
 			})
 			.then(function(){
 				setTimeout(interstitial.hide.bind(interstitial), 3000);
