@@ -23,13 +23,31 @@
 
 		const elcont = el;
 		const eltape = el.children().first();
-		eltape.css({'margin':0, 'padding':0, 'listStyleType':'none', 'whiteSpace':'nowrap', 'oTransition':'transform 0s linear', 'webkitTransition':'transform 0s linear', 'mozTransition':'transform 0s linear', 'transition':'transform 0s linear'});
-		elcont.css({overflow:'hidden', userSelect:'none', pointerEvents:'none'});
+		eltape.css(
+			{
+				'margin': 0,
+				'padding': 0,
+				'listStyleType': 'none',
+				'whiteSpace': 'nowrap',
+				'oTransition': 'transform 1s linear',
+				'webkitTransition': 'transform 1s linear',
+				'mozTransition': 'transform 1s linear',
+				'transition': 'transform 1s linear'
+		});
+		elcont.css(
+			{
+				overflow: 'hidden',
+				userSelect: 'none',
+				pointerEvents: 'none'
+			}
+		);
 		if (!elcont.css('float') || elcont.css('float') === 'none') {
 			elcont.css('display', 'block');
 		}
 
-		if (eltape.children('li').length) initTape();
+		if (eltape.children('li').length) {
+			initTape();
+		}
 
 
 		/* Private methods */
@@ -39,7 +57,9 @@
 			numSegs = 1;
 
 			// Mark each message in the list
-			if (!eltape.children('li').length) throw 'Cannot initialise ticker: Nothing in it';
+			if (!eltape.children('li').length) {
+				throw 'Cannot initialise ticker: Nothing in it';
+			}
 			eltape.children('li').addClass('seg1').attr('seg', 1).each(function() {
 				if (!$(this).attr('id')) $(this).attr('id', 'msg'+Math.ceil(Math.random()*99999999));
 			});
