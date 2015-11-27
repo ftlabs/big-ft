@@ -227,7 +227,7 @@ var __bigFT = (function(){
 
 			})
 			.then(function(){
-				setTimeout(interstitial.hide.bind(interstitial), 3000);
+				setTimeout(interstitial.hide.bind(interstitial), 1500);
 				clearTimeout(mainStoryTransition);
 				mainStoryTransition = setInterval(nextMainStory, 10000);
 				lastUpdated.innerHTML = 'Last updated: ' + moment().format('HH:mm');
