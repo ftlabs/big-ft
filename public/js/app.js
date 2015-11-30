@@ -236,10 +236,7 @@ var __bigFT = (function(){
 						interstitial.show();
 
 						return wait(1000).then(function(){
-
-							
 							return populateMainStories(content);
-						
 						})
 						
 					})
