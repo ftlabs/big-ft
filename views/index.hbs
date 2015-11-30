@@ -15,14 +15,8 @@
 			document.documentElement.className = document.documentElement.className.replace(/\bcore\b/g, 'enhanced');
 		}
 	</script>
+	<link rel="stylesheet" href="/static/build/inline.css" type="text/css" />
 
-	<style>
-		{{!--/* Hide any enhanced experience content when in core mode, and vice versa. */--}}
-		.core .o--if-js,
-		.enhanced .o--if-no-js { display: none !important; }
-
-		{{!--/* Add any other inline styles here */--}}
-	</style>
 </head>
 <body class='flex-col'>
 	<h1>FINANCIAL TIMES<span class="last-updated"></span></h1>
