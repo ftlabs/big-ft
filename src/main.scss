@@ -12,6 +12,10 @@ body {
 	font-size: 5vh;
 }
 
+body[data-is-windows=true] > *{
+	font-smooth: always;
+}
+
 .flex-row { flex-flow: row; display: flex; }
 .flex-col { flex-flow: column; display: flex; }
 .flex-row > *, .flex-col > * { flex: 1 0 auto; position: relative; }

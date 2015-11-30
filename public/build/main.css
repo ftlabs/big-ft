@@ -11,6 +11,9 @@ body {
   font-family: FinancierDisplayWeb, serif;
   font-size: 5vh; }
 
+body[data-is-windows=true] > * {
+  font-smooth: always; }
+
 .flex-row {
   -webkit-flex-flow: row;
   -ms-flex-flow: row;

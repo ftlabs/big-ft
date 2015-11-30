@@ -298,6 +298,12 @@
 			updateContent();
 			updateClocks();
 	
+			if (navigator.userAgent.toLowerCase().indexOf('windows') > -1) {
+				document.body.setAttribute('data-is-windows', 'true');
+			} else {
+				document.body.setAttribute('data-is-windows', 'false');
+			}
+	
 			setInterval(updateClocks, 60000);
 			setInterval(updateContent, updateInterval);
 		}
