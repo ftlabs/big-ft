@@ -240,7 +240,7 @@ var __bigFT = (function(){
 
 		Promise.all([primaryStories, secondaryStories])
 			.then(function(stories) {
-				const primaryStories = getUniqueStories(stories[0]).slice[3];
+				const primaryStories = getUniqueStories(stories[0]).slice(0,3);
 				const secondaryStories = getUniqueStories(stories[1]);
 				const uniqueSecondaryStories = secondaryStories
 				.filter(secondaryStory =>
