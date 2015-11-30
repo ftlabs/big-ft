@@ -89,7 +89,7 @@ var __bigFT = (function(){
 
 	var mainStoryTransition = undefined;
 
-	function populateMainStories(stories){
+	function prepareMainStories(stories){
 
 		return new Promise(function(resolve, reject){
 
@@ -137,12 +137,10 @@ var __bigFT = (function(){
 
 					});
 
-					resolve();
-
-					mediaHolder.innerHTML = '';
-
-					mediaHolder.appendChild(media);
-					mediaHolder.appendChild(headlines);
+					resolve({
+						media : media,
+						headlines : headlines
+					});
 
 				})
 				.catch(function(){
@@ -151,6 +149,21 @@ var __bigFT = (function(){
 			;
 
 		});
+
+	}
+
+	function populateMainStories(content){
+
+		return new Promise(function(resolve){
+		
+			mediaHolder.innerHTML = '';
+
+			mediaHolder.appendChild(content.media);
+			mediaHolder.appendChild(content.headlines);
+			
+			resolve();
+		
+		});	
 
 	}
 
@@ -221,19 +234,24 @@ var __bigFT = (function(){
 				const primaryStories = stories[0];
 				const secondaryStories = stories[1];
 				const oldStories = Array.prototype.slice.call(document.querySelectorAll('.main-stories__story'));
-				interstitial.show();
-
+				
 				populateTicker(secondaryStories);
 
-				return wait(1000).then(function(){
+				return checkForChanges(primaryStories, oldStories)
+					.then(function(){
+						return prepareMainStories(primaryStories);
+					})
+					.then(function(content){
 
-					return checkForChanges(primaryStories, oldStories)
-						.then(function(){
-							return populateMainStories(primaryStories);
+						interstitial.show();
+
+						return wait(1000).then(function(){
+							return populateMainStories(content);
 						})
-					;
+						
+					})
 
-				})
+				;
 
 			})
 			.then(function(){
