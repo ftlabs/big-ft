@@ -249,7 +249,11 @@ var __bigFT = (function(){
 					)
 				)
 
-				populateTicker(uniqueSecondaryStories);
+				const oldMsgs = newsTicker.getMsgs();
+
+				checkForChanges(uniqueSecondaryStories, oldMsgs)
+				.then(() => populateTicker(uniqueSecondaryStories))
+				.catch(() => console.log('Ticker contents didn\'t change.'))
 
 				const oldStories = Array.prototype.slice.call(document.querySelectorAll('.main-stories__story'));
 
