@@ -135,6 +135,14 @@ var __bigFT = (function(){
 					mediaHolder.appendChild(media);
 					mediaHolder.appendChild(headlines);
 
+					const createdElements = document.getElementsByClassName('main-stories__story');
+
+					[].forEach.call(createdElements, function(el){
+
+						// console.log(window.fitText(el, 1.3));
+
+					});
+
 				})
 				.catch(function(){
 					reject();
