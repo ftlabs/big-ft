@@ -225,21 +225,33 @@ var __bigFT = (function(){
 		});
 	}
 
+	function getUniqueStories (stories) {
+		const storyHeadlines = stories.map(story => story.headline);
+		const uniqueStoryHeadlines = Array(...new Set(storyHeadlines));
+		const uniqueStories = uniqueStoryHeadlines.map(headline =>
+			stories.find(story => story.headline === headline)
+		);
+		return uniqueStories;
+	}
+
 	function updateContent(){
-		const primaryStories = getStories(primaryType, primaryOffset, primaryMax, primarySearch).then(a => a.slice[3]);
+		const primaryStories = getStories(primaryType, primaryOffset, primaryMax, primarySearch);
 		const secondaryStories = getStories(secondaryType, secondaryOffset, secondaryMax, secondarySearch);
 
 		Promise.all([primaryStories, secondaryStories])
 			.then(function(stories) {
-				const primaryStories = stories[0];
-				const secondaryStories = stories[1];
-				const filteredSecondaryStories = secondaryStories
-				.filter(secondaryStory => !primaryStories.some(primaryStory => secondaryStory.headline === primaryStory.headline))
+				const primaryStories = getUniqueStories(stories[0]).slice[3];
+				const secondaryStories = getUniqueStories(stories[1]);
+				const uniqueSecondaryStories = secondaryStories
+				.filter(secondaryStory =>
+					!primaryStories.some(primaryStory =>
+						secondaryStory.headline === primaryStory.headline
+					)
+				)
 
+				populateTicker(uniqueSecondaryStories);
 
 				const oldStories = Array.prototype.slice.call(document.querySelectorAll('.main-stories__story'));
-
-				populateTicker(filteredSecondaryStories);
 
 				return checkForChanges(primaryStories, oldStories)
 					.then(function(){
