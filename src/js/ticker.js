@@ -1,6 +1,6 @@
 /* global jQuery */
 'use strict';
-(function ($){
+module.exports = (function ($){
 
 	$.fn.ticker = function(options) {
 		var settings = jQuery.extend({

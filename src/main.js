@@ -1,3 +1,12 @@
+/* global $ */
+/*eslint no-var:0*/
+global.$ = global.jQuery = require('jquery');
+const moment = require('moment-timezone');
+// global.Snap = require('snapsvg');
+const queryString = require('query-string');
+const SVGLoader = require('./js/svgloader');
+const ticker = require('./js/ticker');
+
 /* global $, queryString, SVGLoader, moment, mina */
 /* eslint-env browser */
 /*eslint no-var:0*/
