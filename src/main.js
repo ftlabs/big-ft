@@ -28,11 +28,11 @@ const parsed = queryString.parse(location.search);
 const primaryType = parsed.primaryType;
 const primarySearch = parsed.primarySearch;
 const primaryOffset = isNaN(parseInt(parsed.primaryOffset)) ? 0 : parseInt(parsed.primaryOffset);
-const primaryMax = isNaN(parseInt(parsed.primaryMax)) ? 3 : parseInt(parsed.primaryMax);
+const primaryMax = isNaN(parseInt(parsed.primaryMax)) ? 10 : parseInt(parsed.primaryMax);
 
 const secondaryType = parsed.secondaryType;
 const secondarySearch = parsed.secondarySearch;
-const secondaryOffset = isNaN(parseInt(parsed.secondaryOffset)) ? 3 : parseInt(parsed.secondaryOffset);
+const secondaryOffset = isNaN(parseInt(parsed.secondaryOffset)) ? 0 : parseInt(parsed.secondaryOffset);
 const secondaryMax = isNaN(parseInt(parsed.secondaryMax)) ? 10 : parseInt(parsed.secondaryMax);
 
 const serviceUrl = '/data';
@@ -155,15 +155,15 @@ var __bigFT = (function(){
 	function populateMainStories(content){
 
 		return new Promise(function(resolve){
-		
+
 			mediaHolder.innerHTML = '';
 
 			mediaHolder.appendChild(content.media);
 			mediaHolder.appendChild(content.headlines);
-			
+
 			resolve();
-		
-		});	
+
+		});
 
 	}
 
@@ -226,16 +226,20 @@ var __bigFT = (function(){
 	}
 
 	function updateContent(){
-		const primaryStories = getStories(primaryType, primaryOffset, primaryMax, primarySearch);
+		const primaryStories = getStories(primaryType, primaryOffset, primaryMax, primarySearch).then(a => a.slice[3]);
 		const secondaryStories = getStories(secondaryType, secondaryOffset, secondaryMax, secondarySearch);
 
 		Promise.all([primaryStories, secondaryStories])
 			.then(function(stories) {
 				const primaryStories = stories[0];
 				const secondaryStories = stories[1];
+				const filteredSecondaryStories = secondaryStories
+				.filter(secondaryStory => !primaryStories.some(primaryStory => secondaryStory.headline === primaryStory.headline))
+
+
 				const oldStories = Array.prototype.slice.call(document.querySelectorAll('.main-stories__story'));
-				
-				populateTicker(secondaryStories);
+
+				populateTicker(filteredSecondaryStories);
 
 				return checkForChanges(primaryStories, oldStories)
 					.then(function(){
@@ -248,7 +252,7 @@ var __bigFT = (function(){
 						return wait(1000).then(function(){
 							return populateMainStories(content);
 						})
-						
+
 					})
 
 				;
