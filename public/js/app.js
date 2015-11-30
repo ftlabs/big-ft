@@ -250,7 +250,7 @@ var __bigFT = (function(){
 
 			const currentHour = moment.tz(timezone).hours();
 
-			if(currentHour > openingHour && currentHour < closingHour){
+			if(currentHour >= openingHour && currentHour < closingHour){
 				$(clock).closest('li').removeClass('footer-cards__card--dim');
 			} else {
 				$(clock).closest('li').addClass('footer-cards__card--dim');
