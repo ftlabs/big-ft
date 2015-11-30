@@ -177,7 +177,7 @@ module.exports = (function ($){
 
 		// Remove an item from the ticker.  Pass a reference to an LI in segment 1.
 		this.removeMsg = function(el) {
-			if (typeof el === 'string') el = $('#'+el);
+			if (typeof el === 'string') el = $('#'+el)[0];
 			removequeue.push(el);
 		};
 
