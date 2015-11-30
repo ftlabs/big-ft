@@ -139,8 +139,6 @@ var __bigFT = (function(){
 				})
 			;
 
-
-
 		});
 
 	}
@@ -160,14 +158,17 @@ var __bigFT = (function(){
 
 	}
 
-	function populateTicker(stories){
+	var tickerMessageIds = [];
+	function populateTicker (stories) {
 
-		return new Promise(function(resolve){
+		return new Promise(function (resolve) {
+			tickerMessageIds.forEach(function (id) {
+				console.log('removing', id)
+				newsTicker.removeMsg(id);
+			});
 
-			stories.forEach(function(story){
-
-				newsTicker.addMsg(story.headline);
-
+			tickerMessageIds = stories.map(function (story) {
+				return newsTicker.addMsg(story.headline);
 			});
 
 			newsTicker.start();
@@ -243,7 +244,6 @@ var __bigFT = (function(){
 
 				;
 
-
 			})
 			.then(function(){
 				setTimeout(interstitial.hide.bind(interstitial), 1500);
@@ -290,8 +290,7 @@ var __bigFT = (function(){
 	}
 
 	return {
-		init : initialise,
-		updateContent : updateContent
+		init : initialise
 	};
 
 }());
