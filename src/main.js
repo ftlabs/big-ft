@@ -3,185 +3,292 @@
 global.$ = global.jQuery = require('jquery');
 const moment = require('moment-timezone');
 // global.Snap = require('snapsvg');
+const queryString = require('query-string');
 const SVGLoader = require('./js/svgloader');
 const ticker = require('./js/ticker');
 
-const serviceURL = "http://ftlabs-big-ft.herokuapp.com/data/";
-const updateInterval = 60 * 1000;
-const lastUpdated = document.getElementsByClassName('last-updated')[0];
-const interstitial = new SVGLoader( document.getElementById( 'loader' ), { speedIn : 700, easingIn : mina.easeinout } );
+/* global $, queryString, SVGLoader, moment, mina */
+/* eslint-env browser */
+/*eslint no-var:0*/
+'use strict';
+/*
+	Customisation
+	?primaryType=topStories
+	&primarySearch=
+	&primaryOffset=0
+	&primaryMax=3
+	&secondaryType=search
+	&secondarySearch=banks
+	&secondaryOffset=0
+	&secondaryMax=10
+*/
 
-const newsTicker = $('.ticker').ticker();
-const mediaHolder = document.getElementsByClassName('main-stories')[0];
-const clocks = document.querySelectorAll('[data-tz]');
+const parsed = queryString.parse(location.search);
 
-var mainStoryTransition = undefined;
+const primaryType = parsed.primaryType;
+const primarySearch = parsed.primarySearch;
+const primaryOffset = isNaN(parseInt(parsed.primaryOffset)) ? 0 : parseInt(parsed.primaryOffset);
+const primaryMax = isNaN(parseInt(parsed.primaryMax)) ? 3 : parseInt(parsed.primaryMax);
 
-function populateMainStories(stories){
+const secondaryType = parsed.secondaryType;
+const secondarySearch = parsed.secondarySearch;
+const secondaryOffset = isNaN(parseInt(parsed.secondaryOffset)) ? 3 : parseInt(parsed.secondaryOffset);
+const secondaryMax = isNaN(parseInt(parsed.secondaryMax)) ? 10 : parseInt(parsed.secondaryMax);
 
-	return new Promise(function(resolve, reject){
+const serviceUrl = '/data';
+const topStoriesUrl = serviceUrl + '/top-stories';
+const searchStoriesUrl = serviceUrl + '/search';
 
-		var media = document.createElement('div'),
-			headlines = document.createElement('ol'),
-			images = [];
-
-		media.setAttribute('class', 'main-stories__media-container');
-		headlines.setAttribute('class', 'main-stories__headlines flex-col');
-
-		stories.forEach(function(story, idx){
-
-			var img = new Image();
-			var text = document.createElement('li');
-
-			var imgClass = "main-stories__media";
-			var textClass = "main-stories__story";
-
-			if(idx === 0){
-				imgClass += " main-stories__media--current";
-				textClass += " main-stories__story--current"
-			}
-
-			img.setAttribute('class', imgClass);
-			text.setAttribute('class', textClass);
-
-			img.src = story.image;
-			images.push(new Promise(function(resolve, reject){
-					img.onload = resolve(img);
-					img.onerror = reject();
-				})
-			)
-
-			text.textContent = story.headline;
-			headlines.appendChild(text);
-
-		});
-
-		Promise.all(images)
-			.then(function(images){
-
-				images.forEach(function(image, idx){
-
-					media.appendChild(image);
-
-				});
-
-				resolve();
-
-				mediaHolder.innerHTML = "";
-
-				mediaHolder.appendChild(media);
-				mediaHolder.appendChild(headlines);
-
-			})
-			.catch(function(err){
-				reject();
-			})
-		;
-
-
-
+function wait(ms) {
+	return new Promise(function(resolve, reject) {
+		setTimeout(resolve, ms);
 	});
-
 }
 
-	function populateTicker(stories){
-
-	return new Promise(function(resolve, reject){
-
-		stories.forEach(function(story){
-
-			newsTicker.addMsg(story.headline);
-
-		});
-
-		newsTicker.start();
-
-		resolve();
-
-	});
-
+function getStories(type, offset, amount, term) {
+	switch (type) {
+		case 'search':
+			return getSearchStories(offset, amount, term);
+			break
+		case 'topStories':
+			return getTopStories(offset, amount);
+			break;
+		default:
+			return getTopStories(offset, amount);
+	}
 }
 
-function getStories(amount){
-
-	var amount = amount || 3;
-
-	return fetch(serviceURL + "/top-stories?startFrom=1&numberOfArticles=" + amount)
+function getTopStories (offset, amount) {
+	return fetch(topStoriesUrl + '?startFrom=' + offset + '&numberOfArticles=' + amount)
 		.then(function(response) {
 			return response.json();
 		})
 	;
-
 }
 
-function nextMainStory() {
-	['main-stories__story--current', 'main-stories__media--current'].forEach(function(c) {
-		var existing = $('.'+c);
-		existing.removeClass(c).next().addClass(c);
-		if (!$('.'+c).length) {
-			existing.parent().children().eq(0).addClass(c);
-		}
-	});
-}
-
-function updateContent(){
-
-	getStories(10)
-		.then(function(stories) {
-
-			interstitial.show();
-
-			setTimeout(function(){
-				return Promise.all( [ populateMainStories( stories.slice(0, 3) ), populateTicker( stories.slice( 3, stories.length ) ) ]);
-			}, 1000);
-
-		})
-		.then(function(){
-			setTimeout(interstitial.hide.bind(interstitial), 5000);
-			clearTimeout(mainStoryTransition);
-			mainStoryTransition = setInterval(nextMainStory, 10000);
-			lastUpdated.innerHTML = "Last updated: " + moment().format("HH:mm");
-		})
-		.catch(function(err){
-			setTimeout(interstitial.hide.bind(interstitial), 5000);
+function getSearchStories (offset, amount, term) {
+	return fetch(searchStoriesUrl + '?startFrom=' + offset + '&numberOfArticles=' + amount + '&keyword=' + term)
+		.then(function(response) {
+			return response.json();
 		})
 	;
-
-
 }
 
-function updateClocks(){
-	[].forEach.call(clocks, function(clock){
+var __bigFT = (function(){
 
-		const timezone = clock.getAttribute('data-tz');
+	const updateInterval = 60 * 1000;
+	const lastUpdated = document.getElementsByClassName('last-updated')[0];
+	const interstitial = new SVGLoader( document.getElementById( 'loader' ), { speedIn : 700, easingIn : mina.easeinout } );
 
-		clock.innerHTML = moment().tz(timezone).format('HH:mm');
+	const newsTicker = $('.ticker').ticker();
+	const mediaHolder = document.getElementsByClassName('main-stories')[0];
+	const clocks = document.querySelectorAll('[data-tz]');
 
-		const currentHour = moment.tz(timezone).hours();
+	const openingHour = 9;
+	const closingHour = 18;
 
-		if (currentHour > openingHour && currentHour < closingHour) {
-			$(clock).closest('li').removeClass('footer-cards__card--dim');
-		} else {
-			$(clock).closest('li').addClass('footer-cards__card--dim');
-		}
+	var mainStoryTransition = undefined;
 
-	});
+	function populateMainStories(stories){
 
-}
+		return new Promise(function(resolve, reject){
 
-function initialise(){
+			var media = document.createElement('div');
+			var headlines = document.createElement('ol');
+			var images = [];
 
-	updateContent();
-	updateClocks();
+			media.setAttribute('class', 'main-stories__media-container');
+			headlines.setAttribute('class', 'main-stories__headlines flex-col');
 
-	setInterval(updateClocks, 60000);
-	setInterval(updateContent, updateInterval);
+			stories.forEach(function(story, idx){
 
-}
+				var img = new Image();
+				var text = document.createElement('li');
+
+				var imgClass = 'main-stories__media';
+				var textClass = 'main-stories__story';
+
+				if(idx === 0){
+					imgClass += ' main-stories__media--current';
+					textClass += ' main-stories__story--current'
+				}
+
+				img.setAttribute('class', imgClass);
+				text.setAttribute('class', textClass);
+
+				img.src = story.image;
+				images.push(new Promise(function(resolve, reject){
+						img.onload = resolve(img);
+						img.onerror = reject();
+					})
+				)
+
+				text.textContent = story.headline;
+				headlines.appendChild(text);
+
+			});
+
+			Promise.all(images)
+				.then(function(images){
+
+					images.forEach(function(image){
+
+						media.appendChild(image);
+
+					});
+
+					resolve();
+
+					mediaHolder.innerHTML = '';
+
+					mediaHolder.appendChild(media);
+					mediaHolder.appendChild(headlines);
+
+				})
+				.catch(function(){
+					reject();
+				})
+			;
+
+		});
+
+	}
+
+	var tickerMessageIds = [];
+	function populateTicker (stories) {
+
+		return new Promise(function (resolve) {
+			tickerMessageIds.forEach(function (id) {
+				console.log('removing', id)
+				newsTicker.removeMsg(id);
+			});
+
+			tickerMessageIds = stories.map(function (story) {
+				return newsTicker.addMsg(story.headline);
+			});
+
+			newsTicker.start();
+
+			resolve();
+
+		});
+
+	}
+
+	function checkForChanges(newStories, oldStories){
+
+		if (oldStories.length < newStories.length) {
+			return Promise.resolve(newStories);
+		};
+
+		return new Promise(function(resolve, reject){
+
+			var thereWasADifference = newStories.some(function(story, idx){
+
+				var oldStory = oldStories[idx].textContent.toLowerCase();
+				var newStory = story.headline.toLowerCase();
+
+				return newStory !== oldStory;
+
+			});
+
+			if(thereWasADifference){
+				resolve(newStories);
+			} else {
+				reject();
+			}
+
+		});
+
+	}
+
+	function nextMainStory() {
+		['main-stories__story--current', 'main-stories__media--current'].forEach(function(c) {
+			var existing = $('.'+c);
+			existing.removeClass(c).next().addClass(c);
+			if (!$('.'+c).length) {
+				existing.parent().children().eq(0).addClass(c);
+			}
+		});
+	}
+
+	function updateContent(){
+		const primaryStories = getStories(primaryType, primaryOffset, primaryMax, primarySearch);
+		const secondaryStories = getStories(secondaryType, secondaryOffset, secondaryMax, secondarySearch);
+
+		Promise.all([primaryStories, secondaryStories])
+			.then(function(stories) {
+				const primaryStories = stories[0];
+				const secondaryStories = stories[1];
+				const oldStories = Array.prototype.slice.call(document.querySelectorAll('.main-stories__story'));
+				interstitial.show();
+
+				populateTicker(secondaryStories);
+
+				return wait(1000).then(function(){
+
+					return checkForChanges(primaryStories, oldStories)
+						.then(function(){
+							return populateMainStories(primaryStories);
+						})
+					;
+
+				})
+
+			})
+			.then(function(){
+				setTimeout(interstitial.hide.bind(interstitial), 1500);
+				clearTimeout(mainStoryTransition);
+				mainStoryTransition = setInterval(nextMainStory, 10000);
+				lastUpdated.innerHTML = 'Last updated: ' + moment().format('HH:mm');
+			})
+			.catch(function(){
+				setTimeout(interstitial.hide.bind(interstitial), 5000);
+			})
+		;
+
+
+	}
+
+	function updateClocks(){
+
+		[].forEach.call(clocks, function(clock){
+
+			const timezone = clock.getAttribute('data-tz');
+
+			clock.innerHTML = moment().tz(timezone).format('HH:mm');
+
+			const currentHour = moment.tz(timezone).hours();
+
+			if(currentHour >= openingHour && currentHour < closingHour){
+				$(clock).closest('li').removeClass('footer-cards__card--dim');
+			} else {
+				$(clock).closest('li').addClass('footer-cards__card--dim');
+			}
+
+		});
+
+	}
+
+	function initialise(){
+
+		updateContent();
+		updateClocks();
+
+		setInterval(updateClocks, 60000);
+		setInterval(updateContent, updateInterval);
+
+	}
+
+	return {
+		init : initialise
+	};
+
+}());
 
 
 $(function() {
 
-	initialise();
+	__bigFT.init();
 
 });
