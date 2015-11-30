@@ -175,6 +175,11 @@ module.exports = (function ($){
 			return el.attr('id');
 		};
 
+		// Retruns all messages not in remove queue
+		this.getMsgs = function() {
+			return eltape.children('li[id]').filter(el => removequeue.indexOf(el) === -1)
+		};
+
 		// Remove an item from the ticker.  Pass a reference to an LI in segment 1.
 		this.removeMsg = function(el) {
 			if (typeof el === 'string') el = $('#'+el)[0];
