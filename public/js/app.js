@@ -145,7 +145,7 @@ var __bigFT = (function(){
 
 	}
 
-	let tickerMessageIds = [];
+	var tickerMessageIds = [];
 	function populateTicker (stories) {
 
 		return new Promise(function (resolve) {
