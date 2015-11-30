@@ -141,20 +141,21 @@ var __bigFT = (function(){
 				})
 			;
 
-
-
 		});
 
 	}
 
-	function populateTicker(stories){
+	let tickerMessageIds = [];
+	function populateTicker (stories) {
 
-		return new Promise(function(resolve){
+		return new Promise(function (resolve) {
+			tickerMessageIds.forEach(function (id) {
+				console.log('removing', id)
+				newsTicker.removeMsg(id);
+			});
 
-			stories.forEach(function(story){
-
-				newsTicker.addMsg(story.headline);
-
+			tickerMessageIds = stories.map(function (story) {
+				return newsTicker.addMsg(story.headline);
 			});
 
 			newsTicker.start();
@@ -216,7 +217,7 @@ var __bigFT = (function(){
 				populateTicker(secondaryStories);
 
 				return wait(1000).then(function(){
-					
+
 					return checkForChanges(primaryStories, oldStories)
 						.then(function(){
 							return populateMainStories(primaryStories);
