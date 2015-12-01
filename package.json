@@ -24,7 +24,9 @@
   "devDependencies": {
     "gulp": "^3.9.0",
     "gulp-nodemon": "^2.0.4",
+    "gulp-spawn-mocha": "^2.2.1",
     "gulp-uglify": "^1.5.1",
+    "gulp-util": "^3.0.7",
     "mocha": "^2.3.4",
     "mockery": "^1.4.0",
     "origami-build-tools": "^4.3.2",
@@ -33,7 +35,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "test": "npm run verify && mocha ./tests --recursive",
-    "verify": "obt verify --excludeFiles='!public/**/*, !src/js/svgloader.js'"
+    "verify": "gulp verify"
   },
   "repository": {
     "type": "git",
