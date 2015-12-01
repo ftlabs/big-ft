@@ -90,4 +90,6 @@ gulp.task('watch-js', ['watch-server-js', 'watch-client-js']);
 gulp.task('watch-css', () => gulp.watch('./src/**/*.scss', ['build-css-dev']))
 gulp.task('watch', ['build', 'nodemon', 'watch-js', 'watch-css']);
 
+gulp.task('start', ['watch']);
+
 gulp.task('default', ['watch']);
