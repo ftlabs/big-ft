@@ -246,9 +246,9 @@
 				});
 	
 				if (thereWasADifference) {
-					resolve(newStories);
+					resolve(true);
 				} else {
-					reject();
+					resolve(false);
 				}
 			});
 		}
@@ -270,9 +270,9 @@
 				});
 	
 				if (thereWasADifference) {
-					resolve(newStories);
+					resolve(true);
 				} else {
-					reject();
+					resolve(false);
 				}
 			});
 		}
@@ -314,18 +314,27 @@
 				});
 	
 				var oldMsgs = newsTicker.getMsgs();
-	
-				checkForChangesSecondary(uniqueSecondaryStories, oldMsgs).then(function () {
-					return console.log('Ticker contents changed.'), populateTicker(uniqueSecondaryStories);
+				checkForChangesSecondary(uniqueSecondaryStories, oldMsgs).then(function (difference) {
+					if (difference) {
+						populateTicker(uniqueSecondaryStories);
+					}
 				})['catch'](function () {
 					return console.log('Ticker contents didn\'t change.');
 				});
 	
 				var oldStories = Array.prototype.slice.call(document.querySelectorAll('.main-stories__story'));
 	
-				return checkForChanges(primaryStories, oldStories).then(function () {
-					return prepareMainStories(primaryStories);
+				return checkForChanges(primaryStories, oldStories).then(function (difference) {
+					if (difference) {
+						return prepareMainStories(primaryStories);
+					} else {
+						return false;
+					}
 				}).then(function (content) {
+	
+					if (!content) {
+						return;
+					}
 	
 					interstitial.show();
 	
