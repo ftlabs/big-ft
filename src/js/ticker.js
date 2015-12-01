@@ -1,8 +1,7 @@
 /* global jQuery */
-'use strict';
 module.exports = (function ($){
 
-	$.fn.ticker = function(options) {
+	$.fn.ticker = function (options) {
 		const settings = jQuery.extend({
 			pxpersec: 150
 		}, options);
@@ -11,7 +10,7 @@ module.exports = (function ($){
 		return new $.ticker(this, settings); //eslint-disable-line new-cap
 	};
 
-	$.ticker = function(el, settings) {
+	$.ticker = function (el, settings) {
 
 		let addqueue = [];
 		let removequeue = [];
@@ -25,7 +24,7 @@ module.exports = (function ($){
 
 		const elcont = el;
 		const eltape = el.children().first();
-		eltape.css({"overflow":"hidden", "max-height":"1em", 'margin':0, 'padding':0, 'listStyleType':'none', 'whiteSpace':'nowrap', 'oTransition':'transform 0s linear', 'webkitTransition':'transform 0s linear', 'mozTransition':'transform 0s linear', 'transition':'transform 0s linear'});
+		eltape.css({'overflow':'hidden', 'max-height':'1em', 'margin':0, 'padding':0, 'listStyleType':'none', 'whiteSpace':'nowrap', 'oTransition':'transform 0s linear', 'webkitTransition':'transform 0s linear', 'mozTransition':'transform 0s linear', 'transition':'transform 0s linear'});
 		elcont.css({overflow:'hidden', userSelect:'none', pointerEvents:'none'});
 		if (!elcont.css('float') || elcont.css('float') === 'none') {
 			elcont.css('display', 'block');
@@ -36,13 +35,13 @@ module.exports = (function ($){
 
 		/* Private methods */
 
-		function initTape() {
+		function initTape () {
 
 			numSegs = 1;
 
 			// Mark each message in the list
 			if (!eltape.children('li').length) throw 'Cannot initialise ticker: Nothing in it';
-			eltape.children('li').addClass('seg1').attr('seg', 1).each(function() {
+			eltape.children('li').addClass('seg1').attr('seg', 1).each(function () {
 				if (!$(this).attr('id')) $(this).attr('id', 'msg'+Math.ceil(Math.random()*99999999));
 			});
 
@@ -54,10 +53,9 @@ module.exports = (function ($){
 			eltape.bind('mozTransitionEnd', slide);
 			eltape.bind('transitionEnd', slide);
 
-			window.addEventListener('resize', function() {
+			window.addEventListener('resize', function () {
 				clearTimeout(resizeDebounceTimer);
-				resizeDebounceTimer = setTimeout(function() {
-					console.log('Ticker detected window resize');
+				resizeDebounceTimer = setTimeout(function () {
 					updatecount = updatecount || 1;
 					slide();
 				}, resizeDebounce);
@@ -66,7 +64,7 @@ module.exports = (function ($){
 			slide();
 		}
 
-		function slide() {
+		function slide () {
 			let widths;
 			const contWidth = elcont.width();
 
@@ -155,9 +153,9 @@ module.exports = (function ($){
 			eltape.css({transform:'translateX(-'+(tapeWidth-contWidth)+'px)'});
 		}
 
-		function calcWidths() {
+		function calcWidths () {
 			const widths = {total:0};
-			eltape.children().each(function() {
+			eltape.children().each(function () {
 				if (typeof widths['seg'+$(this).attr('seg')] === 'undefined') widths['seg'+$(this).attr('seg')] = 0;
 				widths['seg'+$(this).attr('seg')] += $(this).outerWidth();
 				widths.total += $(this).outerWidth();
@@ -169,7 +167,7 @@ module.exports = (function ($){
 		/* Public methods */
 
 		// Add a new item to the ticker.  Pass a reference to an LI that is to be added to the ticker
-		this.addMsg = function(el) {
+		this.addMsg = function (el) {
 			if (typeof el === 'string') el = $('<li>'+el+'</li>');
 			if (!el.attr('id')) {
 				el.attr('id', 'msg'+Math.ceil(Math.random()*99999999));
@@ -186,23 +184,23 @@ module.exports = (function ($){
 		};
 
 		// Retruns all messages not in remove queue
-		this.getMsgs = function() {
+		this.getMsgs = function () {
 			return eltape.children('li[id]').filter(el => removequeue.indexOf(el) === -1)
 		};
 
 		// Remove an item from the ticker.  Pass a reference to an LI in segment 1.
-		this.removeMsg = function(el) {
+		this.removeMsg = function (el) {
 			if (typeof el === 'string') el = $('#'+el)[0];
 			removequeue.push(el);
 		};
 
 		// Start if not already running
-		this.start = function() {
+		this.start = function () {
 			if (!isscrolling) initTape();
 		};
 
 		// Report current status of ticker
-		this.isScrolling = function() {
+		this.isScrolling = function () {
 			return (isscrolling === true);
 		};
 	};
