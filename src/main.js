@@ -303,8 +303,9 @@ var __bigFT = (function(){
 				mainStoryTransition = setInterval(nextMainStory, 10000);
 				lastUpdated.innerHTML = 'Last updated: ' + moment().format('HH:mm');
 			})
-			.catch(function(){
+			.catch(function(error){
 				setTimeout(interstitial.hide.bind(interstitial), 5000);
+				console.log('We have an error', error);
 			})
 		;
 
