@@ -4,8 +4,10 @@
 const gulp = require('gulp');
 const obt = require('origami-build-tools');
 const nodemon = require('gulp-nodemon');
-const uglify = require('gulp-uglify');
 const path = require('path');
+
+const mocha = require('gulp-spawn-mocha');
+const util = require('gulp-util');
 
 const mainJsFile = 'main.js';
 const mainScssFile = 'main.scss';
@@ -70,15 +72,22 @@ gulp.task('build', ['build-css-dev', 'build-js-dev']);
 
 gulp.task('build-prod', ['build-css-prod', 'build-js-prod']);
 
-gulp.task('watch-js', () => gulp.watch('./src/**/*.js', ['build-js-dev']))
-gulp.task('watch-css', () => gulp.watch('./src/**/*.scss', ['build-css-dev']))
-
 gulp.task('nodemon', server);
+
+gulp.task('test', () =>
+	gulp.src(['tests/**/*.spec.js'], { read: false })
+	.pipe(mocha({ reporter: 'spec' }))
+ 	.on('error', util.log)
+);
 
 gulp.task('verify-css', verifyCss);
 gulp.task('verify-js', verifyJs);
 gulp.task('verify', ['verify-css', 'verify-js']);
 
+gulp.task('watch-server-js', () => gulp.watch(['app.js', 'healthcheck.js', '{routes,bin,lib,middleware}/*'], ['test']));
+gulp.task('watch-client-js', () => gulp.watch(['./src/**/*.js', 'tests/**/*.spec.js'], ['build-js-dev']));
+gulp.task('watch-js', ['watch-server-js', 'watch-client-js']);
+gulp.task('watch-css', () => gulp.watch('./src/**/*.scss', ['build-css-dev']))
 gulp.task('watch', ['build', 'nodemon', 'watch-js', 'watch-css']);
 
 gulp.task('default', ['watch']);
