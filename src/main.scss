@@ -16,7 +16,7 @@ body {
 .flex-row { flex-flow: row; display: flex; }
 .flex-col { flex-flow: column; display: flex; }
 
-.flex-row > *, 
+.flex-row > *,
 .flex-col > * { flex: 1 0 auto; position: relative; }
 
 .ft-logo-square {

@@ -57,6 +57,7 @@
 	
 	/* global $, mina */
 	/* eslint-env browser */
+	/* eslint strict:0, no-console:0 */
 	'use strict';
 	__webpack_require__(68);
 	global.$ = global.jQuery = __webpack_require__(70);
@@ -95,7 +96,7 @@
 	var searchStoriesUrl = serviceUrl + '/search';
 	
 	function wait(ms) {
-		return new _Promise(function (resolve, reject) {
+		return new _Promise(function (resolve) {
 			setTimeout(resolve, ms);
 		});
 	}
@@ -234,7 +235,7 @@
 	
 			return new _Promise(function (resolve, reject) {
 	
-				var oldHeadlines = oldStories.map(function (a, b, c) {
+				var oldHeadlines = oldStories.map(function (a, b) {
 					return b.textContent.toLowerCase();
 				}).sort();
 				var newHeadlines = newStories.map(function (story) {
@@ -28815,7 +28816,6 @@
 	var define = false;
 	
 	/* global jQuery */
-	'use strict';
 	module.exports = (function ($) {
 	
 		$.fn.ticker = function (options) {
@@ -28841,7 +28841,7 @@
 	
 			var elcont = el;
 			var eltape = el.children().first();
-			eltape.css({ "overflow": "hidden", "max-height": "1em", 'margin': 0, 'padding': 0, 'listStyleType': 'none', 'whiteSpace': 'nowrap', 'oTransition': 'transform 0s linear', 'webkitTransition': 'transform 0s linear', 'mozTransition': 'transform 0s linear', 'transition': 'transform 0s linear' });
+			eltape.css({ 'overflow': 'hidden', 'max-height': '1em', 'margin': 0, 'padding': 0, 'listStyleType': 'none', 'whiteSpace': 'nowrap', 'oTransition': 'transform 0s linear', 'webkitTransition': 'transform 0s linear', 'mozTransition': 'transform 0s linear', 'transition': 'transform 0s linear' });
 			elcont.css({ overflow: 'hidden', userSelect: 'none', pointerEvents: 'none' });
 			if (!elcont.css('float') || elcont.css('float') === 'none') {
 				elcont.css('display', 'block');
@@ -28872,7 +28872,6 @@
 				window.addEventListener('resize', function () {
 					clearTimeout(resizeDebounceTimer);
 					resizeDebounceTimer = setTimeout(function () {
-						console.log('Ticker detected window resize');
 						updatecount = updatecount || 1;
 						slide();
 					}, resizeDebounce);

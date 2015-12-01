@@ -53,16 +53,20 @@ const server = () => nodemon({
 
 const verifyCss = () => obt.verify.scssLint(gulp, {
 	sass: mainScssFilePath
-});
+})
+.on('error', (e) => console.log('CSS linting error', e))
 
 const verifyClientJs = () => obt.verify.esLint(gulp, {
 	js: mainJsFilePath,
 	excludeFiles: ['!public/**/**/*', '!src/js/svgloader.js']
-});
+})
+.on('error', (e) => console.log('Client JS linting error', e))
 
-const verifyServerJs = () => obt.verify(gulp, {
-			esLintPath: path.join(__dirname, '.eslintrc')
-});
+const verifyServerJs = () => obt.verify.esLint(gulp, {
+	js: serverJsPaths,
+	esLintPath: path.join(__dirname, '.eslintrc')
+})
+.on('error', (e) => console.log('Server JS linting error', e))
 
 gulp.task('build-css-dev', buildCss.bind(null, true));
 
@@ -91,7 +95,7 @@ gulp.task('verify-js', ['verify-client-js', 'verify-server-js']);
 gulp.task('verify', ['verify-css', 'verify-js']);
 
 gulp.task('watch-server-js', () => gulp.watch(serverJsPaths, ['verify-server-js', 'test']));
-gulp.task('watch-client-js', () => gulp.watch(['./src/**/*.js', 'tests/**/*.spec.js'], ['verify-client-js', 'build-js-dev']));
+gulp.task('watch-client-js', () => gulp.watch(['./src/**/*.js', 'tests/**/*.spec.js'], ['build-js-dev']));
 gulp.task('watch-js', ['watch-server-js', 'watch-client-js']);
 gulp.task('watch-css', () => gulp.watch('./src/**/*.scss', ['verify-css', 'build-css-dev']))
 gulp.task('watch', ['build', 'nodemon', 'watch-js', 'watch-css']);

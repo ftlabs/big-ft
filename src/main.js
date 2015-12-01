@@ -1,5 +1,6 @@
 /* global $, mina */
 /* eslint-env browser */
+/* eslint strict:0, no-console:0 */
 'use strict';
 require('core-js');
 global.$ = global.jQuery = require('jquery');
@@ -38,13 +39,13 @@ const serviceUrl = '/data';
 const topStoriesUrl = serviceUrl + '/top-stories';
 const searchStoriesUrl = serviceUrl + '/search';
 
-function wait(ms) {
-	return new Promise(function(resolve, reject) {
+function wait (ms) {
+	return new Promise(function (resolve) {
 		setTimeout(resolve, ms);
 	});
 }
 
-function getStories(type, offset, amount, term) {
+function getStories (type, offset, amount, term) {
 	switch (type) {
 		case 'search':
 			return getSearchStories(offset, amount, term);
@@ -59,7 +60,7 @@ function getStories(type, offset, amount, term) {
 
 function getTopStories (offset, amount) {
 	return fetch(topStoriesUrl + '?startFrom=' + offset + '&numberOfArticles=' + amount)
-		.then(function(response) {
+		.then(function (response) {
 			return response.json();
 		})
 	;
@@ -67,13 +68,13 @@ function getTopStories (offset, amount) {
 
 function getSearchStories (offset, amount, term) {
 	return fetch(searchStoriesUrl + '?startFrom=' + offset + '&numberOfArticles=' + amount + '&keyword=' + term)
-		.then(function(response) {
+		.then(function (response) {
 			return response.json();
 		})
 	;
 }
 
-var __bigFT = (function(){
+const __bigFT = (function (){
 
 	const updateInterval = 60 * 1000;
 	const lastUpdated = document.getElementsByClassName('last-updated')[0];
@@ -86,26 +87,26 @@ var __bigFT = (function(){
 	const openingHour = 9;
 	const closingHour = 18;
 
-	var mainStoryTransition = undefined;
+	let mainStoryTransition;
 
-	function prepareMainStories(stories){
+	function prepareMainStories (stories){
 
-		return new Promise(function(resolve, reject){
+		return new Promise(function (resolve, reject){
 
-			var media = document.createElement('div');
-			var headlines = document.createElement('ol');
-			var images = [];
+			const media = document.createElement('div');
+			const headlines = document.createElement('ol');
+			const images = [];
 
 			media.setAttribute('class', 'main-stories__media-container');
 			headlines.setAttribute('class', 'main-stories__headlines flex-col');
 
-			stories.forEach(function(story, idx){
+			stories.forEach(function (story, idx){
 
-				var img = new Image();
-				var text = document.createElement('li');
+				const img = new Image();
+				const text = document.createElement('li');
 
-				var imgClass = 'main-stories__media';
-				var textClass = 'main-stories__story';
+				let imgClass = 'main-stories__media';
+				let textClass = 'main-stories__story';
 
 				if(idx === 0){
 					imgClass += ' main-stories__media--current';
@@ -116,7 +117,7 @@ var __bigFT = (function(){
 				text.setAttribute('class', textClass);
 
 				img.src = story.image;
-				images.push(new Promise(function(resolve, reject){
+				images.push(new Promise(function (resolve, reject){
 						img.onload = resolve(img);
 						img.onerror = reject();
 					})
@@ -128,9 +129,9 @@ var __bigFT = (function(){
 			});
 
 			Promise.all(images)
-				.then(function(images){
+				.then(function (images){
 
-					images.forEach(function(image){
+					images.forEach(function (image){
 
 						media.appendChild(image);
 
@@ -142,7 +143,7 @@ var __bigFT = (function(){
 					});
 
 				})
-				.catch(function(){
+				.catch(function (){
 					reject();
 				})
 			;
@@ -151,9 +152,9 @@ var __bigFT = (function(){
 
 	}
 
-	function populateMainStories(content){
+	function populateMainStories (content){
 
-		return new Promise(function(resolve){
+		return new Promise(function (resolve){
 
 			mediaHolder.innerHTML = '';
 
@@ -166,7 +167,7 @@ var __bigFT = (function(){
 
 	}
 
-	var tickerMessageIds = [];
+	let tickerMessageIds = [];
 	function populateTicker (stories) {
 
 		return new Promise(function (resolve) {
@@ -193,12 +194,12 @@ var __bigFT = (function(){
 			return Promise.resolve(newStories);
 		};
 
-		return new Promise(function(resolve, reject){
+		return new Promise(function (resolve, reject){
 
-			const oldHeadlines = oldStories.map((a,b,c) => b.textContent.toLowerCase()).sort();
+			const oldHeadlines = oldStories.map((a,b) => b.textContent.toLowerCase()).sort();
 			const newHeadlines = newStories.map(story => story.headline.toLowerCase()).sort();
 
-			var thereWasADifference = newHeadlines.some((story, index) => story !== oldHeadlines[index]);
+			const thereWasADifference = newHeadlines.some((story, index) => story !== oldHeadlines[index]);
 
 			if (thereWasADifference) {
 				resolve(newStories);
@@ -210,18 +211,18 @@ var __bigFT = (function(){
 
 	}
 
-	function checkForChanges(newStories, oldStories){
+	function checkForChanges (newStories, oldStories){
 
 		if (oldStories.length < newStories.length) {
 			return Promise.resolve(newStories);
 		};
 
-		return new Promise(function(resolve, reject){
+		return new Promise(function (resolve, reject){
 
-			var thereWasADifference = newStories.some(function(story, idx){
+			const thereWasADifference = newStories.some(function (story, idx){
 
-				var oldStory = oldStories[idx].textContent.toLowerCase();
-				var newStory = story.headline.toLowerCase();
+				const oldStory = oldStories[idx].textContent.toLowerCase();
+				const newStory = story.headline.toLowerCase();
 
 				return newStory !== oldStory;
 
@@ -237,9 +238,9 @@ var __bigFT = (function(){
 
 	}
 
-	function nextMainStory() {
-		['main-stories__story--current', 'main-stories__media--current'].forEach(function(c) {
-			var existing = $('.'+c);
+	function nextMainStory () {
+		['main-stories__story--current', 'main-stories__media--current'].forEach(function (c) {
+			const existing = $('.'+c);
 			existing.removeClass(c).next().addClass(c);
 			if (!$('.'+c).length) {
 				existing.parent().children().eq(0).addClass(c);
@@ -256,12 +257,12 @@ var __bigFT = (function(){
 		return uniqueStories;
 	}
 
-	function updateContent(){
+	function updateContent (){
 		const primaryStories = getStories(primaryType, primaryOffset, primaryMax, primarySearch);
 		const secondaryStories = getStories(secondaryType, secondaryOffset, secondaryMax, secondarySearch);
 
 		Promise.all([primaryStories, secondaryStories])
-			.then(function(stories) {
+			.then(function (stories) {
 				const primaryStories = getUniqueStories(stories[0]).slice(0,3);
 				const secondaryStories = getUniqueStories(stories[1]);
 				const uniqueSecondaryStories = secondaryStories
@@ -280,14 +281,14 @@ var __bigFT = (function(){
 				const oldStories = Array.prototype.slice.call(document.querySelectorAll('.main-stories__story'));
 
 				return checkForChanges(primaryStories, oldStories)
-					.then(function(){
+					.then(function (){
 						return prepareMainStories(primaryStories);
 					})
-					.then(function(content){
+					.then(function (content){
 
 						interstitial.show();
 
-						return wait(1000).then(function(){
+						return wait(1000).then(function (){
 							return populateMainStories(content);
 						})
 
@@ -296,13 +297,13 @@ var __bigFT = (function(){
 				;
 
 			})
-			.then(function(){
+			.then(function (){
 				setTimeout(interstitial.hide.bind(interstitial), 1500);
 				clearTimeout(mainStoryTransition);
 				mainStoryTransition = setInterval(nextMainStory, 10000);
 				lastUpdated.innerHTML = 'Last updated: ' + moment().format('HH:mm');
 			})
-			.catch(function(error){
+			.catch(function (error){
 				setTimeout(interstitial.hide.bind(interstitial), 5000);
 				console.log('We have an error', error);
 			})
@@ -311,9 +312,9 @@ var __bigFT = (function(){
 
 	}
 
-	function updateClocks(){
+	function updateClocks (){
 
-		[].forEach.call(clocks, function(clock){
+		[].forEach.call(clocks, function (clock){
 
 			const timezone = clock.getAttribute('data-tz');
 
@@ -331,7 +332,7 @@ var __bigFT = (function(){
 
 	}
 
-	function initialise(){
+	function initialise (){
 
 		updateContent();
 		updateClocks();
@@ -348,7 +349,7 @@ var __bigFT = (function(){
 }());
 
 
-$(function() {
+$(function () {
 
 	__bigFT.init();
 
