@@ -1,5 +1,6 @@
 /* global $ */
 /*eslint no-var:0*/
+require('core-js');
 global.$ = global.jQuery = require('jquery');
 const moment = require('moment-timezone');
 // global.Snap = require('snapsvg');
