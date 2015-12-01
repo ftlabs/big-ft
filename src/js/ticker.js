@@ -104,18 +104,16 @@ module.exports = (function ($){
 			// Modify the last segment to add/remove queued elements
 			if (removequeue.length || addqueue.length) {
 				if (removequeue.length) {
-					for (let remidx=removequeue.length-1; remidx>=0; remidx--) {
-						$(removequeue[remidx]).remove();
-					}
+					removequeue.forEach(el => $(el).remove());
 					removequeue = [];
 
 					// If master segment is now zero-width, add a .empty message that is the width of the parent container
-					if (!eltape.find('.seg1').length) $(`<li class='seg1 empty'></li>`).width(elcont.width()).appendTo(eltape);
+					if (!eltape.find('.seg1').length) {
+						$(`<li class='seg1 empty'></li>`).width(elcont.width()).appendTo(eltape);
+					}
 				}
 				if (addqueue.length) {
-					for (let addidx=addqueue.length-1; addidx>=0; addidx--) {
-						$(addqueue[addidx]).addClass('seg1').attr('seg', 1).appendTo(eltape);
-					}
+					addqueue.forEach(el => $(el).addClass('seg1').attr('seg', 1).appendTo(eltape));
 					addqueue = [];
 
 					// Remove any .empty messages
