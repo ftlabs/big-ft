@@ -228,6 +228,33 @@
 			});
 		}
 	
+		function checkForChangesSecondary(newStories, oldStories) {
+	
+			if (oldStories.length < newStories.length) {
+				return _Promise.resolve(newStories);
+			};
+	
+			return new _Promise(function (resolve, reject) {
+	
+				var oldHeadlines = oldStories.map(function (a, b, c) {
+					return b.textContent.toLowerCase();
+				}).sort();
+				var newHeadlines = newStories.map(function (story) {
+					return story.headline.toLowerCase();
+				}).sort();
+	
+				var thereWasADifference = newHeadlines.some(function (story, index) {
+					return story !== oldHeadlines[index];
+				});
+	
+				if (thereWasADifference) {
+					resolve(newStories);
+				} else {
+					reject();
+				}
+			});
+		}
+	
 		function checkForChanges(newStories, oldStories) {
 	
 			if (oldStories.length < newStories.length) {
@@ -290,7 +317,7 @@
 	
 				var oldMsgs = newsTicker.getMsgs();
 	
-				checkForChanges(uniqueSecondaryStories, oldMsgs).then(function () {
+				checkForChangesSecondary(uniqueSecondaryStories, oldMsgs).then(function () {
 					return console.log('Ticker contents changed.'), populateTicker(uniqueSecondaryStories);
 				})['catch'](function () {
 					return console.log('Ticker contents didn\'t change.');
@@ -23978,18 +24005,20 @@
 				// Modify the last segment to add/remove queued elements
 				if (removequeue.length || addqueue.length) {
 					if (removequeue.length) {
-						for (var remidx = removequeue.length - 1; remidx >= 0; remidx--) {
-							$(removequeue[remidx]).remove();
-						}
+						removequeue.forEach(function (el) {
+							return $(el).remove();
+						});
 						removequeue = [];
 	
 						// If master segment is now zero-width, add a .empty message that is the width of the parent container
-						if (!eltape.find('.seg1').length) $('<li class=\'seg1 empty\'></li>').width(elcont.width()).appendTo(eltape);
+						if (!eltape.find('.seg1').length) {
+							$('<li class=\'seg1 empty\'></li>').width(elcont.width()).appendTo(eltape);
+						}
 					}
 					if (addqueue.length) {
-						for (var addidx = addqueue.length - 1; addidx >= 0; addidx--) {
-							$(addqueue[addidx]).addClass('seg1').attr('seg', 1).appendTo(eltape);
-						}
+						addqueue.forEach(function (el) {
+							return $(el).addClass('seg1').attr('seg', 1).appendTo(eltape);
+						});
 						addqueue = [];
 	
 						// Remove any .empty messages
