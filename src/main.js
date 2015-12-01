@@ -188,6 +188,29 @@ var __bigFT = (function(){
 
 	}
 
+	function checkForChangesSecondary (newStories, oldStories) {
+
+		if (oldStories.length < newStories.length) {
+			return Promise.resolve(newStories);
+		};
+
+		return new Promise(function(resolve, reject){
+
+			const oldHeadlines = oldStories.map((a,b,c) => b.textContent.toLowerCase()).sort();
+			const newHeadlines = newStories.map(story => story.headline.toLowerCase()).sort();
+
+			var thereWasADifference = newHeadlines.some((story, index) => story !== oldHeadlines[index]);
+
+			if (thereWasADifference) {
+				resolve(newStories);
+			} else {
+				reject();
+			}
+
+		});
+
+	}
+
 	function checkForChanges(newStories, oldStories){
 
 		if (oldStories.length < newStories.length) {
@@ -251,7 +274,7 @@ var __bigFT = (function(){
 
 				const oldMsgs = newsTicker.getMsgs();
 
-				checkForChanges(uniqueSecondaryStories, oldMsgs)
+				checkForChangesSecondary(uniqueSecondaryStories, oldMsgs)
 				.then(() => (console.log('Ticker contents changed.'), populateTicker(uniqueSecondaryStories)))
 				.catch(() => console.log('Ticker contents didn\'t change.'))
 
