@@ -28836,10 +28836,12 @@
 			var segWidth = 0;
 			var tapeWidth = 0;
 			var isscrolling = false;
+			var resizeDebounceTimer = undefined;
+			var resizeDebounce = 250;
 	
 			var elcont = el;
 			var eltape = el.children().first();
-			eltape.css({ 'margin': 0, 'padding': 0, 'listStyleType': 'none', 'whiteSpace': 'nowrap', 'oTransition': 'transform 0s linear', 'webkitTransition': 'transform 0s linear', 'mozTransition': 'transform 0s linear', 'transition': 'transform 0s linear' });
+			eltape.css({ "overflow": "hidden", "max-height": "1em", 'margin': 0, 'padding': 0, 'listStyleType': 'none', 'whiteSpace': 'nowrap', 'oTransition': 'transform 0s linear', 'webkitTransition': 'transform 0s linear', 'mozTransition': 'transform 0s linear', 'transition': 'transform 0s linear' });
 			elcont.css({ overflow: 'hidden', userSelect: 'none', pointerEvents: 'none' });
 			if (!elcont.css('float') || elcont.css('float') === 'none') {
 				elcont.css('display', 'block');
@@ -28866,6 +28868,16 @@
 				eltape.bind('oTransitionEnd', slide);
 				eltape.bind('mozTransitionEnd', slide);
 				eltape.bind('transitionEnd', slide);
+	
+				window.addEventListener('resize', function () {
+					clearTimeout(resizeDebounceTimer);
+					resizeDebounceTimer = setTimeout(function () {
+						console.log('Ticker detected window resize');
+						updatecount = updatecount || 1;
+						slide();
+					}, resizeDebounce);
+				});
+	
 				slide();
 			}
 	
@@ -28912,7 +28924,7 @@
 	
 					segWidth = widths.seg1;
 					tapeWidth = widths.total;
-					eltape.width(widths.total);
+					eltape.width(widths.total + 1);
 					updatecount--;
 				}
 	
@@ -28943,7 +28955,7 @@
 					widths = calcWidths();
 					segWidth = widths.seg1;
 					tapeWidth = widths.total;
-					eltape.width(widths.total);
+					eltape.width(widths.total + 1);
 	
 					// Start cascade
 					updatecount = numSegs;
