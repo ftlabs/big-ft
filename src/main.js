@@ -194,7 +194,7 @@ const __bigFT = (function (){
 			return Promise.resolve(newStories);
 		};
 
-		return new Promise(function (resolve, reject){
+		return new Promise(function (resolve){
 
 			const oldHeadlines = oldStories.map((a,b) => b.textContent.toLowerCase()).sort();
 			const newHeadlines = newStories.map(story => story.headline.toLowerCase()).sort();
@@ -202,9 +202,9 @@ const __bigFT = (function (){
 			const thereWasADifference = newHeadlines.some((story, index) => story !== oldHeadlines[index]);
 
 			if (thereWasADifference) {
-				resolve(newStories);
+				resolve(true);
 			} else {
-				reject();
+				resolve(false);
 			}
 
 		});
@@ -217,7 +217,7 @@ const __bigFT = (function (){
 			return Promise.resolve(newStories);
 		};
 
-		return new Promise(function (resolve, reject){
+		return new Promise(function (resolve){
 
 			const thereWasADifference = newStories.some(function (story, idx){
 
@@ -229,9 +229,9 @@ const __bigFT = (function (){
 			});
 
 			if(thereWasADifference){
-				resolve(newStories);
+				resolve(true);
 			} else {
-				reject();
+				resolve(false);
 			}
 
 		});
@@ -304,18 +304,29 @@ const __bigFT = (function (){
 				)
 
 				const oldMsgs = newsTicker.getMsgs();
-
 				checkForChangesSecondary(uniqueSecondaryStories, oldMsgs)
-				.then(() => (console.log('Ticker contents changed.'), populateTicker(uniqueSecondaryStories)))
+				.then((difference) => {
+					if(difference){
+						populateTicker(uniqueSecondaryStories)
+					}
+				})
 				.catch(() => console.log('Ticker contents didn\'t change.'))
 
 				const oldStories = Array.prototype.slice.call(document.querySelectorAll('.main-stories__story'));
 
 				return checkForChanges(primaryStories, oldStories)
-					.then(function (){
-						return prepareMainStories(primaryStories);
+					.then((difference) => {
+						if(difference){
+							return prepareMainStories(primaryStories);
+						} else {
+							return false;
+						}
 					})
 					.then(function (content){
+
+						if(!content){
+							return;
+						}
 
 						interstitial.show();
 						return wait(1000).then(function (){
