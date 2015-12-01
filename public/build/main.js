@@ -355,7 +355,6 @@
 				}).then(function (content) {
 	
 					interstitial.show();
-					// sizeHeadlineTextAccordingly()
 					return wait(1000).then(function () {
 						return populateMainStories(content).then(function () {
 							sizeHeadlineTextAccordingly();
