@@ -256,6 +256,37 @@ var __bigFT = (function(){
 		return uniqueStories;
 	}
 
+	function sizeHeadlineTextAccordingly(){
+
+		const headlineEls = Array.from(document.getElementsByClassName('main-stories__story'));
+		const footer = document.getElementsByClassName('footer')[0];
+
+		// Increasing the amp value DECREASES the font size.
+		var amp = 1;
+
+		return new Promise(function(resolve, reject){
+
+				headlineEls.forEach(function(headline){
+					window.fitText(headline, amp);
+				});	
+
+				while((footer.offsetTop + footer.offsetHeight) > window.innerHeight){
+				
+					headlineEls.forEach(function(headline){
+						window.fitText(headline, amp);
+					});
+
+					amp += 0.1;
+
+				}
+
+				resolve();
+
+			})
+		;
+
+	}
+
 	function updateContent(){
 		const primaryStories = getStories(primaryType, primaryOffset, primaryMax, primarySearch);
 		const secondaryStories = getStories(secondaryType, secondaryOffset, secondaryMax, secondarySearch);
@@ -286,9 +317,10 @@ var __bigFT = (function(){
 					.then(function(content){
 
 						interstitial.show();
-
 						return wait(1000).then(function(){
-							return populateMainStories(content);
+							return populateMainStories(content).then( () => {
+								sizeHeadlineTextAccordingly();
+							});
 						})
 
 					})
