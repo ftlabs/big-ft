@@ -15,14 +15,8 @@
 			document.documentElement.className = document.documentElement.className.replace(/\bcore\b/g, 'enhanced');
 		}
 	</script>
+	<link rel="stylesheet" href="/static/build/main.css" type="text/css" />
 
-	<style>
-		{{!--/* Hide any enhanced experience content when in core mode, and vice versa. */--}}
-		.core .o--if-js,
-		.enhanced .o--if-no-js { display: none !important; }
-
-		{{!--/* Add any other inline styles here */--}}
-	</style>
 </head>
 <body class='flex-col'>
 	<h1>FINANCIAL TIMES<span class="last-updated"></span></h1>
@@ -95,7 +89,7 @@
 		!function(e){"use strict";var n=function(n,t,o){var l,r=e.document,i=r.createElement("link");if(t)l=t;else{var a=(r.body||r.getElementsByTagName("head")[0]).childNodes;l=a[a.length-1]}var d=r.styleSheets;i.rel="stylesheet",i.href=n,i.media="only x",l.parentNode.insertBefore(i,t?l:l.nextSibling);var f=function(e){for(var n=i.href,t=d.length;t--;)if(d[t].href===n)return e();setTimeout(function(){f(e)})};return i.onloadcssdefined=f,f(function(){i.media=o||"all"}),i};"undefined"!=typeof module?module.exports=n:e.loadCSS=n}("undefined"!=typeof global?global:this);
 
 		loadCSS('//build.origami.ft.com/v1/bundles/css?modules=o-fonts%402.1.0%2Co-ft-icons%402.4.0%2Co-autoinit%401.2.0&shrinkwrap=o-assets%402.0.0')
-		loadCSS('/static/build/main.css');
+
 	</script>
 </body>
 </html>

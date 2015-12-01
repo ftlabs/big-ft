@@ -58,6 +58,7 @@ h1 {
 	position: absolute;
 	right: 1vw;
 	bottom: 2.3em;
+	display: inline-block;
 }
 
 .main-stories {
@@ -77,6 +78,7 @@ h1 {
 	overflow: hidden;
 	opacity: 0;
 	transition: opacity 1s ease;
+	display: block;
 }
 .main-stories__media--current {
 	opacity: 1;
