@@ -53,6 +53,8 @@
 	
 	var _Set = __webpack_require__(61)['default'];
 	
+	var _Array$from = __webpack_require__(2)['default'];
+	
 	var define = false;
 	
 	/* global $, mina */
@@ -302,7 +304,7 @@
 	
 		function sizeHeadlineTextAccordingly() {
 	
-			var headlineEls = Array.prototype.slice.call(document.getElementsByClassName('main-stories__story'));
+			var headlineEls = _Array$from(document.getElementsByClassName('main-stories__story'));
 			var footer = document.getElementsByClassName('footer')[0];
 	
 			// Increasing the amp value DECREASES the font size.

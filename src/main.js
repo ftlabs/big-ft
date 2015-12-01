@@ -258,7 +258,7 @@ var __bigFT = (function(){
 
 	function sizeHeadlineTextAccordingly(){
 
-		const headlineEls = Array.prototype.slice.call(document.getElementsByClassName('main-stories__story'));
+		const headlineEls = Array.from(document.getElementsByClassName('main-stories__story'));
 		const footer = document.getElementsByClassName('footer')[0];
 
 		// Increasing the amp value DECREASES the font size.
