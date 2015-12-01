@@ -1,17 +1,15 @@
-/* global $ */
-/*eslint no-var:0*/
+/* global $, mina */
+/* eslint-env browser */
+'use strict';
 require('core-js');
 global.$ = global.jQuery = require('jquery');
 const moment = require('moment-timezone');
 // global.Snap = require('snapsvg');
 const queryString = require('query-string');
 const SVGLoader = require('./js/svgloader');
-const ticker = require('./js/ticker');
+require('./js/ticker');
 
-/* global $, queryString, SVGLoader, moment, mina */
-/* eslint-env browser */
-/*eslint no-var:0*/
-'use strict';
+
 /*
 	Customisation
 	?primaryType=topStories
