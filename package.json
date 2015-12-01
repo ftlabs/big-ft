@@ -33,7 +33,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "test": "npm run verify && mocha ./tests --recursive",
-    "verify": "obt verify --excludeFiles='!public/js/vendor/*.js'"
+    "verify": "obt verify --excludeFiles='!public/**/*, !src/js/svgloader.js'"
   },
   "repository": {
     "type": "git",
