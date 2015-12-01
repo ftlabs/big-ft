@@ -34,7 +34,7 @@
   },
   "scripts": {
     "start": "node ./bin/www",
-    "test": "npm run verify && mocha ./tests --recursive",
+    "test": "gulp test",
     "verify": "gulp verify"
   },
   "repository": {
