@@ -56,7 +56,11 @@ module.exports = (function ($){
 
 			window.addEventListener('resize', function() {
 				clearTimeout(resizeDebounceTimer);
-				resizeDebounceTimer = setTimeout(slide, resizeDebounce);
+				resizeDebounceTimer = setTimeout(function() {
+					console.log('Ticker detected window resize');
+					updatecount = updatecount || 1;
+					slide();
+				}, resizeDebounce);
 			});
 
 			slide();
