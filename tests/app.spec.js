@@ -41,7 +41,6 @@ describe('App', function(){
 			})
 			.expect(200)
 			.end(function(err){
-				console.log(err)
 				if (err) {
 					done(err);
 				} else {
