@@ -370,6 +370,7 @@
 					interstitial.show();
 					return wait(1000).then(function () {
 						return populateMainStories(content).then(function () {
+							lastUpdated.innerHTML = 'Last updated: ' + moment().format('HH:mm');
 							sizeHeadlineTextAccordingly();
 						});
 					});
@@ -378,7 +379,6 @@
 				setTimeout(interstitial.hide.bind(interstitial), 1500);
 				clearTimeout(mainStoryTransition);
 				mainStoryTransition = setInterval(nextMainStory, 10000);
-				lastUpdated.innerHTML = 'Last updated: ' + moment().format('HH:mm');
 			})['catch'](function (error) {
 				setTimeout(interstitial.hide.bind(interstitial), 5000);
 				console.log('We have an error', error);
