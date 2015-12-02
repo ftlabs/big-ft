@@ -3,6 +3,8 @@ const router = express.Router(); //eslint-disable-line new-cap
 const topStories = require('../lib/topStories');
 const search = require('../lib/search');
 const cors = require('../middleware/cors');
+const debug = require('debug')('big-ft:data');
+
 
 router.use(cors);
 router.get('/top-stories', (req, res) => {
@@ -14,8 +16,11 @@ router.get('/top-stories', (req, res) => {
 
   topStories(startFrom, numberOfArticles)
   .then(sendJson)
-  .catch(send503);
-})
+  .catch(function(err){
+    debug( "err=" + JSON.stringify(err) );
+    return send503();
+  });
+});
 
 router.get('/search', (req, res) => {
   const sendJson = res.json.bind(res);
@@ -28,7 +33,10 @@ router.get('/search', (req, res) => {
 
   search(searchTerm, startFrom, numberOfArticles)
   .then(sendJson)
-  .catch(send503);
-})
+  .catch(function(err){
+    debug( "err=" + JSON.stringify(err) );
+    return send503();
+  });
+});
 
 module.exports = router;
