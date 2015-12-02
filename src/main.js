@@ -76,7 +76,7 @@ function getSearchStories (offset, amount, term) {
 
 const __bigFT = (function (){
 
-	const updateInterval = 30 * 1000;
+	const updateInterval = 60 * 1000;
 	const lastUpdated = document.getElementsByClassName('last-updated')[0];
 	const interstitial = new SVGLoader( document.getElementById( 'loader' ), { speedIn : 700, easingIn : mina.easeinout } );
 
@@ -289,9 +289,6 @@ const __bigFT = (function (){
 	}
 
 	function updateContent (){
-
-		console.log("updateContent");
-
 		const primaryStories = getStories(primaryType, primaryOffset, primaryMax, primarySearch);
 		const secondaryStories = getStories(secondaryType, secondaryOffset, secondaryMax, secondarySearch);
 
@@ -319,15 +316,15 @@ const __bigFT = (function (){
 
 				const oldStories = Array.prototype.slice.call(document.querySelectorAll('.main-stories__story'));
 
-				/*return checkForChanges(primaryStories, oldStories)
+				return checkForChanges(primaryStories, oldStories)
 					.then((difference) => {
 						if(difference){
 							return prepareMainStories(primaryStories);
 						} else {
 							return false;
 						}
-					})*/
-					return prepareMainStories(primaryStories).then(function (content){
+					})
+					.then(function (content){
 
 						if(!content){
 							return;
@@ -356,6 +353,7 @@ const __bigFT = (function (){
 				console.log('We have an error', error);
 			})
 		;
+
 
 	}
 
@@ -387,20 +385,10 @@ const __bigFT = (function (){
 		setInterval(updateClocks, 60000);
 		setInterval(updateContent, updateInterval);
 
-		window.addEventListener('keypress', function(e){
-
-			if(e.keyCode == '32'){
-				interstitial.show();
-				wait(3000).then(() => {interstitial.hide()});
-			}
-
-		}, false);
-
 	}
 
 	return {
-		init : initialise,
-		interstitial : interstitial
+		init : initialise
 	};
 
 }());
