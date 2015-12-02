@@ -304,13 +304,17 @@ const __bigFT = (function (){
 				)
 
 				const oldMsgs = newsTicker.getMsgs();
-				checkForChangesSecondary(uniqueSecondaryStories, oldMsgs)
-				.then((difference) => {
-					if(difference){
-						populateTicker(uniqueSecondaryStories)
-					}
-				})
-				.catch(() => console.log('Ticker contents didn\'t change.'))
+				
+				wait(1000).then(function (){
+						checkForChangesSecondary(uniqueSecondaryStories, oldMsgs)
+							.then((difference) => {
+								if(difference){
+									populateTicker(uniqueSecondaryStories);
+								}
+							})
+							.catch(() => console.log('Ticker contents didn\'t change.'))
+					})
+				;
 
 				const oldStories = Array.prototype.slice.call(document.querySelectorAll('.main-stories__story'));
 
