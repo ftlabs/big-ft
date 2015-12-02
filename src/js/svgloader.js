@@ -34,7 +34,7 @@ SVGLoader.prototype.options = {
 SVGLoader.prototype._init = function() {
 	var s = Snap( this.el.querySelector( 'svg' ) );
 	this.path = s.select( 'path' );
-	this.initialPath = this.path.attr('d');
+	this.initialPath = this.path.attr('start');
 
 	var openingStepsStr = this.el.getAttribute( 'data-opening' );
 	this.openingSteps = openingStepsStr ? openingStepsStr.split(';') : '';
