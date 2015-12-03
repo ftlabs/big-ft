@@ -10,7 +10,6 @@ const queryString = require('query-string');
 const SVGLoader = require('./js/svgloader');
 require('./js/ticker');
 
-
 /*
 	Customisation
 	?primaryType=topStories
