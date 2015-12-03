@@ -7,6 +7,7 @@ const path = require('path');
 
 const mocha = require('gulp-spawn-mocha');
 const util = require('gulp-util');
+const Server = require('karma').Server;
 
 const mainJsFile = 'main.js';
 const mainScssFile = 'main.scss';
@@ -82,11 +83,27 @@ gulp.task('build-prod', ['build-css-prod', 'build-js-prod']);
 
 gulp.task('nodemon', server);
 
-gulp.task('test', () =>
+gulp.task('tdd-client', done => {
+  new Server({
+    configFile: path.join(__dirname, 'karma.conf.js'),
+		singleRun: false
+  }, done).start();
+});
+
+gulp.task('test-server', () =>
 	gulp.src(['tests/**/*.spec.js'], { read: false })
 	.pipe(mocha({ reporter: 'spec' }))
  	.on('error', util.log)
 );
+
+gulp.task('test-client', done => {
+  new Server({
+    configFile: path.join(__dirname, 'karma.conf.js'),
+    singleRun: true
+  }, done).start();
+});
+
+gulp.task('test', ['test-client', 'test-server']);
 
 gulp.task('verify-css', verifyCss);
 gulp.task('verify-client-js', verifyClientJs);
