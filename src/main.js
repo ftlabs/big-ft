@@ -8,8 +8,8 @@ const moment = require('moment-timezone');
 // global.Snap = require('snapsvg');
 const queryString = require('query-string');
 const SVGLoader = require('./js/svgloader');
+const semver = require('semver');
 require('./js/ticker');
-
 
 /*
 	Customisation
@@ -87,7 +87,10 @@ const __bigFT = (function (){
 	const openingHour = 9;
 	const closingHour = 18;
 
+	const currentAppVersion = document.body.getAttribute('data-version');
+
 	let mainStoryTransition;
+	let updateTimeout;
 
 	function prepareMainStories (stories){
 
@@ -377,6 +380,49 @@ const __bigFT = (function (){
 
 	}
 
+	function update(){
+
+		fetch('/__gtg')
+			.then(res => {
+				if(res.status === 200){
+					window.location.reload(true);
+				} else {
+					updateTimeout = setTimeout(update, 5 * (60 * 1000) );
+				}
+			})
+		;
+
+	}
+
+	function setUpdate(){
+
+		const timeUntilMidnightInSeconds = moment().add(1, 'days').startOf('day').unix() - moment().unix();
+		clearTimeout(updateTimeout);
+		updateTimeout = setTimeout(update, timeUntilMidnightInSeconds * 1000);
+
+		console.log("Update available, will update in %f seconds", timeUntilMidnightInSeconds);
+
+	}
+
+	function shouldUpdate(){
+		// Check if there's an update, if there is, update at midnight
+
+		return fetch('/should-update')
+			.then(res => res.json())
+			.then(data => {
+				if(data.version){
+					return semver.gt(data.version, currentAppVersion);	
+				} else {
+					return false;
+				}
+			})
+			.catch(err => {
+				return false;
+			})
+		;
+
+	}
+
 	function initialise (){
 
 		updateContent();
@@ -384,6 +430,15 @@ const __bigFT = (function (){
 
 		setInterval(updateClocks, 60000);
 		setInterval(updateContent, updateInterval);
+		setInterval(function(){
+			shouldUpdate()
+				.then(updateAvailable => {
+					if(updateAvailable){
+						setUpdate();
+					}
+				})
+			;
+		}, 5 * (60 * 1000));
 
 	}
 
