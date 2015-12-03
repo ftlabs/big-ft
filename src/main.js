@@ -333,6 +333,7 @@ const __bigFT = (function (){
 						interstitial.show();
 						return wait(1000).then(function (){
 							return populateMainStories(content).then( () => {
+								lastUpdated.innerHTML = 'Last updated: ' + moment().format('HH:mm');
 								sizeHeadlineTextAccordingly();
 							});
 						})
@@ -346,7 +347,6 @@ const __bigFT = (function (){
 				setTimeout(interstitial.hide.bind(interstitial), 1500);
 				clearTimeout(mainStoryTransition);
 				mainStoryTransition = setInterval(nextMainStory, 10000);
-				lastUpdated.innerHTML = 'Last updated: ' + moment().format('HH:mm');
 			})
 			.catch(function (error){
 				setTimeout(interstitial.hide.bind(interstitial), 5000);
