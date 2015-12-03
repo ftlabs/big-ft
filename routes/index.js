@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router(); //eslint-disable-line new-cap
-const appVersion =  require('../package.json').version;
+const path = require('path');
+const appVersion = path.join(__dirname, '..', 'package.json').version;
 
 /* GET home page. */
 router.get('/', function(req, res) {
