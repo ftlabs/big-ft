@@ -142,6 +142,8 @@
 		var openingHour = 9;
 		var closingHour = 18;
 	
+		var currentAppVersion = document.body.getAttribute('data-version');
+	
 		var mainStoryTransition = undefined;
 		var updateTimeout = undefined;
 	
@@ -430,13 +432,10 @@
 		function shouldUpdate() {
 			// Check if there's an update, if there is, update at midnight
 	
-			var currentVersion = document.body.getAttribute('data-version');
-	
 			return fetch('/should-update').then(function (res) {
 				return res.json();
 			}).then(function (data) {
-				var latestVersion = data.version;
-				return semver.gt(latestVersion, currentVersion);
+				return semver.gt(data.version, currentAppVersion);
 			});
 		}
 	

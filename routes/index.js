@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router(); //eslint-disable-line new-cap
-const S3O = require('s3o-middleware');
 const appVersion =  require('../package.json').version;
 
 /* GET home page. */
