@@ -383,9 +383,8 @@ const __bigFT = (function (){
 	function update(){
 
 		fetch('/__gtg')
-			.then(res => res.status)
-			.then(status => {
-				if(status === 200){
+			.then(res => {
+				if(res.status === 200){
 					window.location.reload(true);
 				} else {
 					updateTimeout = setTimeout(update, 5 * (60 * 1000) );
@@ -397,11 +396,11 @@ const __bigFT = (function (){
 
 	function setUpdate(){
 
-		const timeUntilMidnightInMilliseconds = (moment().add(1, 'days').startOf('day').unix() - moment().unix()) * 1000;
+		const timeUntilMidnightInSeconds = moment().add(1, 'days').startOf('day').unix() - moment().unix();
 		clearTimeout(updateTimeout);
-		updateTimeout = setTimeout(update, timeUntilMidnightInMilliseconds);
+		updateTimeout = setTimeout(update, timeUntilMidnightInSeconds * 1000);
 
-		console.log("Update available, will update in %f seconds", timeUntilMidnightInMilliseconds / 1000);
+		console.log("Update available, will update in %f seconds", timeUntilMidnightInSeconds);
 
 	}
 
@@ -411,7 +410,14 @@ const __bigFT = (function (){
 		return fetch('/should-update')
 			.then(res => res.json())
 			.then(data => {
-				return semver.gt(data.version, currentAppVersion);
+				if(data.version){
+					return semver.gt(data.version, currentAppVersion);	
+				} else {
+					return false;
+				}
+			})
+			.catch(err => {
+				return false;
 			})
 		;
 
@@ -421,16 +427,18 @@ const __bigFT = (function (){
 
 		updateContent();
 		updateClocks();
-		shouldUpdate()
-			.then(updateAvailable => {
-				if(updateAvailable){
-					setUpdate();
-				}
-			})
-		;
 
 		setInterval(updateClocks, 60000);
 		setInterval(updateContent, updateInterval);
+		setInterval(function(){
+			shouldUpdate()
+				.then(updateAvailable => {
+					if(updateAvailable){
+						setUpdate();
+					}
+				})
+			;
+		}, 5 * (60 * 1000));
 
 	}
 
