@@ -7,7 +7,7 @@
 - [Heroku Toolbelt](https://toolbelt.heroku.com/)
 - Heroku Docker plugin -- `heroku plugins:install heroku-docker`
 
-If running OS X or Windows, [follow these steps for creating a virtual machine for Docker](#creating-a-virtual-machine-for-docker).
+If running OS X or Windows, [follow these steps for creating a virtual machine for Docker](#creating-a-virtual-machine-for-docker) -- This is a section in this readme file.
 
 #### Setting up development environment
 - Clone the repository -- `git clone git@github.com:ftlabs/big-ft.git`
@@ -19,10 +19,13 @@ If running OS X or Windows, [follow these steps for creating a virtual machine f
 ##### [Creating a virtual machine for Docker](#creating-a-virtual-machine-for-docker)
  [VirtualBox](https://www.virtualbox.org/wiki/Downloads) or [VMWare](http://www.vmware.com/uk/).
 
-- Create a virtual machine -- `docker-machine create --driver virtualbox dev` (change the driver value if using vmware)
+- Check if you already have a Docker machine set-up -- `docker-machine ls`
+If you don't have a Docker machine set-up:
+- Create a virtual machine -- `docker-machine create --driver virtualbox default` (change the driver value if using vmware)
+If/Once you have a Docker machine set-up:
 - Check that your machine is running -- `docker-machine ls`
-- If machine is not running, boot it up -- `docker-machine start dev`
-- Add environment variables to your computer in order to let Docker communicate with the virtual machine -- `eval "$(docker-machine env dev)"`
+- If machine is not running, boot it up -- `docker-machine start default`
+- Add environment variables to your computer in order to let Docker communicate with the virtual machine -- `eval "$(docker-machine env default)"`
 
 ### Deploying
 As we are using Heroku Docker for development, we can no longer deploy using `git`.
