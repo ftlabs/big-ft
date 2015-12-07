@@ -406,7 +406,7 @@ const __bigFT = (function (){
 	function shouldUpdate(){
 		// Check if there's an update, if there is, update at midnight
 
-		return fetch(`/update?version?${currentAppVersion}`)
+		return fetch(`/update?version=${currentAppVersion}`)
 			.then(res => res.json())
 			.then(json => {
 				return json.data.update;
