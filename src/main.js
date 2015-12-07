@@ -429,7 +429,7 @@ const __bigFT = (function (){
 			shouldUpdate()
 				.then(updateAvailable => {
 					if(updateAvailable){
-						setUpdate();
+						update();
 					}
 				})
 			;
