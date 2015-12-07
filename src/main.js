@@ -361,8 +361,6 @@ const __bigFT = (function (){
 
 	function updateClocks (){
 
-		console.log("TIME UPDATE");
-
 		[].forEach.call(clocks, function (clock){
 
 			const timezone = clock.getAttribute('data-tz');
