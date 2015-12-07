@@ -7,7 +7,6 @@ const moment = require('moment-timezone');
 // global.Snap = require('snapsvg');
 const queryString = require('query-string');
 const SVGLoader = require('./js/svgloader');
-const semver = require('semver');
 require('./js/ticker');
 
 /*
@@ -379,7 +378,7 @@ const __bigFT = (function (){
 
 	}
 
-	function update(){
+	function update (){
 
 		fetch('/__gtg')
 			.then(res => {
@@ -393,7 +392,7 @@ const __bigFT = (function (){
 
 	}
 
-	function setUpdate(){
+	function setUpdate (){
 
 		const timeUntilMidnightInSeconds = moment().add(1, 'days').startOf('day').unix() - moment().unix();
 		clearTimeout(updateTimeout);
@@ -403,7 +402,7 @@ const __bigFT = (function (){
 
 	}
 
-	function shouldUpdate(){
+	function shouldUpdate (){
 		// Check if there's an update, if there is, update at midnight
 
 		return fetch(`/update?version=${currentAppVersion}`)
@@ -425,7 +424,7 @@ const __bigFT = (function (){
 
 		setInterval(updateClocks, 60000);
 		setInterval(updateContent, updateInterval);
-		setInterval(function(){
+		setInterval(function (){
 			shouldUpdate()
 				.then(updateAvailable => {
 					if(updateAvailable){
