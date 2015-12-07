@@ -6,7 +6,8 @@ const appVersion = require(path.join(__dirname, '..', 'package.json')).version;
 /* GET home page. */
 router.get('/', function (req, res) {
   res.render('index', {
-  	version : appVersion
+  	version : appVersion,
+  	env : process.env.NODE_ENV
   });
 });
 
