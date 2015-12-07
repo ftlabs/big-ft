@@ -2,7 +2,6 @@
 /* eslint-env browser */
 /* eslint strict:0, no-console:0 */
 'use strict';
-require('core-js');
 global.$ = global.jQuery = require('jquery');
 const moment = require('moment-timezone');
 // global.Snap = require('snapsvg');
