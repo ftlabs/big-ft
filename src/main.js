@@ -306,7 +306,7 @@ const __bigFT = (function (){
 				)
 
 				const oldMsgs = newsTicker.getMsgs();
-				
+
 				checkForChangesSecondary(uniqueSecondaryStories, oldMsgs)
 					.then((difference) => {
 						if(difference){
@@ -406,16 +406,12 @@ const __bigFT = (function (){
 	function shouldUpdate(){
 		// Check if there's an update, if there is, update at midnight
 
-		return fetch('/should-update')
+		return fetch(`/update?version?${currentAppVersion}`)
 			.then(res => res.json())
-			.then(data => {
-				if(data.version){
-					return semver.gt(data.version, currentAppVersion);	
-				} else {
-					return false;
-				}
+			.then(json => {
+				return json.data.update;
 			})
-			.catch(err => {
+			.catch(() => {
 				return false;
 			})
 		;
