@@ -427,7 +427,12 @@ const __bigFT = (function (){
 		updateContent();
 		updateClocks();
 
-		setInterval(updateClocks, 60000);
+		// Update the clocks 2 seconds after the minute has changed
+		setTimeout(function(){
+			updateClocks();
+			setInterval(updateClocks, 60000);
+		}, (62 - moment().seconds() ) * 1000);
+
 		setInterval(updateContent, updateInterval);
 		setInterval(function(){
 			shouldUpdate()
