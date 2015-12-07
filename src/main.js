@@ -335,7 +335,8 @@ const __bigFT = (function (){
 						interstitial.show();
 						return wait(1000).then(function (){
 							return populateMainStories(content).then( () => {
-								lastUpdated.innerHTML = 'Last updated: ' + moment().format('HH:mm');
+								lastUpdated.setAttribute('data-isotime', moment().toISOString());
+								whenWasContentLastUpdated();
 								sizeHeadlineTextAccordingly();
 							});
 						})
@@ -422,6 +423,15 @@ const __bigFT = (function (){
 
 	}
 
+	function whenWasContentLastUpdated(){
+
+		const lastUpdatedTime = lastUpdated.getAttribute('data-isotime') || moment().toISOString();
+
+		lastUpdated.innerHTML = "Last updated: " + moment(lastUpdatedTime).fromNow();
+
+
+	}
+
 	function initialise (){
 
 		updateContent();
@@ -443,6 +453,8 @@ const __bigFT = (function (){
 				})
 			;
 		}, 5 * (60 * 1000));
+
+		setInterval(whenWasContentLastUpdated, 60 * 1000);
 
 	}
 
