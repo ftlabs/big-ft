@@ -13,7 +13,7 @@ mockery.enable({
 
 const app = require(moduleUnderTest);
 
-describe('App', function(){
+describe('App', function () {
 	before(done => {
 		app.listen(9999, done)
 	});
@@ -24,23 +24,23 @@ describe('App', function(){
 		mockery.disable();
 	});
 
-	it('has a /__gtg endpoint which returns 200', function(done){
+	it('has a /__gtg endpoint which returns 200', function (done) {
 		request(app)
 			.get('/__gtg')
 			.expect(200, done);
 	});
 
-	it('has a /__health endpoint which return JSON with a 200 which follows the schema', function(done){
+	it('has a /__health endpoint which return JSON with a 200 which follows the schema', function (done) {
 		request(app)
 			.get('/__health')
 			.expect('Content-Type', /json/)
-			.expect(function hasPreviousAndNextKeys(res) {
+			.expect(function hasPreviousAndNextKeys (res) {
 				if (!('schemaVersion' in res.body)) throw new Error('missing schemaVersion key');
 				if (!('name' in res.body)) throw new Error('missing name key');
 				if (!('checks' in res.body)) throw new Error('missing checks key');
 			})
 			.expect(200)
-			.end(function(err){
+			.end(function (err) {
 				if (err) {
 					done(err);
 				} else {
@@ -49,12 +49,10 @@ describe('App', function(){
 			});
 	});
 
-	it('has a /__about endpoint which returns JSON with a 200', function(done){
+	it('has a /__about endpoint which returns JSON with a 200', function (done) {
 		request(app)
 			.get('/__about')
 			.expect('Content-Type', /json/)
 			.expect(200, done);
 	});
-
-	//test for cors
 });

@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const routes = require('./routes/index');
 const data = require('./routes/data');
+const update = require('./routes/update');
 const app = express();
 const ftwebservice = require('express-ftwebservice');
 const hbs = require('express-hbs');
@@ -42,6 +43,7 @@ app.use('/static', express.static(__dirname + '/public'));
 
 app.use('/', routes);
 app.use('/data', data);
+app.use('/update', update);
 
 app.use(function (req, res) {
   res.sendStatus(404);
