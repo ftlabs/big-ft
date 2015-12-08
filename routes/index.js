@@ -7,7 +7,8 @@ const appVersion = require(path.join(__dirname, '..', 'package.json')).version;
 router.get('/', function (req, res) {
   res.render('index', {
   	version : appVersion,
-  	isProduction : process.env.NODE_ENV === "production" 
+  	isProduction : process.env.NODE_ENV === "production",
+  	sentryClientKey : process.env.sentryClientKey
   });
 });
 
