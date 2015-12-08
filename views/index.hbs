@@ -18,9 +18,9 @@
 	<link rel="stylesheet" href="/static/build/main.css" type="text/css" />
 	<link rel="stylesheet" href="//build.origami.ft.com/v1/bundles/css?modules=o-fonts%402.1.0%2Co-ft-icons%402.4.0%2Co-autoinit%401.2.0&shrinkwrap=o-assets%402.0.0" type="text/css">
 
-	{{#ifCond env "production"}}
+	{{#if isProduction }}
 		{{> sentry }}
-	{{/ifCond}}
+	{{/if}}
 
 	<script src="http://build.origami.ft.com/v2/bundles/js?modules=o-errors@^3.3.0"></script>
 	<script src="//polyfill.webservices.ft.com/v2/polyfill.min.js?features=fetch,promise,Array.prototype.find"></script>

@@ -18,13 +18,6 @@ app.engine('hbs', hbs.express4({
   partialsDir: path.join(__dirname, '/views/partials')
 }));
 
-hbs.registerHelper('ifCond', function(v1, v2, options) {
-  if(v1 === v2) {
-    return options.fn(this);
-  }
-  return options.inverse(this);
-});
-
 ftwebservice(app, {
 	manifestPath: path.join(__dirname, '/package.json'),
 	about: require('./runbook.json'),
