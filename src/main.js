@@ -424,10 +424,17 @@ const __bigFT = (function (){
 
 		lastUpdated.innerHTML = "Last updated: " + moment(lastUpdatedTime).fromNow();
 
+	}
 
+	function detectTimezone () {
+		return Intl.DateTimeFormat().resolved.timeZone; //eslint-disable-line new-cap
 	}
 
 	function initialise (){
+
+		const timezoneElem = document.querySelector('#detectedTimezone');
+
+		timezoneElem.innerHTML = detectTimezone();
 
 		updateContent();
 		updateClocks();
