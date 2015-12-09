@@ -23,7 +23,7 @@
 	{{/if}}
 
 	<script src="http://build.origami.ft.com/v2/bundles/js?modules=o-errors@^3.3.0"></script>
-	<script src="//polyfill.webservices.ft.com/v2/polyfill.min.js?features=fetch,promise,Array.prototype.find"></script>
+	<script src="//polyfill.webservices.ft.com/v2/polyfill.min.js?features=fetch,promise,Array.prototype.find,Intl"></script>
 	<script src="/static/js/vendor/snap-svg.min.js"></script>
 
 
@@ -40,7 +40,7 @@
 		</div>
 	</div>
 
-	<h1>FINANCIAL TIMES<span class="last-updated" data-isotime=""></span></h1>
+	<h1><small id="detectedTimezone" class="detected-timezone"> </small>FINANCIAL TIMES<span class="last-updated" data-isotime=""></span></h1>
 
 	<div class='main-stories flex-row'>
 		<div class='main-stories__media-container'>

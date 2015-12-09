@@ -52,12 +52,24 @@ h1 {
 	font-weight: 300;
 	white-space: nowrap;
 }
+
 .last-updated {
 	font-family: MetricWeb;
 	color: #808080;
 	font-size: 0.2em;
 	position: absolute;
 	right: 1vw;
+	bottom: 2.3em;
+	display: inline-block;
+}
+
+.detected-timezone {
+	font-family: MetricWeb;
+	color: #808080;
+	font-size: 0.2em;
+	position: absolute;
+	// float: right;
+	left: 1vw;
 	bottom: 2.3em;
 	display: inline-block;
 }
