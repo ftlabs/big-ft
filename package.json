@@ -26,6 +26,7 @@
   "main": "bin/www",
   "devDependencies": {
     "chai": "^3.4.1",
+    "chai-as-promised": "^5.1.0",
     "electron-prebuilt": "^0.31.0",
     "gulp": "^3.9.0",
     "gulp-nodemon": "^2.0.4",
@@ -39,6 +40,7 @@
     "mocha": "^2.3.4",
     "mockery": "^1.4.0",
     "origami-build-tools": "^4.3.2",
+    "sinon": "^1.17.2",
     "supertest": "^1.1.0"
   },
   "scripts": {
