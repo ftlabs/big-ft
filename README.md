@@ -31,3 +31,8 @@ If/Once you have a Docker machine set-up:
 As we are using Heroku Docker for development, we can no longer deploy using `git`.
 
 - Deploy a new release using -- `heroku docker:release --app {APP_NAME}`
+
+### Updating Code-Climate
+- Install Code-Climate's Test Reporter -- `npm install -g codeclimate-test-reporter`
+- Run the tests for the project -- `gulp test`
+- Upload the coverage file to Code-Climate -- `CODECLIMATE_REPO_TOKEN=[your token] codeclimate-test-reporter < coverage/lcov.info`
