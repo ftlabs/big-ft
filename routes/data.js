@@ -1,3 +1,4 @@
+const debug = require('debug')('big-ft:data');
 const SENTRY_DSN = process.env.SENTRY_DSN;
 const raven = require('raven');
 const client = new raven.Client(SENTRY_DSN);
@@ -14,8 +15,9 @@ router.get('/top-stories', (req, res) => {
 
   topStories(startFrom, numberOfArticles)
   .then(data => res.json(data))
-  .catch(e => {
-    client.captureException(e);
+  .catch(error => {
+    debug(`error: ${JSON.stringify(error)}`);
+    client.captureException(error);
     res.sendStatus(503);
   });
 })
@@ -28,8 +30,9 @@ router.get('/search', (req, res) => {
 
   search(searchTerm, startFrom, numberOfArticles)
   .then(data => res.json(data))
-  .catch(e => {
-    client.captureException(e);
+  .catch(error => {
+    debug(`error: ${JSON.stringify(error)}`);
+    client.captureException(error);
     res.sendStatus(503);
   });
 })
