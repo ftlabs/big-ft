@@ -161,5 +161,11 @@ describe('topStories', function () {
 				done();
 			}).catch(done)
 		});
+
+		it('if article contains no images, it is not returned', function (done) {
+			topStoriesFixture.pageItems[0].image = '';
+			expect(topStories(0,1)).to.eventually.deep.equal([topStoriesFixture.pageItems[1]]).notify(done);
+		});
+
 	});
 });
