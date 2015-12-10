@@ -91,9 +91,9 @@ gulp.task('tdd-client', done => {
 });
 
 gulp.task('test-server', () =>
-	gulp.src(['tests/**/*.spec.js'], { read: false })
-	.pipe(mocha({ reporter: 'spec' }))
- 	.on('error', util.log)
+		gulp.src(['tests/**/*.spec.js'], { read: false })
+		.pipe(mocha({ reporter: 'spec', istanbul: true }))
+ 		.on('error', util.log)
 );
 
 gulp.task('test-client', done => {
