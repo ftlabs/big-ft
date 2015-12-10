@@ -4,7 +4,6 @@ const gulp = require('gulp');
 const obt = require('origami-build-tools');
 const nodemon = require('gulp-nodemon');
 const path = require('path');
-const istanbul = require('gulp-istanbul');
 
 const mocha = require('gulp-spawn-mocha');
 const util = require('gulp-util');
@@ -92,24 +91,9 @@ gulp.task('tdd-client', done => {
 });
 
 gulp.task('test-server', () =>
-	gulp.src([].concat(serverJsPaths, './src/**/*.js'))
-	.pipe(istanbul({includeUntested: true}))
-	.pipe(istanbul.hookRequire())
-	.on('finish', () => {
 		gulp.src(['tests/**/*.spec.js'], { read: false })
-		.pipe(mocha({ reporter: 'spec' }))
+		.pipe(mocha({ reporter: 'spec', istanbul: true }))
  		.on('error', util.log)
-		.pipe(istanbul.writeReports({
-    	dir: './assets/unit-test-coverage',
-    	reporters: [ 'lcov' ],
-    	reportOpts: { dir: './assets/unit-test-coverage'}
-  	}))
-		.on('end', () => {
-			const coverage = istanbul.summarizeCoverage();
-			delete coverage.linesCovered;
-			console.log(coverage);
-		});
-	})
 );
 
 gulp.task('test-client', done => {
