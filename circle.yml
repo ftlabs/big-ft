@@ -1,17 +1,17 @@
-machine:
-  pre:
-    - 'sudo curl -L -o /usr/bin/docker "https://s3-external-1.amazonaws.com/circle-downloads/docker-1.9.0-circleci"
-    - 'sudo chmod 0755 /usr/bin/docker'
-  node:
-    version: 5.1.0
-  services:
-    - docker
-
-deployment:
-  production:
+--- 
+deployment: 
+  production: 
     branch: master
-    commands:
-      - 'echo "machine api.heroku.com login jake.champion@ft.com password ${HEROKU_AUTH_TOKEN}" >> ${HOME}/.netrc;'
-      - 'chmod 0600 /home/ubuntu/.netrc;'
-      - 'heroku plugins:install heroku-docker'
-      - 'heroku docker:release --app ftlabs-big-ft-test'
+    commands: 
+      - "echo \"machine api.heroku.com login jake.champion@ft.com password ${HEROKU_AUTH_TOKEN}\" >> ${HOME}/.netrc;"
+      - "chmod 0600 /home/ubuntu/.netrc;"
+      - "heroku plugins:install heroku-docker"
+      - "heroku docker:release --app ftlabs-big-ft-test"
+machine: 
+  node: 
+    version: "5.1.0"
+  pre: 
+    - "sudo curl -L -o /usr/bin/docker \"https://s3-external-1.amazonaws.com/circle-downloads/docker-1.9.0-circleci\""
+    - "sudo chmod 0755 /usr/bin/docker"
+  services: 
+    - docker
