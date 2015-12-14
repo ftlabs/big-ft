@@ -11,12 +11,16 @@ module.exports = function (config) {
 
 		files: [
 			'http://polyfill.webservices.ft.com/v1/polyfill.js?ua=safari/4&features=fetch,CustomEvent,Function.prototype.bind,Element.prototype.closest',
-			{ pattern: './client/tests/*.js', watched: true, included: true, served: true },
+			{ pattern: './client/tests/*.spec.js', watched: true, included: true, served: true },
 			{ pattern: './src/*.js', watched: true, included: false, served: true },
 		],
 
 		preprocessors: {
-			'test/*.test.js': ['webpack']
+			'./client/tests/*.spec.js': ['webpack']
+		},
+
+		proxy : {
+			'web' : 'http://localhost:3000/'
 		},
 
 		reporters: ['progress'],
@@ -25,7 +29,7 @@ module.exports = function (config) {
 		// possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
 		logLevel: config.LOG_INFO,
 		browsers: ['Electron'],
-		singleRun: true,
+		singleRun: false,
 		webpack: {
 			// quiet: true,
 			module: {

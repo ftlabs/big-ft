@@ -105,6 +105,8 @@ gulp.task('test-client', done => {
 
 gulp.task('test', ['test-client', 'test-server']);
 
+gulp.task('e2e', ['nodemon', 'test-client']);
+
 gulp.task('verify-css', verifyCss);
 gulp.task('verify-client-js', verifyClientJs);
 gulp.task('verify-server-js', verifyServerJs);

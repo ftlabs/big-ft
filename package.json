@@ -39,7 +39,11 @@
     "karma-mocha": "^0.2.1",
     "karma-webpack": "^1.7.0",
     "mocha": "^2.3.4",
+    "mocha-generators": "^1.2.0",
     "mockery": "^1.4.0",
+    "moment": "^2.10.6",
+    "nightmare": "^2.0.9",
+    "nightwatch": "^0.8.9",
     "origami-build-tools": "^4.3.2",
     "sinon": "^1.17.2",
     "supertest": "^1.1.0"
