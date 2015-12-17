@@ -152,6 +152,20 @@ h1 {
 	justify-content: flex-start;
 	align-items: center;
 }
+
+.footer-cards [data-active-timezone="true"]{
+	&:after{
+		content: "";
+		width: 6px;
+		height: 6px;
+		background: black;
+		border-radius: 100%;
+		position: absolute;
+		bottom: 5%;
+		margin-left: -3px;
+	}
+}
+
 .footer-cards__card {
 	flex: 0 0 auto;
 	height: 100%;
