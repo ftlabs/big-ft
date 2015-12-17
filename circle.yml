@@ -1,14 +1,9 @@
 ---
-deployment:
-  production:
-    branch: master
-    commands:
-      - "echo \"machine api.heroku.com login jake.champion@ft.com password ${HEROKU_AUTH_TOKEN}\" >> ${HOME}/.netrc;"
-      - "chmod 0600 /home/ubuntu/.netrc;"
-      - "heroku plugins:install heroku-docker"
-      - "heroku docker:release --app ftlabs-big-ft-test"
 machine:
   node:
     version: "5.1.0"
   services:
     - docker
+test:
+  pre:
+    - "npm build"

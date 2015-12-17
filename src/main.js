@@ -88,7 +88,6 @@ const __bigFT = (function (){
 	const currentAppVersion = document.body.getAttribute('data-version');
 
 	let mainStoryTransition;
-	let updateTimeout;
 
 	function prepareMainStories (stories){
 
@@ -386,25 +385,14 @@ const __bigFT = (function (){
 				if(res.status === 200){
 					window.location.reload(true);
 				} else {
-					updateTimeout = setTimeout(update, 5 * (60 * 1000) );
+					setTimeout(update, 5 * (60 * 1000) );
 				}
 			})
 		;
 
 	}
 
-	function setUpdate (){
-
-		const timeUntilMidnightInSeconds = moment().add(1, 'days').startOf('day').unix() - moment().unix();
-		clearTimeout(updateTimeout);
-		updateTimeout = setTimeout(update, timeUntilMidnightInSeconds * 1000);
-
-		console.log("Update available, will update in %f seconds", timeUntilMidnightInSeconds);
-
-	}
-
 	function shouldUpdate (){
-		// Check if there's an update, if there is, update at midnight
 
 		return fetch(`/update?version=${currentAppVersion}`)
 			.then(res => res.json())
@@ -418,11 +406,11 @@ const __bigFT = (function (){
 
 	}
 
-	function whenWasContentLastUpdated(){
+	function whenWasContentLastUpdated (){
 
 		const lastUpdatedTime = lastUpdated.getAttribute('data-isotime') || moment().toISOString();
 
-		lastUpdated.innerHTML = "Last updated: " + moment(lastUpdatedTime).fromNow();
+		lastUpdated.innerHTML = 'Last updated: ' + moment(lastUpdatedTime).fromNow();
 
 	}
 
@@ -440,7 +428,7 @@ const __bigFT = (function (){
 		updateClocks();
 
 		// Update the clocks 2 seconds after the minute has changed
-		setTimeout(function(){
+		setTimeout(function (){
 			updateClocks();
 			setInterval(updateClocks, 60000);
 		}, (62 - moment().seconds() ) * 1000);

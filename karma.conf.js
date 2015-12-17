@@ -5,18 +5,18 @@ module.exports = function (config) {
 
 		plugins: [
 			'karma-mocha',
-			'karma-electron-launcher',
+			'karma-chrome-launcher',
 			'karma-webpack'
 		],
 
 		files: [
 			'http://polyfill.webservices.ft.com/v1/polyfill.js?ua=safari/4&features=fetch,CustomEvent,Function.prototype.bind,Element.prototype.closest',
-			{ pattern: './client/tests/*.js', watched: true, included: true, served: true },
+			{ pattern: './tests/specs/unit/*.spec.js', watched: true, included: true, served: true },
 			{ pattern: './src/*.js', watched: true, included: false, served: true },
 		],
 
 		preprocessors: {
-			'test/*.test.js': ['webpack']
+			'tests/specs/unit/*.spec.js': ['webpack']
 		},
 
 		reporters: ['progress'],
@@ -24,7 +24,7 @@ module.exports = function (config) {
 		colors: true,
 		// possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
 		logLevel: config.LOG_INFO,
-		browsers: ['Electron'],
+		browsers: ['Chrome'],
 		singleRun: true,
 		webpack: {
 			// quiet: true,
