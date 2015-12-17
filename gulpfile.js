@@ -8,8 +8,16 @@ const obt = require('origami-build-tools');
 const path = require('path');
 const selenium = require('selenium-standalone');
 
+/*
+ * Installs the latest version of Selenium and the default WebDrivers - Chrome & IE.
+*/
 const installSelenium = denodeify(selenium.install.bind(selenium));
+
+/*
+ * Starts the Selenium server with all the WebDrivers installed on the machine.
+*/
 const startSeleniumServer = denodeify(selenium.start.bind(selenium));
+
 const exec = denodeify(require('child_process').exec, function(err, stdout, stderr) {
   return [err, [stdout, stderr]];
 });
@@ -27,6 +35,9 @@ const mainScssFilePath = path.join(sourceFolder, mainScssFile);
 const mainJsFilePath = path.join(sourceFolder, mainJsFile);
 const serverJsPaths = ['app.js', 'healthcheck.js', '{routes,bin,lib,middleware}/*'];
 
+/*
+ * Installs Selenium and starts the server, ready to control browsers
+*/
 function installAndStartSelenium () {
 	return installSelenium()
 		.then(startSeleniumServer)
@@ -39,6 +50,9 @@ function installAndStartSelenium () {
 		});
 }
 
+/*
+ * A helper function which holds the config used for OBT build
+*/
 function obtBuildConfig (isDev) {
 	return {
 		buildFolder: buildFolder,
@@ -49,6 +63,9 @@ function obtBuildConfig (isDev) {
 	};
 }
 
+/*
+ * A helper object which holds the config used for OBT verify
+*/
 const obtVerifyConfig = {
 	esLintPath: path.join(__dirname, '.eslintrc'),
 	excludeFiles: ['!public/**/**/*', '!src/js/svgloader.js'],
@@ -56,49 +73,39 @@ const obtVerifyConfig = {
 	sass: mainScssFilePath
 };
 
+/*
+ * A helper function which builds CSS for development and production
+*/
 function buildCss (isDev) {
 	return obt.build.sass(gulp, obtBuildConfig(isDev))
 		.on('end', () => console.log('build-css completed'))
 		.on('error', err => console.warn('build-css errored', err));
 }
 
+/*
+ * A helper function which builds JS for development and production
+*/
 function buildJs (isDev) {
 	return obt.build.js(gulp, obtBuildConfig(isDev))
 		.on('end', () => console.log('build-js completed'))
 		.on('error', err => console.warn('build-js errored', err));
 }
 
-function verifyCss () {
-	return obt.verify.scssLint(gulp, obtVerifyConfig)
-		.on('end', () => console.log('verify-css completed'))
-		.on('error', e => console.log('verify-css linting error', e));
-}
+gulp.task('build:css:dev', () => buildCss(true));
 
-function verifyClientJs () {
-	return obt.verify.esLint(gulp, obtVerifyConfig)
-		.on('end', () => console.log('verify-client-js completed'))
-		.on('error', e => console.log('verify-client-js linting error', e));
-}
+gulp.task('build:js:dev', () => buildJs(true));
 
-function verifyServerJs () {
-	return obt.verify.esLint(gulp, Object.assign({}, obtVerifyConfig, { js: serverJsPaths }))
-		.on('end', () => console.log('verify-server-js completed'))
-		.on('error', e => console.log('verify-server-js linting error', e));
-}
+gulp.task('build:css:prod', () => buildCss(false));
 
-gulp.task('build-css-dev', buildCss.bind(null, true));
+gulp.task('build:js:prod', () => buildJs(false));
 
-gulp.task('build-js-dev', buildJs.bind(null, true));
+gulp.task('build', ['build:css:dev', 'build:js:dev']);
 
-gulp.task('build-css-prod', buildCss.bind(null, false));
+gulp.task('build:prod', ['build:css:prod', 'build:js:prod']);
 
-gulp.task('build-js-prod', buildJs.bind(null, false));
+gulp.task('default', ['watch']);
 
-gulp.task('build', ['build-css-dev', 'build-js-dev']);
-
-gulp.task('build-prod', ['build-css-prod', 'build-js-prod']);
-
-gulp.task('nodemon', function () {
+gulp.task('serve', function () {
 	return nodemon({
 		script: './bin/www',
 		ext: 'js',
@@ -106,12 +113,7 @@ gulp.task('nodemon', function () {
 	});
 });
 
-function serve () {
-	const bin = path.join(__dirname, 'bin', 'www');
-	return spawn(bin, { detached: true})
-		.on('close', () => console.log("serve exited"))
-		.on('error', err => console.error(`"serve" Error: ${err}`));
-}
+gulp.task('start', ['watch']);
 
 gulp.task('test:client', function (done) {
 	return new Server({
@@ -121,8 +123,17 @@ gulp.task('test:client', function (done) {
 	.start();
 });
 
-
 gulp.task('test:e2e', function () {
+	/*
+	 * Spins up the server in a child process ready for the tests to run against.
+	*/
+	function serve () {
+		const bin = path.join(__dirname, 'bin', 'www');
+		return spawn(bin, { detached: true})
+			.on('close', () => console.log("serve exited"))
+			.on('error', err => console.error(`"serve" Error: ${err}`));
+	}
+
 	const child = serve();
 
 	return installAndStartSelenium()
@@ -130,6 +141,9 @@ gulp.task('test:e2e', function () {
 			return new Promise(function(resolve, reject) {
 				const wdioBin = path.join(__dirname, 'node_modules', '.bin','wdio');
 
+				/*
+				 * Executes WebDriverIO client binary to run our tests using the local Selenium server
+				*/
 				const wdio = spawn(wdioBin, ['wdio.conf.js'])
 				
 				wdio.stdout.on('data', function (data) {
@@ -165,18 +179,29 @@ gulp.task('test:server', () =>
 
 gulp.task('test', ['test:client', 'test:server', 'test:e2e']);
 
-gulp.task('verify-css', verifyCss);
-gulp.task('verify-client-js', verifyClientJs);
-gulp.task('verify-server-js', verifyServerJs);
-gulp.task('verify-js', ['verify-client-js', 'verify-server-js']);
-gulp.task('verify', ['verify-css', 'verify-js']);
+gulp.task('verify:css', function verifyCss () {
+	return obt.verify.scssLint(gulp, obtVerifyConfig)
+		.on('end', () => console.log('verify:css completed'))
+		.on('error', e => console.log('verify:css linting error', e));
+});
 
-gulp.task('watch-server-js', () => gulp.watch(serverJsPaths, ['verify-server-js', 'test']));
-gulp.task('watch-client-js', () => gulp.watch(['./src/**/*.js', 'tests/**/*.spec.js'], ['build-js-dev']));
-gulp.task('watch-js', ['watch-server-js', 'watch-client-js']);
-gulp.task('watch-css', () => gulp.watch('./src/**/*.scss', ['verify-css', 'build-css-dev']))
-gulp.task('watch', ['build', 'nodemon', 'watch-js', 'watch-css']);
+gulp.task('verify:js:client', function verifyClientJs () {
+	return obt.verify.esLint(gulp, obtVerifyConfig)
+		.on('end', () => console.log('verify:js:client completed'))
+		.on('error', e => console.log('verify:js:client linting error', e));
+});
 
-gulp.task('start', ['watch']);
+gulp.task('verify:js:server', function verifyServerJs () {
+	return obt.verify.esLint(gulp, Object.assign({}, obtVerifyConfig, { js: serverJsPaths }))
+		.on('end', () => console.log('verify:js:server completed'))
+		.on('error', e => console.log('verify:js:server linting error', e));
+});
 
-gulp.task('default', ['watch']);
+gulp.task('verify:js', ['verify:js:client', 'verify:js:server']);
+gulp.task('verify', ['verify:css', 'verify:js']);
+
+gulp.task('watch:js:server', () => gulp.watch(serverJsPaths, ['verify:js:server', 'test']));
+gulp.task('watch:js:client', () => gulp.watch(['./src/**/*.js', 'tests/**/*.spec.js'], ['build:js:dev']));
+gulp.task('watch:js', ['watch:js:server', 'watch:js:client']);
+gulp.task('watch:css', () => gulp.watch('./src/**/*.scss', ['verify:css', 'build:css:dev']))
+gulp.task('watch', ['build', 'serve', 'watch:js', 'watch:css']);
