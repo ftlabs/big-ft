@@ -80,7 +80,7 @@ const __bigFT = (function (){
 
 	const newsTicker = $('.ticker').ticker();
 	const mediaHolder = document.getElementsByClassName('main-stories')[0];
-	const clocks = document.querySelectorAll('[data-tz]');
+	let clocks = undefined;
 
 	const openingHour = 9;
 	const closingHour = 18;
@@ -432,11 +432,47 @@ const __bigFT = (function (){
 		return Intl.DateTimeFormat().resolved.timeZone; //eslint-disable-line new-cap
 	}
 
+	function checkForClock(timezone){
+		return document.querySelector('[data-tz="' + timezone + '"]') !== null;
+	}
+
+	function setActiveClock(timezone){
+		$('[data-tz="' + timezone + '"]').closest('li').first().attr('data-active-timezone', 'true');
+	}
+
+	function createClock(timezone){
+
+		timezone = timezone || "Europe/London";
+
+		var clockLi = document.createElement('li');
+		var clockName = document.createElement('h3');
+		var clockP = document.createElement('p');
+		var clockTime = document.createElement('time');
+
+		clockLi.setAttribute('class', 'footer-cards__card');
+		clockName.textContent = timezone.split("/")[1];
+		clockTime.setAttribute('data-tz', timezone);
+
+		clockP.appendChild(clockTime);
+		clockLi.appendChild(clockName);
+		clockLi.appendChild(clockP);
+
+		return clockLi;
+
+	}
+
 	function initialise (){
 
-		const timezoneElem = document.querySelector('#detectedTimezone');
+		const currentTimezone = detectTimezone();
+		const clockExistsForTimezone = checkForClock(currentTimezone);
 
-		timezoneElem.innerHTML = detectTimezone();
+		if(!clockExistsForTimezone){
+			const newClock = createClock(currentTimezone);
+			document.getElementsByClassName('footer-cards')[0].appendChild(newClock);
+		}
+
+		setActiveClock(currentTimezone);
+		clocks = document.querySelectorAll('[data-tz]');
 
 		updateContent();
 		updateClocks();
