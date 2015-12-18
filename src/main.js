@@ -371,8 +371,10 @@ const __bigFT = (function (){
 
 			if(currentHour >= openingHour && currentHour < closingHour){
 				$(clock).closest('li').removeClass('footer-cards__card--dim');
+				$(clock).closest('li').addClass('footer-cards__card--light');
 			} else {
 				$(clock).closest('li').addClass('footer-cards__card--dim');
+				$(clock).closest('li').removeClass('footer-cards__card--light');
 			}
 
 		});
