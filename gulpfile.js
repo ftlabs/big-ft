@@ -85,7 +85,7 @@ gulp.task('nodemon', server);
 
 gulp.task('tdd-client', done => {
   new Server({
-    configFile: path.join(__dirname, 'karma.conf.js'),
+    configFile: path.join(__dirname, 'tests', 'karma.conf.js'),
 		singleRun: false
   }, done).start();
 });
@@ -97,8 +97,9 @@ gulp.task('test-server', () =>
 );
 
 gulp.task('test-client', done => {
+	console.log('hi', path.join(__dirname, 'tests', 'karma.conf.js'))
   new Server({
-    configFile: path.join(__dirname, 'karma.conf.js'),
+    configFile: path.join(__dirname, 'tests', 'karma.conf.js'),
     singleRun: true
   }, done).start();
 });
