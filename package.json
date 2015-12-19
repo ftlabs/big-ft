@@ -45,7 +45,9 @@
     "supertest": "^1.1.0"
   },
   "scripts": {
-    "start": "node ./bin/www",
+    "build": "gulp build",
+    "dev": "gulp",
+    "start": "DEBUG=big-ft:* node ./bin/www",
     "test": "gulp test",
     "verify": "gulp verify"
   },
