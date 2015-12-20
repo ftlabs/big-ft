@@ -46,10 +46,10 @@
   },
   "scripts": {
     "build": "gulp build",
-    "dev": "gulp",
+    "develop": "gulp",
+    "lint": "gulp verify",
     "start": "DEBUG=big-ft:* node ./bin/www",
-    "test": "gulp test",
-    "verify": "gulp verify"
+    "test": "gulp test"
   },
   "repository": {
     "type": "git",
