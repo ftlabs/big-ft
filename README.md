@@ -29,6 +29,13 @@ The Docker CLI uses environment variables to figure out what IP address and port
 - Spin up the web process in a container -- `docker-compose up web`
 - Open the application in your browser of choice -- `open "http://$(docker-machine ip default):8080"`
 
+### Day-to-Day Development
+If running Windows/OS X, spin up your Linux virtual machine and export the environment variables needed for Docker to communicate with the machine -- `docker-machine start default && eval "$(docker-machine env default)"`.
+
+The service runs as a Docker Container, interacting with the container will be done via [`docker-compose`](https://www.docker.com/docker-compose).
+
+You can run a one-off command for a service/container via `docker-compose run SERVICE COMMAND [ARGS...]`. For instance, to start this project in development mode, which restarts the server on a file change, you can run -- `docker-compose run -d web npm run develop`. You can build the clientside CSS/JS, run the tests and start the server all from [NPM Scripts](https://docs.npmjs.com/cli/run-script).
+
 ### Deploying
 As we are using Heroku Docker for development, we can no longer deploy using `git`.
 
