@@ -12,12 +12,12 @@ Docker's underlying containerization technology only works on Linux. If running 
 - Check if you already have a Linux virtual machine set-up for Docker, it may be named `default` -- `docker-machine ls`
 
 If you don't have a Linux virtual machine set-up for Docker:
-	- Create a virtual machine -- `docker-machine create --driver virtualbox default` (change the driver value if using vmware or a different hypervisor)
+  - Create a virtual machine -- `docker-machine create --driver virtualbox default` (change the driver value if using vmware or a different hypervisor)
 
 - Check that your machine is running by checking if the `STATE` column outputs `Running` -- `docker-machine ls`
 
 If machine is not running:
-	- Start the machine -- `docker-machine start default`
+  - Start the machine -- `docker-machine start default`
 
 The Docker CLI uses environment variables to figure out what IP address and port to communicate on.
 - This command will export the needed environment variables for you -- `eval "$(docker-machine env default)"`
