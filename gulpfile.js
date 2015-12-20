@@ -97,7 +97,6 @@ gulp.task('test-server', () =>
 );
 
 gulp.task('test-client', done => {
-	console.log('hi', path.join(__dirname, 'tests', 'karma.conf.js'))
   new Server({
     configFile: path.join(__dirname, 'tests', 'karma.conf.js'),
     singleRun: true
