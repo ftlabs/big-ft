@@ -45,9 +45,11 @@
     "supertest": "^1.1.0"
   },
   "scripts": {
-    "start": "node ./bin/www",
-    "test": "gulp test",
-    "verify": "gulp verify"
+    "build": "gulp build",
+    "develop": "gulp",
+    "lint": "gulp verify",
+    "start": "DEBUG=big-ft:* node ./bin/www",
+    "test": "gulp test"
   },
   "repository": {
     "type": "git",
