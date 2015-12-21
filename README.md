@@ -6,6 +6,7 @@
 - [Docker](https://www.docker.com/docker-toolbox) -- _Used for running the application_
 - [Heroku Toolbelt](https://toolbelt.heroku.com/) -- _Used for interacting with the production/testing instances_
 - Heroku Docker plugin -- `heroku plugins:install heroku-docker` -- _Used for deploying the application_
+- [Java Development Kit](http://www.oracle.com/technetwork/java/javase/downloads/index.html) -- Used for testing.
 
 Docker's underlying containerization technology only works on Linux. If running OS X or Windows, you will need a Linux virtual machine to host your Docker containers. If you installed the Docker-Toolbox, you will most likely already have a small Linux virtual machine made for you which is named `default`. 
 
@@ -35,6 +36,9 @@ If running Windows/OS X, spin up your Linux virtual machine and export the envir
 The service runs as a Docker Container, interacting with the container will be done via [`docker-compose`](https://www.docker.com/docker-compose).
 
 You can run a one-off command for a service/container via `docker-compose run SERVICE COMMAND [ARGS...]`. For instance, to start this project in development mode, which restarts the server on a file change, you can run -- `docker-compose run -d web npm run develop`. You can build the clientside CSS/JS, run the tests and start the server all from [NPM Scripts](https://docs.npmjs.com/cli/run-script).
+
+### Testing
+Selenium is used for integration testing. In order to get Selenium running you will need to install the [Java Development Kit](http://www.oracle.com/technetwork/java/javase/downloads/index.html).
 
 ### Deploying
 As we are using Heroku Docker for development, we can no longer deploy using `git`.

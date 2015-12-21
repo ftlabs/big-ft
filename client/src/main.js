@@ -395,7 +395,6 @@ const __bigFT = (function (){
 	}
 
 	function shouldUpdate (){
-		// Check if there's an update, if there is, update at midnight
 
 		return fetch(`/update?version=${currentAppVersion}`)
 			.then(res => res.json())
@@ -409,11 +408,11 @@ const __bigFT = (function (){
 
 	}
 
-	function whenWasContentLastUpdated(){
+	function whenWasContentLastUpdated (){
 
 		const lastUpdatedTime = lastUpdated.getAttribute('data-isotime') || moment().toISOString();
 
-		lastUpdated.innerHTML = "Last updated: " + moment(lastUpdatedTime).fromNow();
+		lastUpdated.innerHTML = 'Last updated: ' + moment(lastUpdatedTime).fromNow();
 
 	}
 
@@ -467,7 +466,7 @@ const __bigFT = (function (){
 		updateClocks();
 
 		// Update the clocks 2 seconds after the minute has changed
-		setTimeout(function(){
+		setTimeout(function (){
 			updateClocks();
 			setInterval(updateClocks, 60000);
 		}, (62 - moment().seconds() ) * 1000);

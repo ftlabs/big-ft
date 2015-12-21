@@ -24,19 +24,22 @@
   "version": "1.0.0",
   "main": "server/bin/www",
   "devDependencies": {
+    "babel-loader": "^6.2.0",
     "chai": "^3.4.1",
     "chai-as-promised": "^5.1.0",
-    "electron-prebuilt": "^0.31.0",
     "karma": "^0.13.15",
-    "karma-electron-launcher": "0.0.5",
+    "karma-chrome-launcher": "^0.2.2",
     "karma-mocha": "^0.2.1",
     "karma-webpack": "^1.7.0",
     "mocha": "^2.3.4",
+    "mocha-generators": "^1.2.0",
     "mockery": "^1.4.0",
     "npm-run-all": "^1.4.0",
     "origami-build-tools": "^4.3.2",
+    "selenium-standalone": "^4.8.0",
     "sinon": "^1.17.2",
-    "supertest": "^1.1.0"
+    "supertest": "^1.1.0",
+    "webdriverio": "^3.3.0"
   },
   "scripts": {
     "build": "npm-run-all clean copy build:app",
@@ -54,7 +57,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "ssh://git@git.svc.ft.com:7999/labsprot/big-ft.git"
+    "url": "https://github.com/ftlabs/big-ft.git"
   },
   "author": "FT Labs",
   "license": "",

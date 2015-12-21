@@ -5,7 +5,7 @@ module.exports = function (config) {
 
 		plugins: [
 			'karma-mocha',
-			'karma-electron-launcher',
+			'karma-chrome-launcher',
 			'karma-webpack'
 		],
 
@@ -24,7 +24,7 @@ module.exports = function (config) {
 		colors: true,
 		// possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
 		logLevel: config.LOG_INFO,
-		browsers: ['Electron'],
+		browsers: ['Chrome'],
 		singleRun: true,
 		webpack: {
 			// quiet: true,
