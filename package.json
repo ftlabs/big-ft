@@ -47,10 +47,12 @@
     "webdriverio": "^3.3.0"
   },
   "scripts": {
+    "build": "gulp build-prod",
+    "develop": "gulp",
+    "lint": "gulp verify",
     "start": "node ./bin/www",
     "test": "gulp test",
-    "verify": "gulp verify",
-    "build": "gulp build-prod"
+    "verify": "gulp verify"
   },
   "repository": {
     "type": "git",

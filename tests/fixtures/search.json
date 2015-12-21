@@ -1,0 +1,89 @@
+{
+  "query": {
+    "queryString": "banks",
+    "queryContext": {
+      "curations": [
+        "ARTICLES"
+      ]
+    },
+    "resultContext": {
+      "maxResults": 10,
+      "offset": 0,
+      "sortField": "lastPublishDateTime",
+      "sortOrder": "DESC",
+      "contextual": true,
+      "highlight": false,
+      "suppressDefaultSort": false
+    }
+  },
+  "results": [
+    {
+      "indexCount": 199663,
+      "curations": [
+        "ARTICLES"
+      ],
+      "results": [
+        {
+          "aspectSet": "article",
+          "modelVersion": "1",
+          "id": "4edff100-9fef-11e5-beba-5e33e2b79e46",
+          "apiUrl": "http:\/\/api.ft.com\/content\/items\/v1\/4edff100-9fef-11e5-beba-5e33e2b79e46"
+        },
+        {
+          "aspectSet": "article",
+          "modelVersion": "1",
+          "id": "03a7a5b6-9e8c-11e5-8ce1-f6219b685d74",
+          "apiUrl": "http:\/\/api.ft.com\/content\/items\/v1\/03a7a5b6-9e8c-11e5-8ce1-f6219b685d74"
+        },
+        {
+          "aspectSet": "article",
+          "modelVersion": "1",
+          "id": "eebfa996-9fb2-11e5-beba-5e33e2b79e46",
+          "apiUrl": "http:\/\/api.ft.com\/content\/items\/v1\/eebfa996-9fb2-11e5-beba-5e33e2b79e46"
+        },
+        {
+          "aspectSet": "article",
+          "modelVersion": "1",
+          "id": "96efc18a-9ff6-11e5-8613-08e211ea5317",
+          "apiUrl": "http:\/\/api.ft.com\/content\/items\/v1\/96efc18a-9ff6-11e5-8613-08e211ea5317"
+        },
+        {
+          "aspectSet": "article",
+          "modelVersion": "1",
+          "id": "538ffcd0-9f5f-11e5-8613-08e211ea5317",
+          "apiUrl": "http:\/\/api.ft.com\/content\/items\/v1\/538ffcd0-9f5f-11e5-8613-08e211ea5317"
+        },
+        {
+          "aspectSet": "article",
+          "modelVersion": "1",
+          "id": "43f6507c-9f68-11e5-beba-5e33e2b79e46",
+          "apiUrl": "http:\/\/api.ft.com\/content\/items\/v1\/43f6507c-9f68-11e5-beba-5e33e2b79e46"
+        },
+        {
+          "aspectSet": "article",
+          "modelVersion": "1",
+          "id": "aecc7126-9fe3-11e5-8613-08e211ea5317",
+          "apiUrl": "http:\/\/api.ft.com\/content\/items\/v1\/aecc7126-9fe3-11e5-8613-08e211ea5317"
+        },
+        {
+          "aspectSet": "article",
+          "modelVersion": "1",
+          "id": "670a8a8c-9f9b-11e5-beba-5e33e2b79e46",
+          "apiUrl": "http:\/\/api.ft.com\/content\/items\/v1\/670a8a8c-9f9b-11e5-beba-5e33e2b79e46"
+        },
+        {
+          "aspectSet": "article",
+          "modelVersion": "1",
+          "id": "4289a87a-9f53-11e5-beba-5e33e2b79e46",
+          "apiUrl": "http:\/\/api.ft.com\/content\/items\/v1\/4289a87a-9f53-11e5-beba-5e33e2b79e46"
+        },
+        {
+          "aspectSet": "article",
+          "modelVersion": "1",
+          "id": "e111848e-9f32-11e5-beba-5e33e2b79e46",
+          "apiUrl": "http:\/\/api.ft.com\/content\/items\/v1\/e111848e-9f32-11e5-beba-5e33e2b79e46"
+        }
+      ]
+    }
+  ]
+}

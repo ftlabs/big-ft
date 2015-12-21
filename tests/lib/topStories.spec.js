@@ -20,8 +20,8 @@ const moduleUnderTest = '../../lib/topStories';
 
 mockery.enable({
 	useCleanCache: true,
-  warnOnReplace: false,
-  warnOnUnregistered: false
+	warnOnReplace: false,
+	warnOnUnregistered: false
 });
 
 mockery.registerAllowable(moduleUnderTest);
