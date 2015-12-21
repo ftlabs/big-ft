@@ -117,7 +117,7 @@ gulp.task('start', ['watch']);
 
 gulp.task('test:client', function (done) {
 	return new Server({
-		configFile: path.join(__dirname, 'karma.conf.js'),
+		configFile: path.join(__dirname, 'tests', 'karma.conf.js'),
 		singleRun: true
 	}, done)
 	.start();
