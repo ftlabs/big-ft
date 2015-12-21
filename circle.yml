@@ -6,6 +6,7 @@ machine:
     - docker
   post:
     - npm install -g npm@3
+    - gem install scss-lint
 test:
   pre:
     - "npm build"
