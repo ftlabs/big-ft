@@ -1,5 +1,7 @@
 'use strict'; // eslint-disable-line strict
+
 /* global describe, it, before, beforeEach, afterEach, after */
+
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 const fs = require('fs');
