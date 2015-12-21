@@ -42,7 +42,7 @@
     "build": "npm-run-all clean copy build:app",
     "build:app": "origami-build-tools build --js=./client/src/main.js --sass=./client/src/main.scss --buildFolder=./client/dist",
     "clean": "rimraf client/dist/**/*",
-    "copy": "cp client/src/js/vendor/* client/dist",
+    "copy": "mkdir -p client/dist && cp client/src/js/vendor/* client/dist",
     "develop": "npm run watch -- --exec 'npm-run-all -p start build'",
     "lint": "obt verify --excludeFiles=\\!client/src/js/**/*.js",
     "start": "DEBUG=big-ft:* node ./server/bin/www",
