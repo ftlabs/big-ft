@@ -4,6 +4,8 @@ machine:
     version: "5.1.0"
   services:
     - docker
+  post:
+    - npm install -g npm@3
 test:
   pre:
     - "npm build"
