@@ -1,5 +1,7 @@
 'use strict'; // eslint-disable-line strict
+
 /* global describe, it, before, beforeEach, afterEach, after */
+
 const expect = require('chai').expect;
 const mockery = require('mockery');
 
