@@ -1,2 +1,3 @@
 FROM jakechampion/heroku-nodejs
-RUN gulp build:prod
+RUN gem install scss-lint
+RUN npm run build

@@ -155,8 +155,8 @@ h1 {
 	align-items: center;
 }
 
-.footer-cards [data-active-timezone="true"]{
-	&:after{
+.footer-cards [data-active-timezone="true"] {
+	&:after {
 		content: "";
 		width: 6px;
 		height: 6px;

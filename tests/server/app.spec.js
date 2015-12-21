@@ -3,12 +3,12 @@
 const request = require('supertest');
 const mockery = require('mockery');
 
-const moduleUnderTest = '../app';
+const moduleUnderTest = '../../server/app';
 
 mockery.enable({
 	useCleanCache: true,
-  warnOnReplace: false,
-  warnOnUnregistered: false
+	warnOnReplace: false,
+	warnOnUnregistered: false
 });
 
 const app = require(moduleUnderTest);

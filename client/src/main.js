@@ -432,10 +432,10 @@ const __bigFT = (function (){
 
 		timezone = timezone || "Europe/London";
 
-		var clockLi = document.createElement('li');
-		var clockName = document.createElement('h3');
-		var clockP = document.createElement('p');
-		var clockTime = document.createElement('time');
+		const clockLi = document.createElement('li');
+		const clockName = document.createElement('h3');
+		const clockP = document.createElement('p');
+		const clockTime = document.createElement('time');
 
 		clockLi.setAttribute('class', 'footer-cards__card');
 		clockName.textContent = timezone.split("/")[1];

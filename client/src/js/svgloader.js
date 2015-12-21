@@ -1,3 +1,4 @@
+/* global mina, Snap */
 /**
  * svgLoader.js v1.0.0
  * http://www.codrops.com
@@ -32,7 +33,7 @@ SVGLoader.prototype.options = {
 }
 
 SVGLoader.prototype._init = function() {
-	var s = Snap( this.el.querySelector( 'svg' ) );
+	var s = Snap( this.el.querySelector( 'svg' ) ); // eslint-disable-line new-cap
 	this.path = s.select( 'path' );
 	this.initialPath = this.path.attr('start');
 
@@ -60,8 +61,8 @@ SVGLoader.prototype.show = function() {
 	if( this.isAnimating ) return false;
 	this.isAnimating = true;
 	// animate svg
-	var self = this,
-		onEndAnimation = function() {
+	var self = this;
+	var onEndAnimation = function() {
 			self.el.classList.add( 'pageload-loading' );
 		};
 	this._animateSVG( 'in', onEndAnimation );
@@ -80,15 +81,15 @@ SVGLoader.prototype.hide = function() {
 }
 
 SVGLoader.prototype._animateSVG = function( dir, callback ) {
-	var self = this,
-		pos = 0,
-		steps = dir === 'out' ? this.closingSteps : this.openingSteps,
-		stepsTotal = dir === 'out' ? this.closingStepsTotal : this.openingStepsTotal,
-		speed = dir === 'out' ? self.options.speedOut : self.options.speedIn,
-		easing = dir === 'out' ? self.options.easingOut : self.options.easingIn,
-		nextStep = function( pos ) {
+	var self = this;
+	var pos = 0;
+	var steps = dir === 'out' ? this.closingSteps : this.openingSteps;
+	var stepsTotal = dir === 'out' ? this.closingStepsTotal : this.openingStepsTotal;
+	var speed = dir === 'out' ? self.options.speedOut : self.options.speedIn;
+	var easing = dir === 'out' ? self.options.easingOut : self.options.easingIn;
+	var nextStep = function( pos ) {
 			if( pos > stepsTotal - 1 ) {
-				if( callback && typeof callback == 'function' ) {
+				if( callback && typeof callback === 'function' ) {
 					callback();
 				}
 				return;

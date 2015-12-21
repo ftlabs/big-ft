@@ -1,10 +1,9 @@
-'use strict';
+'use strict'; // eslint-disable-line strict
+
 /* global describe, it, before, beforeEach, afterEach, after */
+
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
-const fs = require('fs');
-const path = require('path');
-const searchFixturePath = path.join(__dirname, '..', 'fixtures', 'search.json');
 chai.use(chaiAsPromised);
 const expect = chai.expect;
 const mockery = require('mockery');
@@ -21,7 +20,7 @@ const bluebirdMock = {
 };
 mockery.registerMock('bluebird', bluebirdMock);
 
-const moduleUnderTest = '../../lib/search';
+const moduleUnderTest = '../../../server/lib/search';
 
 mockery.enable({
 	useCleanCache: true,

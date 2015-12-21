@@ -1,10 +1,12 @@
-'use strict';
+'use strict'; // eslint-disable-line strict
+
 /* global describe, it, before, beforeEach, afterEach, after */
+
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 const fs = require('fs');
 const path = require('path');
-const topStoriesFixturePath = path.join(__dirname, '..', 'fixtures', 'capi-top-stories.json');
+const topStoriesFixturePath = path.join(__dirname, '../fixtures/capi-top-stories.json');
 chai.use(chaiAsPromised);
 const expect = chai.expect;
 const mockery = require('mockery');
@@ -16,7 +18,7 @@ mockery.registerMock('node-fetch', fetchMock);
 const viewModelMock = sinon.stub();
 mockery.registerMock('./viewModel', viewModelMock);
 
-const moduleUnderTest = '../../lib/topStories';
+const moduleUnderTest = '../../../server/lib/topStories';
 
 mockery.enable({
 	useCleanCache: true,
