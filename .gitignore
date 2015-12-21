@@ -2,5 +2,5 @@
 .env
 .DS_Store
 npm-debug.log
-public/build
+/client/dist
 /coverage/
