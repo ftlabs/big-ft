@@ -23,7 +23,7 @@
   },
   "name": "big-ft",
   "version": "1.0.0",
-  "main": "bin/www",
+  "main": "server/bin/www",
   "devDependencies": {
     "chai": "^3.4.1",
     "chai-as-promised": "^5.1.0",
