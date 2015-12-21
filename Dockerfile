@@ -1,2 +1,2 @@
 FROM jakechampion/heroku-nodejs
-RUN gulp build-prod
+RUN npm run build
