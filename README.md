@@ -6,6 +6,7 @@
 - [Docker](https://www.docker.com/docker-toolbox)
 - [Heroku Toolbelt](https://toolbelt.heroku.com/)
 - Heroku Docker plugin -- `heroku plugins:install heroku-docker`
+- [Java Development Kit](http://www.oracle.com/technetwork/java/javase/downloads/index.html) -- Used for testing.
 
 If running OS X or Windows, [follow these steps for creating a virtual machine for Docker](#creating-a-virtual-machine-for-docker) -- This is a section in this readme file.
 
@@ -26,6 +27,9 @@ If/Once you have a Docker machine set-up:
 - Check that your machine is running -- `docker-machine ls`
 - If machine is not running, boot it up -- `docker-machine start default`
 - Add environment variables to your computer in order to let Docker communicate with the virtual machine -- `eval "$(docker-machine env default)"`
+
+### Testing
+Selenium is used for integration testing. In order to get Selenium running you will need to install the [Java Development Kit](http://www.oracle.com/technetwork/java/javase/downloads/index.html).
 
 ### Deploying
 As we are using Heroku Docker for development, we can no longer deploy using `git`.
