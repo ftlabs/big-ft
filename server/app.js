@@ -15,62 +15,42 @@ const raven = require('raven');
 const client = new raven.Client(SENTRY_DSN);
 client.patchGlobal();
 
-app.engine('hbs', hbs.express4({
-  partialsDir: path.join(__dirname, '/views/partials')
-}));
-
 ftwebservice(app, {
-	manifestPath: path.join(__dirname, '/package.json'),
+	manifestPath: path.join(__dirname, '../package.json'),
 	about: require('./runbook.json'),
 	healthCheck: require('./healthcheck'),
 	goodToGoTest: () => Promise.resolve(true) // TODO
 });
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.engine('hbs', hbs.express4({
+  partialsDir: path.join(__dirname, '/views/partials')
+}));
+app.set('views', path.join(__dirname, 'views')); //TODO: remove this
 app.set('view engine', 'hbs');
 
 // Set-up error reporting to sentry
 app.use(raven.middleware.express.requestHandler(SENTRY_DSN));
 app.use(raven.middleware.express.errorHandler(SENTRY_DSN));
 
-app.use(compression({threshold: 0}));
+app.use(compression({threshold: 0})); //TODO: Use Fastly or Akamai to compress resources
 app.use(logger('dev'));
+
+// Remove
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use('/static', express.static(__dirname + '/public'));
+// Remove ^^
+
+app.use('/static', express.static(path.join(__dirname, '../client/dist')));
 
 app.use('/', routes);
 app.use('/data', data);
 app.use('/update', update);
 
 app.use(function (req, res) {
-  res.sendStatus(404);
+  res.sendStatus(404); // TODO: Redirect to FT 404 Page?
 });
 
-// error handlers
-
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-  app.use(function (err, req, res) {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
-    });
-  });
-} else {
-  // production error handler
-  // no stacktraces leaked to user
-  app.use(function (err, req, res) {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: {}
-    });
-  });
-}
 
 module.exports = app;

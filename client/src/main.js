@@ -88,7 +88,6 @@ const __bigFT = (function (){
 	const currentAppVersion = document.body.getAttribute('data-version');
 
 	let mainStoryTransition;
-	let updateTimeout;
 
 	function prepareMainStories (stories){
 
@@ -388,20 +387,10 @@ const __bigFT = (function (){
 				if(res.status === 200){
 					window.location.reload(true);
 				} else {
-					updateTimeout = setTimeout(update, 5 * (60 * 1000) );
+					setTimeout(update, 5 * (60 * 1000) );
 				}
 			})
 		;
-
-	}
-
-	function setUpdate (){
-
-		const timeUntilMidnightInSeconds = moment().add(1, 'days').startOf('day').unix() - moment().unix();
-		clearTimeout(updateTimeout);
-		updateTimeout = setTimeout(update, timeUntilMidnightInSeconds * 1000);
-
-		console.log("Update available, will update in %f seconds", timeUntilMidnightInSeconds);
 
 	}
 
@@ -444,10 +433,10 @@ const __bigFT = (function (){
 
 		timezone = timezone || "Europe/London";
 
-		var clockLi = document.createElement('li');
-		var clockName = document.createElement('h3');
-		var clockP = document.createElement('p');
-		var clockTime = document.createElement('time');
+		const clockLi = document.createElement('li');
+		const clockName = document.createElement('h3');
+		const clockP = document.createElement('p');
+		const clockTime = document.createElement('time');
 
 		clockLi.setAttribute('class', 'footer-cards__card');
 		clockName.textContent = timezone.split("/")[1];

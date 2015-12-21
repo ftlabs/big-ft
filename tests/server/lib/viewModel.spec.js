@@ -1,11 +1,11 @@
-'use strict';
+'use strict'; // eslint-disable-line strict
 /* global describe, it, before, beforeEach, afterEach, after */
 const expect = require('chai').expect;
 const mockery = require('mockery');
 const fs = require('fs');
 const path = require('path');
-const articleFixturePath = path.join(__dirname, '..', 'fixtures', 'capi-article.json');
-const moduleUnderTest = '../../lib/viewModel';
+const articleFixturePath = path.join(__dirname, '../fixtures/capi-article.json');
+const moduleUnderTest = '../../../server/lib/viewModel';
 
 mockery.enable({
 	useCleanCache: true,

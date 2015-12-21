@@ -1,4 +1,4 @@
-const currentVersion = require('../package.json').version;
+const currentVersion = require('../../package.json').version;
 const semver = require('semver');
 
 module.exports = function (clientVersion) {
