@@ -1,5 +1,3 @@
-'use strict';
-
 const denodeify = require('denodeify');
 const selenium = require('selenium-standalone');
 const installSelenium = denodeify(selenium.install.bind(selenium));
