@@ -10,7 +10,7 @@ describe('Big FT website', () => {
 			.waitForText('h1')
 			.getText('h1');
 
-		expect(title.join('')).to.include('FINANCIAL TIMES');
+		expect(title).to.include('FINANCIAL TIMES');
 	});
 
 	it('has the interstitial shown on page load', function *() {
