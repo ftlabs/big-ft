@@ -53,6 +53,7 @@
     "tdd": "npm run watch -- --exec 'npm-run-all test'",
     "test": "npm-run-all lint test:*",
     "test:client": "karma start ./tests/karma.conf.js",
+    "test:integration": "./server/bin/www & wdio ./tests/wdio.conf.js; kill $!; echo Killed $!",
     "test:server": "istanbul cover _mocha -- -R spec ./tests/server/**/*.spec.js",
     "watch": "nodemon --ignore client/dist --ignore coverage -e js,scss,json"
   },
