@@ -24,6 +24,7 @@
   "version": "1.0.0",
   "main": "server/bin/www",
   "devDependencies": {
+    "babel-core": "^6.3.21",
     "babel-loader": "^6.2.0",
     "chai": "^3.4.1",
     "chai-as-promised": "^5.1.0",
