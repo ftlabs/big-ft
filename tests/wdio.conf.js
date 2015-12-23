@@ -6,10 +6,6 @@ const installSelenium = denodeify(selenium.install.bind(selenium));
 const startSeleniumServer = denodeify(selenium.start.bind(selenium));
 const spawn = require('child_process').spawn;
 
-const bs_local = spawn('BrowserStackLocal', [process.env.BROWSERSTACK_KEY], {
-    detached: true
-});
-
 /*
  * Installs Selenium and starts the server, ready to control browsers
 */
@@ -27,17 +23,6 @@ function installAndStartSelenium () {
 }
 
 exports.config = {
-
-    //
-    // =================
-    // Service Providers
-    // =================
-    // WebdriverIO supports Sauce Labs, Browserstack and Testing Bot (other cloud providers
-    // should work too though). These services define specific user and key (or access key)
-    // values you need to put in here in order to connect to these services.
-    //
-    user: process.env.BROWSERSTACK_USER,
-    key:  process.env.BROWSERSTACK_KEY,
 
     // Define which test specs should run. The pattern is relative to the directory
     // from which `wdio` was called. Notice that, if you are calling `wdio` from an
@@ -60,8 +45,6 @@ exports.config = {
     // https://docs.saucelabs.com/reference/platforms-configurator
     capabilities: [{
         browserName: 'chrome',
-        'browserstack.local' : 'true',
-        'browserstack.debug': 'true',
     }],
 
     // Level of logging verbosity: silent | verbose | command | data | result | error
@@ -74,7 +57,7 @@ exports.config = {
 
     // Set a base URL in order to shorten url command calls. If your url parameter starts
     // with "/", the base url gets prepended.
-    baseUrl: 'http://0.0.0.0:8080/',
+    baseUrl: 'http://localhost:8080',
 
     // Default timeout for all waitForXXX commands.
     waitforTimeout: 30000,
@@ -133,6 +116,5 @@ exports.config = {
     // possible to defer the end of the process using a promise.
     onComplete: function() {
         selenium.child.kill();
-        bs_local.kill();
     }
 };
