@@ -1,11 +1,21 @@
+require('dotenv').load({silent: true});
+
 module.exports = function (config) {
 	config.set({
+		// global config of your BrowserStack account
+		browserStack: {
+			username: process.env.BROWSERSTACK_USER,
+			accessKey: process.env.BROWSERSTACK_KEY,
+			pollingTimeout: 10000,
+			startTunnel: true
+		},
+
 		basePath: '',
 		frameworks: ['mocha'],
 
 		plugins: [
 			'karma-mocha',
-			'karma-chrome-launcher',
+			'karma-browserstack-launcher',
 			'karma-webpack'
 		],
 
@@ -22,21 +32,39 @@ module.exports = function (config) {
 		reporters: ['progress'],
 		port: 9876,
 		colors: true,
+		
 		// possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
 		logLevel: config.LOG_INFO,
-		browsers: ['Chrome'],
+
+		// define browsers
+		customLaunchers: {
+			bs_chrome_mac: {
+				base: 'BrowserStack',
+				browser: 'chrome',
+				browser_version: '47.0',
+				os: 'OS X',
+				os_version: 'Mountain Lion'
+			}
+		},
+
+		browsers: ['bs_chrome_mac'],
+
+		// Continuous Integration mode
+		// if true, Karma captures browsers, runs the tests and exits
 		singleRun: true,
+
 		webpack: {
-			// quiet: true,
 			module: {
 				loaders: [
 					{
 						test: /\.js$/,
+						loader: 'babel',
 						exclude: /node_modules/,
-						loaders: [
-							'babel?optional[]=runtime',
-							'imports?define=>false'
-						]
+						query: {
+							// https://github.com/babel/babel-loader#options
+							cacheDirectory: true,
+							presets: ['es2015']
+						}
 					}
 				]
 			}
