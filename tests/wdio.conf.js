@@ -4,7 +4,6 @@ const denodeify = require('denodeify');
 const selenium = require('selenium-standalone');
 const installSelenium = denodeify(selenium.install.bind(selenium));
 const startSeleniumServer = denodeify(selenium.start.bind(selenium));
-const spawn = require('child_process').spawn;
 
 /*
  * Installs Selenium and starts the server, ready to control browsers
