@@ -22,4 +22,4 @@ test:
     - docker-compose up -d web
     - npm test
   post:
-    - docker stop web
+    - docker-compose stop web
