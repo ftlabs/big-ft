@@ -6,6 +6,6 @@ web:
     - '.:/app/user'
     - '/app/user/node_modules'
   environment:
-    PORT: 8080
+    PORT: 3000
   ports:
-    - '8080:8080'
+    - '3000:3000'

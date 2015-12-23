@@ -28,7 +28,7 @@ The Docker CLI uses environment variables to figure out what IP address and port
 - Change in repository directory -- `cd big-ft`
 - Build a Docker image -- `docker build .`
 - Spin up the web process in a container -- `docker-compose up web`
-- Open the application in your browser of choice -- `open "http://$(docker-machine ip default):8080"`
+- Open the application in your browser of choice -- `open "http://$(docker-machine ip default):3000"`
 
 ### Day-to-Day Development
 If running Windows/OS X, spin up your Linux virtual machine and export the environment variables needed for Docker to communicate with the machine -- `docker-machine start default && eval "$(docker-machine env default)"`.
