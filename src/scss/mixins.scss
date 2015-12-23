@@ -1,9 +1,0 @@
-@mixin flex-container($orientation:row) {
-	flex-flow: $orientation;
-	display: flex;
-	> * {
-		flex: 1 0 auto;
-		position: relative;
-	}
-}
-
