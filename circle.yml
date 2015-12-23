@@ -1,4 +1,9 @@
 ---
+dependencies:
+  pre:
+    - sudo pip install docker-compose
+    - gem install scss_lint
+    - 'cd ~/bin; curl -o BrowserStackLocal-linux-x64.zip https://www.browserstack.com/browserstack-local/BrowserStackLocal-linux-x64.zip && unzip BrowserStackLocal-linux-x64.zip && chmod +x BrowserStackLocal && rm BrowserStackLocal-linux-x64.zip; cd -'
 deployment:
   production:
     branch: master
@@ -13,9 +18,13 @@ machine:
     version: "5.1.0"
   services:
     - docker
-  post:
-    - npm install -g npm@3
-    - gem install scss-lint
 test:
-  pre:
-    - "npm build"
+  # pre:
+    # - docker build -t registry.heroku.com/ftlabs-big-ft-test/web .
+  override:
+    - docker-compose up -d web
+    - npm test
+  post:
+   # docker-compose stop was not stopping containers started with docker-compose run
+   # so using this hackity hack to force stop them all
+   - docker stop $(docker ps -a -q)
