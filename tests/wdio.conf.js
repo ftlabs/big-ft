@@ -8,7 +8,10 @@ const spawn = require('child_process').spawn;
 const path = require('path');
 
 // Start application server
-const app = spawn(path.join(__dirname, '../server/bin/www'));
+const app = spawn('../server/bin/www')
+    .on('error', function (err) {
+        console.log('Failed to start child process.', err);
+    });
 
 // const bs_local = spawn('BrowserStackLocal', [process.env.BROWSERSTACK_KEY], {
 //     detached: true
