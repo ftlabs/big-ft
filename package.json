@@ -49,7 +49,7 @@
   },
   "scripts": {
     "build": "node ./node_modules/npm-run-all/bin/npm-run-all.js clean copy build:app",
-    "build:app": "./node_modules/origami-build-tools/lib/origami-build-tools-cli.js build --js=./client/src/main.js --sass=./client/src/main.scss --buildFolder=./client/dist",
+    "build:app": "./node_modules/origami-build-tools/lib/origami-build-tools-cli.js build --js=./client/src/main.js --sass=./client/src/main.scss --buildFolder=./client/dist --babelRuntime=0",
     "clean": "./node_modules/rimraf/bin.js client/dist/**/*",
     "copy": "mkdir -p client/dist && cp client/src/js/vendor/* client/dist",
     "develop": "npm run watch -- --exec './node_modules/npm-run-all/bin/npm-run-all.js -p start build'",
