@@ -16,7 +16,7 @@ describe('Big FT website', () => {
 	it('has the interstitial shown on page load', function *() {
 		const interstitial = yield browser
 			.url('/')
-			.isVisible('svg',);
+			.isVisible('svg');
 
 		expect(interstitial).to.be.true;
 	});
