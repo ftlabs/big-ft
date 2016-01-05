@@ -5,7 +5,6 @@ const selenium = require('selenium-standalone');
 const installSelenium = denodeify(selenium.install.bind(selenium));
 const startSeleniumServer = denodeify(selenium.start.bind(selenium));
 const spawn = require('child_process').spawn;
-const path = require('path');
 
 // Start application server
 const app = spawn('../server/bin/www')
