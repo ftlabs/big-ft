@@ -58,7 +58,6 @@
     "tdd": "npm run watch -- --exec './node_modules/npm-run-all/bin/npm-run-all.js test'",
     "test": "./node_modules/npm-run-all/bin/npm-run-all.js lint test:*",
     "test:client": "./node_modules/karma/bin/karma start ./tests/karma.conf.js",
-    "test:integration": "./node_modules/webdriverio/bin/wdio ./tests/wdio.conf.js",
     "test:server": "./node_modules/istanbul/index.js cover ./node_modules/mocha/bin/_mocha -- -R spec ./tests/server/**/*.spec.js",
     "watch": "./node_modules/nodemon/bin/nodemon.js --ignore client/dist --ignore coverage -e js,scss,json"
   },
