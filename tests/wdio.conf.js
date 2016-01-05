@@ -8,13 +8,11 @@ const spawn = require('child_process').spawn;
 const path = require('path');
 
 // Start application server
-const app = spawn(path.join(__dirname, '../server/bin/www'), [], {
-    detached: true
-});
+const app = spawn(path.join(__dirname, '../server/bin/www'));
 
-const bs_local = spawn('BrowserStackLocal', [process.env.BROWSERSTACK_KEY], {
-    detached: true
-});
+// const bs_local = spawn('BrowserStackLocal', [process.env.BROWSERSTACK_KEY], {
+//     detached: true
+// });
 
 /*
  * Installs Selenium and starts the server, ready to control browsers
@@ -66,8 +64,8 @@ exports.config = {
     // https://docs.saucelabs.com/reference/platforms-configurator
     capabilities: [{
         browserName: 'chrome',
-        'browserstack.local' : 'true',
-        'browserstack.debug': 'true',
+        // 'browserstack.local' : 'true',
+        // 'browserstack.debug': 'true',
     }],
 
     // Level of logging verbosity: silent | verbose | command | data | result | error
@@ -140,6 +138,6 @@ exports.config = {
     onComplete: function() {
         selenium.child.kill();
         app.kill();
-        bs_local.kill();
+        // bs_local.kill();
     }
 };
