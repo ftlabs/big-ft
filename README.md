@@ -21,6 +21,12 @@ When developing you may want to have the server restart and client files rebuilt
 ### Testing
 Selenium is used for integration testing. In order to get Selenium running you will need to install the [Java Development Kit](http://www.oracle.com/technetwork/java/javase/downloads/index.html).
 
+### Deploying
+We are using [Haikro](https://github.com/matthew-andrews/haikro) for deployment (avoids having to push developer tools to Heroku).
+
+- Deploy a new release to test using -- `npm run deploy:test`
+- Deploy a new release to production using -- `npm run deploy:prod`
+
 ### Updating Code-Climate
 - Install Code-Climate's Test Reporter -- `npm install -g codeclimate-test-reporter`
 - Run the tests for the project -- `gulp test`
