@@ -36,7 +36,7 @@ To configure the big view glory to display articles about Amazon:
 
 - http://big.ft.com/?primaryType=search&primarySearch=amazon
 
-To configure the big view glory to display only the first top-story in th primary section:
+To configure the big view glory to display only the first top-story in the primary section:
 
 - http://big.ft.com/?primaryType=topStories&primaryMax=1
 
