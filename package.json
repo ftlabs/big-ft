@@ -54,6 +54,7 @@
     "copy": "mkdir -p client/dist && cp client/src/js/vendor/* client/dist",
     "develop": "npm run watch -- --exec 'npm-run-all -p start build'",
     "lint": "obt verify --excludeFiles=\\!client/src/js/**/*.js",
+    "postinstall": "npm run build",
     "start": "DEBUG=big-ft:* node ./server/bin/www",
     "tdd": "npm run watch -- --exec 'npm-run-all test'",
     "test": "npm-run-all lint test:*",
