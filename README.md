@@ -21,6 +21,11 @@ When developing you may want to have the server restart and client files rebuilt
 ### Testing
 Selenium is used for integration testing. In order to get Selenium running you will need to install the [Java Development Kit](http://www.oracle.com/technetwork/java/javase/downloads/index.html).
 
+### Updating Code-Climate
+- Install Code-Climate's Test Reporter -- `npm install -g codeclimate-test-reporter`
+- Run the tests for the project -- `gulp test`
+- Upload the coverage file to Code-Climate -- `CODECLIMATE_REPO_TOKEN=[your token] codeclimate-test-reporter < coverage/lcov.info`
+
 ### Usage
 
 To experience the big view glory: 
@@ -34,7 +39,3 @@ To configure the big view glory to display articles about Amazon:
 To customise everything in the big view glory which is customisable:
 
 - http://big.ft.com/?primaryType=search&primarySearch=amazon&primaryOffset=0&primaryMax=1&secondaryType=search&secondarySearch=banks&secondaryOffset=0&secondaryMax=3
-### Updating Code-Climate
-- Install Code-Climate's Test Reporter -- `npm install -g codeclimate-test-reporter`
-- Run the tests for the project -- `gulp test`
-- Upload the coverage file to Code-Climate -- `CODECLIMATE_REPO_TOKEN=[your token] codeclimate-test-reporter < coverage/lcov.info`
