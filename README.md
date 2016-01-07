@@ -27,6 +27,8 @@ We are using [Haikro](https://github.com/matthew-andrews/haikro) for deployment 
 - Deploy a new release to test using -- `npm run deploy:test`
 - Deploy a new release to production using -- `npm run deploy:prod`
 
+If you try and deploy using Heroku's git plugin, it will deploy a broken application as the built files are not be included in the source code.
+
 ### Updating Code-Climate
 - Install Code-Climate's Test Reporter -- `npm install -g codeclimate-test-reporter`
 - Run the tests for the project -- `gulp test`
