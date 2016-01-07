@@ -10,16 +10,10 @@
 #### Setting up development environment
 - Clone the repository -- `git clone git@github.com:ftlabs/big-ft.git`
 - Change in repository directory -- `cd big-ft`
-<<<<<<< HEAD
-- Build a Docker image -- `docker build .`
-- Spin up the web process in a container -- `docker-compose up web`
-- Open the application in your browser of choice -- `open "http://$(docker-machine ip default):3000"`
-=======
 - Install the dependencies -- `npm install`
 - Build the files used by the web client -- `npm run build`
 - Spin up the web server -- `npm start`
 - Open the website in your browser of choice -- `open "localhost:3000"` -- it will default to port 3000
->>>>>>> 4e1b64efeec20c1dd30fc5a9e65487b7ed62d5c0
 
 ### Day-to-Day Development
 When developing you may want to have the server restart and client files rebuilt on any code changes. This can be done with the `develop` npm script -- `npm run develop`.
