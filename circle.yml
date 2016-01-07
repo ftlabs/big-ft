@@ -1,25 +1,10 @@
 ---
 dependencies:
   pre:
-    - sudo pip install docker-compose
     - gem install scss_lint
-deployment:
-  production:
-    branch: master
-    commands:
-      - 'echo "machine api.heroku.com login jake.champion@ft.com password ${HEROKU_AUTH_TOKEN}" >> ${HOME}/.netrc;'
-      - 'chmod 0600 /home/ubuntu/.netrc;'
-      - 'docker login --email=jake.champion@ft.com --username=jakechampion --password=$(heroku auth:token) registry.heroku.com'
-      - 'docker build -t registry.heroku.com/ftlabs-big-ft-test/web .'
-      - 'docker push registry.heroku.com/ftlabs-big-ft-test/web'
 machine:
   node:
     version: "5.1.0"
-  services:
-    - docker
 test:
-  override:
-    - docker-compose up -d web
-    - npm test
-  post:
-    - docker-compose stop web
+  pre:
+    - "npm build"

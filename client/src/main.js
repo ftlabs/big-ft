@@ -250,7 +250,9 @@ const __bigFT = (function (){
 
 	function getUniqueStories (stories) {
 		const storyHeadlines = stories.map(story => story.headline);
-		const uniqueStoryHeadlines = Array(...new Set(storyHeadlines));
+		const uniqueStoryHeadlines = storyHeadlines.filter(function onlyUnique(value, index, self) { 
+			return self.indexOf(value) === index;
+		});
 		const uniqueStories = uniqueStoryHeadlines.map(headline =>
 			stories.find(story => story.headline === headline)
 		);
