@@ -4,6 +4,3 @@
 npm-debug.log
 /client/dist
 /coverage/
-/.haikro-cache/
-/node-linux-x64
-/node-v5.0.0-linux-x64/
