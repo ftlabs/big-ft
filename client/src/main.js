@@ -427,7 +427,7 @@ const __bigFT = (function (){
 		if (useCustomTimezone) {
 			return customTimezone;
 		} else {
-			return Intl.DateTimeFormat().resolved.timeZone;
+			return Intl.DateTimeFormat().resolvedOptions().timeZone; // eslint-disable-line new-cap
 		}
 	}
 
