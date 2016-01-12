@@ -20,4 +20,12 @@ describe('Big FT website', () => {
 
 		expect(interstitial).to.be.true;
 	});
+
+	it('can override the timezone shown on page load', function *() {
+		const activeTimezone = yield browser
+			.url('/?timezone=Asia/Tokyo')
+			.getText('[data-active-timezone="true"]');
+
+		expect(activeTimezone).to.include('TOKYO');
+	});
 });
