@@ -24,7 +24,7 @@ describe('Big FT website', () => {
 	it('can override the timezone shown on page load', function *() {
 		const activeTimezone = yield browser
 			.url('/?timezone=Asia/Tokyo')
-			.waitForExist('[data-active-timezone="true"]', 5000)
+			.waitForExist('[data-active-timezone="true"]', 10000)
 			.getText('[data-active-timezone="true"]');
 		expect(activeTimezone).to.include('TOKYO');
 	});
@@ -32,9 +32,9 @@ describe('Big FT website', () => {
 	it('adds a new clock if the timezone of the device is not one of the default timezones', function *() {
 		const activeTimezone = yield browser
 			.url('/')
-			.waitForExist('[data-tz="Asia/Seoul"]', 5000, true)
+			.waitForExist('[data-tz="Asia/Seoul"]', 10000, true)
 			.url('/?timezone=Asia/Seoul')
-			.waitForExist('[data-tz="Asia/Seoul"]', 5000)
+			.waitForExist('[data-tz="Asia/Seoul"]', 10000)
 			.getText('[data-active-timezone="true"]');
 
 		expect(activeTimezone).to.include('SEOUL');
@@ -43,7 +43,7 @@ describe('Big FT website', () => {
 	it('uses default timezone of device if custom timezone does not exist', function *() {
 		const activeTimezone = yield browser
 			.url('/?timezone=MiddleEarth/Hobbiton')
-			.waitForExist('[data-active-timezone="true"]', 5000)
+			.waitForExist('[data-active-timezone="true"]', 10000)
 			.getText('[data-active-timezone="true"]');
 
 		expect(activeTimezone).to.include('LONDON');
