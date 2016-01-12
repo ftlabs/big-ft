@@ -9,6 +9,8 @@ const queryString = require('query-string');
 const SVGLoader = require('./js/svgloader');
 require('./js/ticker');
 
+const isTimezone = require('./js/isTimezone');
+
 /*
 	Customisation
 	?primaryType=topStories
@@ -22,6 +24,9 @@ require('./js/ticker');
 */
 
 const parsed = queryString.parse(location.search);
+
+const customTimezone = parsed.timezone;
+const useCustomTimezone = isTimezone(customTimezone);
 
 const primaryType = parsed.primaryType;
 const primarySearch = parsed.primarySearch;
@@ -419,7 +424,11 @@ const __bigFT = (function (){
 	}
 
 	function detectTimezone () {
-		return Intl.DateTimeFormat().resolved.timeZone; //eslint-disable-line new-cap
+		if (useCustomTimezone) {
+			return customTimezone;
+		} else {
+			return Intl.DateTimeFormat().resolved.timeZone;
+		}
 	}
 
 	function checkForClock(timezone){

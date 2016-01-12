@@ -65,6 +65,10 @@ module.exports = function (config) {
 							cacheDirectory: true,
 							presets: ['es2015']
 						}
+					},
+					{
+						include: /\.json$/,
+						loaders: ['json-loader']
 					}
 				]
 			}
