@@ -465,7 +465,7 @@ const __bigFT = (function (){
 	function initialise (){
 
 		const currentTimezone = detectTimezone();
-		console.log('DETECTED TIMEZONE:', currentTimezone);
+		console.log('DETECTED TIMEZONE: ' + currentTimezone + ' - length: ' + currentTimezone.length);
 		const clockExistsForTimezone = checkForClock(currentTimezone);
 
 		if(!clockExistsForTimezone){
