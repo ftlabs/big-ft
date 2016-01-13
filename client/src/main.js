@@ -427,7 +427,9 @@ const __bigFT = (function (){
 		if (useCustomTimezone) {
 			return customTimezone;
 		} else {
-			return Intl.DateTimeFormat().resolvedOptions().timeZone || 'Europe/London'; // eslint-disable-line new-cap
+			const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+			return  timezone !== '' ? timezone : 'Europe/London'; // eslint-disable-line new-cap
 		}
 	}
 
