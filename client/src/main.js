@@ -427,7 +427,7 @@ const __bigFT = (function (){
 		if (useCustomTimezone) {
 			return customTimezone;
 		} else {
-			return Intl.DateTimeFormat().resolvedOptions().timeZone; // eslint-disable-line new-cap
+			return Intl.DateTimeFormat().resolvedOptions().timeZone || 'Europe/London'; // eslint-disable-line new-cap
 		}
 	}
 
@@ -463,7 +463,6 @@ const __bigFT = (function (){
 	function initialise (){
 
 		const currentTimezone = detectTimezone();
-		console.log('DETECTED TIMEZONE:', currentTimezone);
 		const clockExistsForTimezone = checkForClock(currentTimezone);
 
 		if(!clockExistsForTimezone){
