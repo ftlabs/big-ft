@@ -10,6 +10,7 @@ const SVGLoader = require('./js/svgloader');
 require('./js/ticker');
 
 const isTimezone = require('./js/isTimezone');
+const getCityFromTimezone = require('./js/getCityFromTimezone');
 
 /*
 	Customisation
@@ -443,15 +444,13 @@ const __bigFT = (function (){
 
 	function createClock(timezone){
 
-		timezone = timezone || "Europe/London";
-
 		const clockLi = document.createElement('li');
 		const clockName = document.createElement('h3');
 		const clockP = document.createElement('p');
 		const clockTime = document.createElement('time');
 
 		clockLi.setAttribute('class', 'footer-cards__card');
-		clockName.textContent = timezone.split("/")[1];
+		clockName.textContent = getCityFromTimezone(timezone);
 		clockTime.setAttribute('data-tz', timezone);
 
 		clockP.appendChild(clockTime);

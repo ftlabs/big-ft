@@ -4,7 +4,7 @@
 
 const expect = require('chai').expect;
 
-const isTimezone = require('../../client/src/js/isTimezone.js');
+const isTimezone = require('../../../client/src/js/isTimezone.js');
 
 describe('isTimezone', function () {
 
