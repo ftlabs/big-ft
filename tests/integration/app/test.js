@@ -24,7 +24,7 @@ describe('Big FT website', () => {
 	it('can override the timezone shown on page load', function *() {
 		const activeTimezone = yield browser
 			.url('/?timezone=Asia/Tokyo')
-			.waitForExist('[data-active-timezone="true"]', 10000)
+			.waitForExist('[data-active-timezone="true"]', 25000)
 			.getText('[data-active-timezone="true"]');
 		expect(activeTimezone).to.include('TOKYO');
 	});
