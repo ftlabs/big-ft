@@ -74,4 +74,14 @@ describe('Big FT website', () => {
 		return expect(activeTimezone).to.eventually.include('LONDON')
 		.then(undefined, printLogOnError);
 	});
+
+	it('uses default timezone of device if no custom timezone specified', function () {
+		const activeTimezone = browser
+			.url('/')
+			.waitForExist('[data-active-timezone="true"]', 10000)
+			.getText('[data-active-timezone="true"]');
+
+		return expect(activeTimezone).to.eventually.include('LONDON')
+		.then(undefined, printLogOnError);
+	});
 });
