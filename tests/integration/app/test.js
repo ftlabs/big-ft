@@ -24,7 +24,16 @@ describe('Big FT website', () => {
 	it('can override the timezone shown on page load', function *() {
 		const activeTimezone = yield browser
 			.url('/?timezone=Europe/London')
-			.waitForExist('[data-active-timezone="true"]', 25000)
+			.waitForExist('[data-active-timezone="true"]', 10000)
+			.log('browser')
+			.then(function (logs) {
+				console.log(logs.
+					value
+					.filter(i => !!i.message.trim())
+					.map(v => `${(new Date(Number(v.timestamp))).toTimeString()}: ${v.message}`)
+					.join('\n')
+				)
+			})
 			.getText('[data-active-timezone="true"]');
 
 		expect(activeTimezone).to.include('LONDON');
