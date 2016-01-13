@@ -21,12 +21,12 @@ module.exports = function (config) {
 
 		files: [
 			'http://polyfill.webservices.ft.com/v1/polyfill.js?ua=safari/4&features=fetch,CustomEvent,Function.prototype.bind,Element.prototype.closest',
-			{ pattern: './client/*.js', watched: true, included: true, served: true },
+			{ pattern: './client/**/*.js', watched: true, included: true, served: true },
 			{ pattern: '../client/src/*.js', watched: true, included: false, served: true },
 		],
 
 		preprocessors: {
-			'./client/*.spec.js': ['webpack']
+			'./client/**/*.spec.js': ['webpack']
 		},
 
 		reporters: ['progress'],
@@ -65,6 +65,10 @@ module.exports = function (config) {
 							cacheDirectory: true,
 							presets: ['es2015']
 						}
+					},
+					{
+						include: /\.json$/,
+						loaders: ['json-loader']
 					}
 				]
 			}

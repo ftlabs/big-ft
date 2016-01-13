@@ -9,6 +9,9 @@ const queryString = require('query-string');
 const SVGLoader = require('./js/svgloader');
 require('./js/ticker');
 
+const isTimezone = require('./js/isTimezone');
+const getCityFromTimezone = require('./js/getCityFromTimezone');
+
 /*
 	Customisation
 	?primaryType=topStories
@@ -22,6 +25,9 @@ require('./js/ticker');
 */
 
 const parsed = queryString.parse(location.search);
+
+const customTimezone = parsed.timezone;
+const useCustomTimezone = isTimezone(customTimezone);
 
 const primaryType = parsed.primaryType;
 const primarySearch = parsed.primarySearch;
@@ -419,7 +425,13 @@ const __bigFT = (function (){
 	}
 
 	function detectTimezone () {
-		return Intl.DateTimeFormat().resolved.timeZone; //eslint-disable-line new-cap
+		if (useCustomTimezone) {
+			return customTimezone;
+		} else {
+			const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;  // eslint-disable-line new-cap
+
+			return timezone !== '' ? timezone : 'Europe/London';
+		}
 	}
 
 	function checkForClock(timezone){
@@ -432,15 +444,13 @@ const __bigFT = (function (){
 
 	function createClock(timezone){
 
-		timezone = timezone || "Europe/London";
-
 		const clockLi = document.createElement('li');
 		const clockName = document.createElement('h3');
 		const clockP = document.createElement('p');
 		const clockTime = document.createElement('time');
 
 		clockLi.setAttribute('class', 'footer-cards__card');
-		clockName.textContent = timezone.split("/")[1];
+		clockName.textContent = getCityFromTimezone(timezone);
 		clockTime.setAttribute('data-tz', timezone);
 
 		clockP.appendChild(clockTime);

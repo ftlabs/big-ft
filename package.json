@@ -33,6 +33,7 @@
     "chai": "^3.4.1",
     "chai-as-promised": "^5.1.0",
     "istanbul": "^0.4.1",
+    "json-loader": "^0.5.4",
     "karma": "^0.13.15",
     "karma-browserstack-launcher": "^0.1.8",
     "karma-chrome-launcher": "^0.2.2",
@@ -59,6 +60,7 @@
     "tdd": "npm run watch -- --exec 'npm-run-all test'",
     "test": "npm-run-all lint test:*",
     "test:client": "karma start ./tests/karma.conf.js",
+    "test:integration": "wdio ./tests/wdio.conf.js",
     "test:server": "istanbul cover _mocha -- -R spec ./tests/server/**/*.spec.js",
     "watch": "nodemon --ignore client/dist --ignore coverage -e js,scss,json"
   },
