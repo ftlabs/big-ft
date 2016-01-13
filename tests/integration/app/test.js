@@ -23,10 +23,11 @@ describe('Big FT website', () => {
 
 	it('can override the timezone shown on page load', function *() {
 		const activeTimezone = yield browser
-			.url('/?timezone=Asia/Tokyo')
+			.url('/?timezone=Europe/London')
 			.waitForExist('[data-active-timezone="true"]', 25000)
 			.getText('[data-active-timezone="true"]');
-		expect(activeTimezone).to.include('TOKYO');
+
+		expect(activeTimezone).to.include('LONDON');
 	});
 
 	it('adds a new clock if the timezone of the device is not one of the default timezones', function *() {
