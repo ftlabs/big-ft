@@ -1,3 +1,5 @@
+'use strict';
+
 const fetch = require('node-fetch');
 const briefArticle = require('./viewModel');
 const R = require('ramda');
