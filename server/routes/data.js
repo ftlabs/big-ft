@@ -10,9 +10,9 @@ const cors = require('../middleware/cors');
 
 router.use(cors);
 router.get('/top-stories', (req, res) => {
-  const startFrom        = req.query.startFrom;
+  const startFrom = req.query.startFrom;
   const numberOfArticles = req.query.numberOfArticles;
-  const edition          = req.query.edition
+  const edition = req.query.edition
 
   topStories(startFrom, numberOfArticles, edition)
   .then(data => res.json(data))

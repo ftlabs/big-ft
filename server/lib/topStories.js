@@ -4,10 +4,10 @@ const R = require('ramda');
 const briefArticleMapper = R.map(briefArticle);
 
 const siteApiEndpoint = process.env.siteApiEndpoint;
-const mainContentKey  = process.env.mainContentKey;
-const apiKey          = process.env.apiKey;
-const frontPageIdUK   = process.env.frontPageId;
-const frontPageIdUS   = process.env.frontPageIdUS;
+const mainContentKey = process.env.mainContentKey;
+const apiKey = process.env.apiKey;
+const frontPageIdUK = process.env.frontPageId;
+const frontPageIdUS = process.env.frontPageIdUS;
 
 // edition can be "US" or "INTL" (both meaning US), or "UK" (and anything except "US"/"INTL", including null or "", i.e. its the default)
 module.exports = function (startFrom, numberOfArticles, edition){
@@ -19,7 +19,7 @@ module.exports = function (startFrom, numberOfArticles, edition){
     numberOfArticles = Infinity;
   }
 
-  var frontPageId = frontPageIdUK; // the default
+  let frontPageId = frontPageIdUK; // the default
   if (edition && (edition === "US" || edition === "INTL" )) {
     frontPageId = frontPageIdUS;
   }
