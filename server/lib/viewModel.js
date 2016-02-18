@@ -1,6 +1,8 @@
 /* eslint strict:0 */
 
 module.exports = function (article) {
+	'use strict';
+
 	const headline = article.title.title;
 	const lastPublishDateTime = article.lifecycle.lastPublishDateTime;
 	const id = article.id;

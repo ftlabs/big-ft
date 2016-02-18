@@ -11,7 +11,9 @@ const frontPageIdUK = process.env.frontPageId;
 const frontPageIdUS = process.env.frontPageIdUS;
 
 // edition can be "US" or "INTL" (both meaning US), or "UK" (and anything except "US"/"INTL", including null or "", i.e. its the default)
-module.exports = function (startFrom, numberOfArticles, edition){
+module.exports = function (startFrom, numberOfArticles, edition) {
+	'use strict';
+
 	if (isNaN(startFrom)) {
 		startFrom = 0;
 	}

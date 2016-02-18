@@ -9,6 +9,17 @@ const path = require('path');
 
 // Start application server
 const app = spawn(path.join(__dirname, '../server/bin/www'));
+app.stdout.on('data', function (data) {
+  console.log('stdout: ' + data);
+});
+
+app.stderr.on('data', function (data) {
+  console.log('stderr: ' + data);
+});
+
+app.on('exit', function (code) {
+  console.log('child process exited with code ' + code);
+});
 
 /*
  * Installs Selenium and starts the server, ready to control browsers
