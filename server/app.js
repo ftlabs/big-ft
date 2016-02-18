@@ -1,3 +1,4 @@
+'use strict';
 const SENTRY_DSN = process.env.SENTRY_DSN;
 const express = require('express');
 const compression = require('compression');
