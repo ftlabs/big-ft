@@ -1,4 +1,3 @@
-'use strict';
 const debug = require('debug')('big-ft:data');
 const SENTRY_DSN = process.env.SENTRY_DSN;
 const raven = require('raven');

@@ -1,4 +1,3 @@
-'use strict';
 const currentVersion = require('../../package.json').version;
 const semver = require('semver');
 

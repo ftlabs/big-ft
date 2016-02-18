@@ -1,5 +1,3 @@
-'use strict';
-
 function inWhitelist (requestersOrigin) {
 	// Only allow ft subdomains
 	const subdomainRegex = /^(https?:\/\/)?((([^.]+)\.)*)ft\.com(:[0-9]{1,4})?$/;

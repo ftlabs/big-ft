@@ -1,5 +1,4 @@
 /* eslint strict:0 */
-'use strict';
 
 module.exports = function (article) {
 	const headline = article.title.title;

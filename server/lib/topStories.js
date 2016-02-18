@@ -1,4 +1,4 @@
-'use strict';
+/* eslint strict:0 */
 const fetch = require('node-fetch');
 const briefArticle = require('./viewModel');
 const R = require('ramda');

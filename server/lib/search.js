@@ -1,4 +1,3 @@
-'use strict';
 const fetch = require('node-fetch');
 const present = require('./viewModel');
 const bluebird = require('bluebird');

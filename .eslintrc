@@ -6,7 +6,7 @@
     "node": true
   },
   "ecmaFeatures": {
-    "modules": false
+    "modules": true
   },
   "rules": {
     "no-unused-vars": 2,
