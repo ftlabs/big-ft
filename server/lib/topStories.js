@@ -25,7 +25,7 @@ module.exports = function (startFrom, numberOfArticles, edition) {
 	if (edition) {
     let editionUC = edition.toUpperCase();
     if (editionUC === 'US' || editionUC === 'INTL') {
-		  frontPageId = frontPageIdUS;
+      frontPageId = frontPageIdUS;
     }
 	}
 
