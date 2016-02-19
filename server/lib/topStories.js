@@ -4,10 +4,10 @@ const briefArticle = require('./viewModel');
 const R = require('ramda');
 const briefArticleMapper = R.map(briefArticle);
 
-const apiOrigin = process.env.apiOrigin;
 const apiKey = process.env.apiKey;
-const frontPageIdUK = process.env.frontPageId;
-const frontPageIdUS = process.env.frontPageIdUS;
+const apiOrigin = 'http://api.ft.com/site/v1/pages';
+const frontPageIdUK = '4c499f12-4e94-11de-8d4c-00144feabdc0';
+const frontPageIdUS = 'b0ed86f4-4e94-11de-8d4c-00144feabdc0';
 
 // edition can be "US" or "INTL" (both meaning US), or "UK" (and anything except "US"/"INTL", including null or "", i.e. its the default)
 module.exports = function (startFrom, numberOfArticles, edition) {
@@ -22,8 +22,11 @@ module.exports = function (startFrom, numberOfArticles, edition) {
 	}
 
 	let frontPageId = frontPageIdUK; // the default
-	if (edition && (edition === 'US' || edition === 'INTL' )) {
-		frontPageId = frontPageIdUS;
+	if (edition) {
+    let editionUC = edition.toUpperCase();
+    if (editionUC === 'US' || editionUC === 'INTL') {
+		  frontPageId = frontPageIdUS;
+    }
 	}
 
 	return fetch(`${apiOrigin}/${frontPageId}/main-content?apiKey=${apiKey}`)
