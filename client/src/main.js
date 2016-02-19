@@ -39,6 +39,9 @@ const secondarySearch = parsed.secondarySearch;
 const secondaryOffset = isNaN(parseInt(parsed.secondaryOffset)) ? 0 : parseInt(parsed.secondaryOffset);
 const secondaryMax = isNaN(parseInt(parsed.secondaryMax)) ? 10 : parseInt(parsed.secondaryMax);
 
+const defaultEdition = 'UK';
+const edition = (parsed.edition) ? parsed.edition : defaultEdition;
+
 const serviceUrl = '/data';
 const topStoriesUrl = serviceUrl + '/top-stories';
 const searchStoriesUrl = serviceUrl + '/search';
@@ -49,21 +52,21 @@ function wait (ms) {
 	});
 }
 
-function getStories (type, offset, amount, term) {
+function getStories (type, offset, amount, term, edition) {
 	switch (type) {
 		case 'search':
 			return getSearchStories(offset, amount, term);
 			break
 		case 'topStories':
-			return getTopStories(offset, amount);
-			break;
+			return getTopStories(offset, amount, edition);
+			break
 		default:
-			return getTopStories(offset, amount);
+			return getTopStories(offset, amount, edition);
 	}
 }
 
-function getTopStories (offset, amount) {
-	return fetch(topStoriesUrl + '?startFrom=' + offset + '&numberOfArticles=' + amount)
+function getTopStories (offset, amount, edition) {
+	return fetch(topStoriesUrl + '?startFrom=' + offset + '&numberOfArticles=' + amount + '&edition=' + edition)
 		.then(function (response) {
 			return response.json();
 		})
@@ -297,8 +300,8 @@ const __bigFT = (function (){
 	}
 
 	function updateContent (){
-		const primaryStories = getStories(primaryType, primaryOffset, primaryMax, primarySearch);
-		const secondaryStories = getStories(secondaryType, secondaryOffset, secondaryMax, secondarySearch);
+		const primaryStories = getStories(primaryType, primaryOffset, primaryMax, primarySearch, edition);
+		const secondaryStories = getStories(secondaryType, secondaryOffset, secondaryMax, secondarySearch, edition);
 
 		Promise.all([primaryStories, secondaryStories])
 			.then(function (stories) {
