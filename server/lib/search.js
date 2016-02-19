@@ -2,7 +2,7 @@ const fetch = require('node-fetch');
 const present = require('./viewModel');
 const bluebird = require('bluebird');
 
-const searchApiEndpoint = process.env.searchApiEndpoint;
+const searchApiEndpoint = 'http://api.ft.com/content/search/v1';
 const apiKey = process.env.apiKey;
 
 module.exports = (keyword, startFrom, numberOfArticles) => {
