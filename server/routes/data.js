@@ -13,11 +13,12 @@ router.get('/top-stories', (req, res) => {
 	const startFrom = req.query.startFrom;
 	const numberOfArticles = req.query.numberOfArticles;
 	const edition = req.query.edition;
-  const organisation = req.query.organisation;
+	const organisation = req.query.organisation;
 
 	topStories(startFrom, numberOfArticles, edition, organisation)
 	.then(data => res.json(data))
 	.catch(error => {
+		console.log(error, error.stack);
 		debug(`error: ${JSON.stringify(error)}`);
 		client.captureException(error);
 		res.sendStatus(503);

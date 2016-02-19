@@ -9,7 +9,6 @@ const apiOrigin = process.env.apiOrigin;
 const apiKey = process.env.apiKey;
 const frontPageIdUK = process.env.frontPageId;
 const frontPageIdUS = process.env.frontPageIdUS;
-const co = require('co');
 
 // edition can be "US" or "INTL" (both meaning US), or "UK" (and anything except "US"/"INTL", including null or "", i.e. its the default)
 module.exports = function (startFrom, numberOfArticles, edition, organisation) {
@@ -37,18 +36,25 @@ module.exports = function (startFrom, numberOfArticles, edition, organisation) {
 			.then(response => response.json())
 			.then(json => json[0].id);
 
+			console.log(id);
+
 			const newApiReq = yield fetch(`http://api.ft.com/content?isAnnotatedBy=${id}&authority=http://api.ft.com/system/FT-TME&bindings=v1&apiKey=${apiKey}`)
 			.then(response => response.json())
 			.then(json => json.content[0].apiUrl)
 
+			console.log(newApiReq);
+
 			const article = yield fetch(newApiReq + `?apiKey=${apiKey}`)
 			.then(response => response.json());
 
+			console.log(article);
 			return article;
 		}).then(article => [article], () => []);
 	} else {
 		organisationPromise = Promise.resolve([]);
 	}
+
+	console.log(apiOrigin);
 
 	const articlePromise = fetch(`${apiOrigin}/${frontPageId}/main-content?apiKey=${apiKey}`)
 	.then(response => response.json())
@@ -59,7 +65,9 @@ module.exports = function (startFrom, numberOfArticles, edition, organisation) {
 		return articlesWithImages.slice(startFrom).slice(0, numberOfArticles);
 	});
 
-	return Promise.all(organisationPromise, articlePromise).then(function (organisations, articles) {
+	return bluebird.all([organisationPromise, articlePromise]).then(function (results) {
+		const organisations = results[0];
+		const articles = results[articles];
 		if (organisations[0]) {
 			articles.unshift(organisations[0]);
 		}
