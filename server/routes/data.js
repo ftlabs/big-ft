@@ -18,7 +18,6 @@ router.get('/top-stories', (req, res) => {
 	topStories(startFrom, numberOfArticles, edition, organisation)
 	.then(data => res.json(data))
 	.catch(error => {
-		console.log(error, error.stack);
 		debug(`error: ${JSON.stringify(error)}`);
 		client.captureException(error);
 		res.sendStatus(503);

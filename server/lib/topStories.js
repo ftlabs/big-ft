@@ -3,7 +3,8 @@ const fetch = require('node-fetch');
 const briefArticle = require('./viewModel');
 const R = require('ramda');
 const briefArticleMapper = R.map(briefArticle);
-const bluebird = require("bluebird");
+const co = require('co');
+const debug = require('debug')('big-ft:topStories');
 
 const apiKey = process.env.apiKey;
 const apiOrigin = 'http://api.ft.com/site/v1/pages';
@@ -24,40 +25,62 @@ module.exports = function (startFrom, numberOfArticles, edition, organisation) {
 
 	let frontPageId = frontPageIdUK; // the default
 	if (edition) {
-    let editionUC = edition.toUpperCase();
-    if (editionUC === 'US' || editionUC === 'INTL') {
-      frontPageId = frontPageIdUS;
-    }
+		let editionUC = edition.toUpperCase();
+		if (editionUC === 'US' || editionUC === 'INTL') {
+			frontPageId = frontPageIdUS;
+		}
 	}
 
 
 	let organisationPromise;
 	if (organisation) {
 
-		organisationPromise = bluebird.coroutine(function * () {
+		organisationPromise = co(function * () {
+
 			const id = yield fetch('https://next.ft.com/search-suggestions?flatten=true&limit=1&exclude=special&q=twitter')
 			.then(response => response.json())
 			.then(json => json[0].id);
 
-			console.log(id);
-
-			const newApiReq = yield fetch(`http://api.ft.com/content?isAnnotatedBy=${id}&authority=http://api.ft.com/system/FT-TME&bindings=v1&apiKey=${apiKey}`)
+			const orgArticles = yield fetch(`http://api.ft.com/content?isAnnotatedBy=${id}&authority=http://api.ft.com/system/FT-TME&bindings=v1&apiKey=${apiKey}`)
 			.then(response => response.json())
-			.then(json => json.content[0].apiUrl)
+			.then(json => json.content);
 
-			console.log(newApiReq);
+			let chosenArticles = [];
+			for (let orgArticle of orgArticles) {
 
-			const article = yield fetch(newApiReq + `?apiKey=${apiKey}`)
-			.then(response => response.json());
+				// get v1 article
+				const newApiReq = orgArticle.apiUrl.replace(/^http:\/\/api.ft.com\/content\//, 'http://api.ft.com/content/items/v1/');
+				const article = yield fetch(newApiReq + `?apiKey=${apiKey}`)
+				.then(response => response.json())
+				.then(json => json.item);
 
-			console.log(article);
-			return article;
-		}).then(article => [article], () => []);
+				// if the article was published 2 or more days ago then stop checking
+				const daysAgoPublished = Math.floor((Date.now() - (new Date(article.lifecycle.lastPublishDateTime)))/(3600*24*1000));
+				if (daysAgoPublished >= 2) {
+					break;
+				}
+
+				// Find image and headline
+				if (article.images && article.images.length) {
+					const image = article.images.filter(image => image.type === 'wide-format')[0];
+					if (!image) {
+						continue;
+					}
+					chosenArticles.push({
+						image: image.url,
+						headline: article.packaging.spHeadline
+					});
+					if (chosenArticles.length >= 3) {
+						break;
+					}
+				}
+			}
+
+			return chosenArticles;
+		}).catch(e => (debug(e), []));
 	} else {
 		organisationPromise = Promise.resolve([]);
 	}
-
-	console.log(apiOrigin);
 
 	const articlePromise = fetch(`${apiOrigin}/${frontPageId}/main-content?apiKey=${apiKey}`)
 	.then(response => response.json())
@@ -68,12 +91,12 @@ module.exports = function (startFrom, numberOfArticles, edition, organisation) {
 		return articlesWithImages.slice(startFrom).slice(0, numberOfArticles);
 	});
 
-	return bluebird.all([organisationPromise, articlePromise]).then(function (results) {
+	return Promise.all([organisationPromise, articlePromise]).then(function (results) {
 		const organisations = results[0];
-		const articles = results[articles];
-		if (organisations[0]) {
-			articles.unshift(organisations[0]);
-		}
+		const articles = results[1];
+
+		// prepend the organisation specific articles
+		articles.unshift(...organisations);
 		return articles;
 	});
 }
