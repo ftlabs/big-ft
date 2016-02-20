@@ -37,7 +37,7 @@ module.exports = function (startFrom, numberOfArticles, edition, organisation) {
 
 		organisationPromise = co(function * () {
 
-			const id = yield fetch('https://next.ft.com/search-suggestions?flatten=true&limit=1&exclude=special&q=twitter')
+			const id = yield fetch('https://next.ft.com/search-suggestions?flatten=true&limit=1&exclude=special&q=' + organisation)
 			.then(response => response.json())
 			.then(json => json[0].id);
 
