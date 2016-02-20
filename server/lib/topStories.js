@@ -56,7 +56,7 @@ module.exports = function (startFrom, numberOfArticles, edition, organisation) {
 
 				// if the article was published 2 or more days ago then stop checking
 				const daysAgoPublished = Math.floor((Date.now() - (new Date(article.lifecycle.lastPublishDateTime)))/(3600*24*1000));
-				if (daysAgoPublished >= 2) {
+				if (daysAgoPublished >= 1) {
 					break;
 				}
 
@@ -70,7 +70,7 @@ module.exports = function (startFrom, numberOfArticles, edition, organisation) {
 						image: image.url,
 						headline: article.packaging.spHeadline
 					});
-					if (chosenArticles.length >= 3) {
+					if (chosenArticles.length >= 1) {
 						break;
 					}
 				}
@@ -95,10 +95,8 @@ module.exports = function (startFrom, numberOfArticles, edition, organisation) {
 		const organisations = results[0];
 		const articles = results[1];
 
-		// Pick one of the upto 3 organisation articles
-		// The first on the first page, second on second etc.
-		// But if there aren't enough then don't prepend any.
-		const nextArticle = organisations[Math.floor(startFrom / numberOfArticles) % 3];
+		// Add the latest article about the company if it is present.
+		const nextArticle = organisations[0];
 		if (nextArticle) {
 			articles.unshift(nextArticle);
 		}
