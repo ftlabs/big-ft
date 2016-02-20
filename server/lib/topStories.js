@@ -95,8 +95,13 @@ module.exports = function (startFrom, numberOfArticles, edition, organisation) {
 		const organisations = results[0];
 		const articles = results[1];
 
-		// prepend the organisation specific articles
-		articles.unshift(...organisations);
+		// Pick one of the upto 3 organisation articles
+		// The first on the first page, second on second etc.
+		// But if there aren't enough then don't prepend any.
+		const nextArticle = organisations[Math.floor(startFrom / numberOfArticles) % 3];
+		if (nextArticle) {
+			articles.unshift(nextArticle);
+		}
 		return articles;
 	});
 }
