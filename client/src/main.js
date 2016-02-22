@@ -12,6 +12,10 @@ require('./js/ticker');
 const isTimezone = require('./js/isTimezone');
 const getCityFromTimezone = require('./js/getCityFromTimezone');
 
+const serviceUrl = '/data';
+const topStoriesUrl = serviceUrl + '/top-stories';
+const searchStoriesUrl = serviceUrl + '/search';
+
 /*
 	Customisation
 	?primaryType=topStories
@@ -24,29 +28,49 @@ const getCityFromTimezone = require('./js/getCityFromTimezone');
 	&secondaryMax=10
 */
 
-const parsed = queryString.parse(location.search);
+const {
+	getQueryParams,
+	getQueryParam
+} = (function () {
+	const parsed = queryString.parse(location.search);
 
-const customTimezone = parsed.timezone;
-const useCustomTimezone = isTimezone(customTimezone);
+	const customTimezone = parsed.timezone;
+	const useCustomTimezone = isTimezone(customTimezone);
 
-const primaryType = parsed.primaryType;
-const primarySearch = parsed.primarySearch;
-const primaryOffset = isNaN(parseInt(parsed.primaryOffset)) ? 0 : parseInt(parsed.primaryOffset);
-const primaryMax = isNaN(parseInt(parsed.primaryMax)) ? 10 : parseInt(parsed.primaryMax);
+	const primaryType = parsed.primaryType;
+	const primarySearch = parsed.primarySearch;
+	const primaryOffset = isNaN(parseInt(parsed.primaryOffset)) ? 0 : parseInt(parsed.primaryOffset);
+	const primaryMax = isNaN(parseInt(parsed.primaryMax)) ? 10 : parseInt(parsed.primaryMax);
 
-const secondaryType = parsed.secondaryType;
-const secondarySearch = parsed.secondarySearch;
-const secondaryOffset = isNaN(parseInt(parsed.secondaryOffset)) ? 0 : parseInt(parsed.secondaryOffset);
-const secondaryMax = isNaN(parseInt(parsed.secondaryMax)) ? 10 : parseInt(parsed.secondaryMax);
+	const secondaryType = parsed.secondaryType;
+	const secondarySearch = parsed.secondarySearch;
+	const secondaryOffset = isNaN(parseInt(parsed.secondaryOffset)) ? 0 : parseInt(parsed.secondaryOffset);
+	const secondaryMax = isNaN(parseInt(parsed.secondaryMax)) ? 10 : parseInt(parsed.secondaryMax);
 
-const defaultEdition = 'UK';
-const edition = (parsed.edition) ? parsed.edition : defaultEdition;
+	const defaultEdition = 'UK';
+	const edition = (parsed.edition) ? parsed.edition : defaultEdition;
 
-const organisation = parsed.organisation;
+	const organisation = parsed.organisation;
 
-const serviceUrl = '/data';
-const topStoriesUrl = serviceUrl + '/top-stories';
-const searchStoriesUrl = serviceUrl + '/search';
+	const exportData = {
+		organisation,
+		edition,
+		useCustomTimezone,
+		primaryMax,
+		primaryType,
+		primarySearch,
+		primaryOffset,
+		secondaryType,
+		secondarySearch,
+		secondaryOffset,
+		secondaryMax
+	};
+
+	return {
+		getQueryParams: () => exportData,
+		getQueryParam: i => exportData[i]
+	}
+}());
 
 function wait (ms) {
 	return new Promise(function (resolve) {
@@ -54,22 +78,26 @@ function wait (ms) {
 	});
 }
 
-function getStories (type, offset, amount, term) {
+function getStories (type, offset, amount, options = {}) {
 	switch (type) {
 		case 'search':
-			return getSearchStories(offset, amount, term);
+			return getSearchStories(offset, amount, options.term);
 			break
 		case 'topStories':
-			return getTopStories(offset, amount);
+			return getTopStories(offset, amount, options);
 			break
 		default:
-			return getTopStories(offset, amount);
+			return getTopStories(offset, amount, options);
 	}
 }
 
-function getTopStories (offset, amount) {
-	organisation = organisation ? ('&organisation=' + organisation) : '';
-	return fetch(topStoriesUrl + '?startFrom=' + offset + '&numberOfArticles=' + amount + '&edition=' + edition + organisation)
+function getTopStories (offset, amount, options = {}) {
+
+	const organisation = options.organisation ? ('&organisation=' + options.organisation) : '';
+
+	const edition = options.edition ? '&edition=' + edition : '';
+
+	return fetch(topStoriesUrl + '?startFrom=' + offset + '&numberOfArticles=' + amount + edition + organisation)
 		.then(function (response) {
 			return response.json();
 		})
@@ -262,7 +290,7 @@ const __bigFT = (function (){
 
 	function getUniqueStories (stories) {
 		const storyHeadlines = stories.map(story => story.headline);
-		const uniqueStoryHeadlines = storyHeadlines.filter(function onlyUnique(value, index, self) { 
+		const uniqueStoryHeadlines = storyHeadlines.filter(function onlyUnique (value, index, self) { 
 			return self.indexOf(value) === index;
 		});
 		const uniqueStories = uniqueStoryHeadlines.map(headline =>
@@ -302,9 +330,10 @@ const __bigFT = (function (){
 
 	}
 
-	function updateContent (){
-		const primaryStories = getStories(primaryType, primaryOffset, primaryMax, primarySearch);
-		const secondaryStories = getStories(secondaryType, secondaryOffset, secondaryMax, secondarySearch);
+	function updateContent () {
+		const qp = getQueryParams();
+		const primaryStories = getStories(qp.primaryType, qp.primaryOffset, qp.primaryMax, qp.primarySearch);
+		const secondaryStories = getStories(qp.secondaryType, qp.secondaryOffset, qp.secondaryMax, qp.secondarySearch);
 
 		Promise.all([primaryStories, secondaryStories])
 			.then(function (stories) {
@@ -431,8 +460,8 @@ const __bigFT = (function (){
 	}
 
 	function detectTimezone () {
-		if (useCustomTimezone) {
-			return customTimezone;
+		if (getQueryParam('useCustomTimezone')) {
+			return getQueryParam('customTimezone');
 		} else {
 			const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;  // eslint-disable-line new-cap
 
@@ -440,15 +469,15 @@ const __bigFT = (function (){
 		}
 	}
 
-	function checkForClock(timezone){
+	function checkForClock (timezone){
 		return document.querySelector('[data-tz="' + timezone + '"]') !== null;
 	}
 
-	function setActiveClock(timezone){
+	function setActiveClock (timezone){
 		$('[data-tz="' + timezone + '"]').closest('li').first().attr('data-active-timezone', 'true');
 	}
 
-	function createClock(timezone){
+	function createClock (timezone){
 
 		const clockLi = document.createElement('li');
 		const clockName = document.createElement('h3');
