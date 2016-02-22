@@ -53,7 +53,7 @@ function getTopStories (offset, amount, options = {}) {
 
 	const organisation = options.organisation ? ('&organisation=' + options.organisation) : '';
 
-	const edition = options.edition ? '&edition=' + edition : '';
+	const edition = options.edition ? ('&edition=' + options.edition) : '';
 
 	return fetch(topStoriesUrl + '?startFrom=' + offset + '&numberOfArticles=' + amount + edition + organisation)
 		.then(function (response) {
@@ -290,7 +290,7 @@ const __bigFT = (function (){
 
 	function updateContent () {
 		const qp = getQueryParams();
-		const primaryStories = getStories(qp.primaryType, qp.primaryOffset, {
+		const primaryStories = getStories(qp.primaryType, qp.primaryOffset, qp.primaryMax, {
 			term: qp.primarySearch,
 			edition: qp.edition,
 			organisation: qp.organisation
