@@ -60,14 +60,14 @@ function getStories (type, offset, amount, term) {
 			return getSearchStories(offset, amount, term);
 			break
 		case 'topStories':
-			return getTopStories(offset, amount, edition, organisation);
+			return getTopStories(offset, amount, organisation);
 			break
 		default:
-			return getTopStories(offset, amount, edition, organisation);
+			return getTopStories(offset, amount, organisation);
 	}
 }
 
-function getTopStories (offset, amount, edition, organisation) {
+function getTopStories (offset, amount, organisation) {
 	organisation = organisation ? ('&organisation=' + organisation) : '';
 	return fetch(topStoriesUrl + '?startFrom=' + offset + '&numberOfArticles=' + amount + '&edition=' + edition + organisation)
 		.then(function (response) {
