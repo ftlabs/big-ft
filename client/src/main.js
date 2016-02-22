@@ -463,7 +463,7 @@ const __bigFT = (function (){
 		if (getQueryParam('useCustomTimezone')) {
 			return getQueryParam('customTimezone');
 		} else {
-			const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;  // eslint-disable-line new-cap
+			const timezone = window.Intl === undefined ? '' : Intl.DateTimeFormat().resolvedOptions().timeZone;  // eslint-disable-line new-cap
 
 			return timezone !== '' ? timezone : 'Europe/London';
 		}
