@@ -73,7 +73,7 @@
   "license": "",
   "description": "Big FT front-end and back-end",
   "engines": {
-    "node": "5.0.0"
+    "node": "5.6.0"
   },
   "private": true
 }
