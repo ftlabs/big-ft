@@ -55,6 +55,7 @@ const {
 	const exportData = {
 		organisation,
 		edition,
+		customTimezone,
 		useCustomTimezone,
 		primaryMax,
 		primaryType,
