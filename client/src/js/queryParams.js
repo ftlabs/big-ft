@@ -1,7 +1,7 @@
 'use strict';
 
 const queryString = require('query-string');
-const isTimezone = require('./js/isTimezone');
+const isTimezone = require('./isTimezone');
 
 const parsed = queryString.parse(location.search);
 
@@ -38,7 +38,7 @@ const exportData = {
 	secondaryMax
 };
 
-return {
+module.exports = {
 	getQueryParams: () => exportData,
 	getQueryParam: i => exportData[i]
-}
+};

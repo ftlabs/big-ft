@@ -290,8 +290,16 @@ const __bigFT = (function (){
 
 	function updateContent () {
 		const qp = getQueryParams();
-		const primaryStories = getStories(qp.primaryType, qp.primaryOffset, qp.primaryMax, qp.primarySearch);
-		const secondaryStories = getStories(qp.secondaryType, qp.secondaryOffset, qp.secondaryMax, qp.secondarySearch);
+		const primaryStories = getStories(qp.primaryType, qp.primaryOffset, {
+			term: qp.primarySearch,
+			edition: qp.edition,
+			organisation: qp.organisation
+		});
+		const secondaryStories = getStories(qp.secondaryType, qp.secondaryOffset, qp.secondaryMax, {
+			term: qp.secondarySearch,
+			edition: qp.edition,
+			organisation: qp.organisation
+		});
 
 		Promise.all([primaryStories, secondaryStories])
 			.then(function (stories) {
