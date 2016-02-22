@@ -12,9 +12,10 @@ router.use(cors);
 router.get('/top-stories', (req, res) => {
 	const startFrom = req.query.startFrom;
 	const numberOfArticles = req.query.numberOfArticles;
-	const edition = req.query.edition
+	const edition = req.query.edition;
+	const organisation = req.query.organisation;
 
-	topStories(startFrom, numberOfArticles, edition)
+	topStories(startFrom, numberOfArticles, edition, organisation)
 	.then(data => res.json(data))
 	.catch(error => {
 		debug(`error: ${JSON.stringify(error)}`);
