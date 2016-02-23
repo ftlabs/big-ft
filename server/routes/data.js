@@ -10,31 +10,33 @@ const cors = require('../middleware/cors');
 
 router.use(cors);
 router.get('/top-stories', (req, res) => {
-  const startFrom = req.query.startFrom;
-  const numberOfArticles = req.query.numberOfArticles;
+	const startFrom = req.query.startFrom;
+	const numberOfArticles = req.query.numberOfArticles;
+	const edition = req.query.edition;
+	const organisation = req.query.organisation;
 
-  topStories(startFrom, numberOfArticles)
-  .then(data => res.json(data))
-  .catch(error => {
-    debug(`error: ${JSON.stringify(error)}`);
-    client.captureException(error);
-    res.sendStatus(503);
-  });
+	topStories(startFrom, numberOfArticles, edition, organisation)
+	.then(data => res.json(data))
+	.catch(error => {
+		debug(`error: ${JSON.stringify(error)}`);
+		client.captureException(error);
+		res.sendStatus(503);
+	});
 })
 
 router.get('/search', (req, res) => {
-  const searchTerm = req.query.keyword;
+	const searchTerm = req.query.keyword;
 
-  const startFrom = req.query.startFrom;
-  const numberOfArticles = req.query.numberOfArticles;
+	const startFrom = req.query.startFrom;
+	const numberOfArticles = req.query.numberOfArticles;
 
-  search(searchTerm, startFrom, numberOfArticles)
-  .then(data => res.json(data))
-  .catch(error => {
-    debug(`error: ${JSON.stringify(error)}`);
-    client.captureException(error);
-    res.sendStatus(503);
-  });
+	search(searchTerm, startFrom, numberOfArticles)
+	.then(data => res.json(data))
+	.catch(error => {
+		debug(`error: ${JSON.stringify(error)}`);
+		client.captureException(error);
+		res.sendStatus(503);
+	});
 })
 
 module.exports = router;

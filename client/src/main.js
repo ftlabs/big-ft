@@ -4,10 +4,19 @@
 'use strict';
 global.$ = global.jQuery = require('jquery');
 const moment = require('moment-timezone');
-// global.Snap = require('snapsvg');
-const queryString = require('query-string');
 const SVGLoader = require('./js/svgloader');
 require('./js/ticker');
+
+const getCityFromTimezone = require('./js/getCityFromTimezone');
+
+const serviceUrl = '/data';
+const topStoriesUrl = serviceUrl + '/top-stories';
+const searchStoriesUrl = serviceUrl + '/search';
+
+const {
+	getQueryParams,
+	getQueryParam
+} = require('./js/queryParams.js');
 
 /*
 	Customisation
@@ -21,43 +30,32 @@ require('./js/ticker');
 	&secondaryMax=10
 */
 
-const parsed = queryString.parse(location.search);
-
-const primaryType = parsed.primaryType;
-const primarySearch = parsed.primarySearch;
-const primaryOffset = isNaN(parseInt(parsed.primaryOffset)) ? 0 : parseInt(parsed.primaryOffset);
-const primaryMax = isNaN(parseInt(parsed.primaryMax)) ? 10 : parseInt(parsed.primaryMax);
-
-const secondaryType = parsed.secondaryType;
-const secondarySearch = parsed.secondarySearch;
-const secondaryOffset = isNaN(parseInt(parsed.secondaryOffset)) ? 0 : parseInt(parsed.secondaryOffset);
-const secondaryMax = isNaN(parseInt(parsed.secondaryMax)) ? 10 : parseInt(parsed.secondaryMax);
-
-const serviceUrl = '/data';
-const topStoriesUrl = serviceUrl + '/top-stories';
-const searchStoriesUrl = serviceUrl + '/search';
-
 function wait (ms) {
 	return new Promise(function (resolve) {
 		setTimeout(resolve, ms);
 	});
 }
 
-function getStories (type, offset, amount, term) {
+function getStories (type, offset, amount, options = {}) {
 	switch (type) {
 		case 'search':
-			return getSearchStories(offset, amount, term);
+			return getSearchStories(offset, amount, options.term);
 			break
 		case 'topStories':
-			return getTopStories(offset, amount);
-			break;
+			return getTopStories(offset, amount, options);
+			break
 		default:
-			return getTopStories(offset, amount);
+			return getTopStories(offset, amount, options);
 	}
 }
 
-function getTopStories (offset, amount) {
-	return fetch(topStoriesUrl + '?startFrom=' + offset + '&numberOfArticles=' + amount)
+function getTopStories (offset, amount, options = {}) {
+
+	const organisation = options.organisation ? ('&organisation=' + options.organisation) : '';
+
+	const edition = options.edition ? ('&edition=' + options.edition) : '';
+
+	return fetch(topStoriesUrl + '?startFrom=' + offset + '&numberOfArticles=' + amount + edition + organisation)
 		.then(function (response) {
 			return response.json();
 		})
@@ -250,7 +248,7 @@ const __bigFT = (function (){
 
 	function getUniqueStories (stories) {
 		const storyHeadlines = stories.map(story => story.headline);
-		const uniqueStoryHeadlines = storyHeadlines.filter(function onlyUnique(value, index, self) { 
+		const uniqueStoryHeadlines = storyHeadlines.filter(function onlyUnique (value, index, self) { 
 			return self.indexOf(value) === index;
 		});
 		const uniqueStories = uniqueStoryHeadlines.map(headline =>
@@ -290,9 +288,18 @@ const __bigFT = (function (){
 
 	}
 
-	function updateContent (){
-		const primaryStories = getStories(primaryType, primaryOffset, primaryMax, primarySearch);
-		const secondaryStories = getStories(secondaryType, secondaryOffset, secondaryMax, secondarySearch);
+	function updateContent () {
+		const qp = getQueryParams();
+		const primaryStories = getStories(qp.primaryType, qp.primaryOffset, qp.primaryMax, {
+			term: qp.primarySearch,
+			edition: qp.edition,
+			organisation: qp.organisation
+		});
+		const secondaryStories = getStories(qp.secondaryType, qp.secondaryOffset, qp.secondaryMax, {
+			term: qp.secondarySearch,
+			edition: qp.edition,
+			organisation: qp.organisation
+		});
 
 		Promise.all([primaryStories, secondaryStories])
 			.then(function (stories) {
@@ -419,20 +426,24 @@ const __bigFT = (function (){
 	}
 
 	function detectTimezone () {
-		return Intl.DateTimeFormat().resolved.timeZone; //eslint-disable-line new-cap
+		if (getQueryParam('useCustomTimezone')) {
+			return getQueryParam('customTimezone');
+		} else {
+			const timezone = window.Intl === undefined ? '' : Intl.DateTimeFormat().resolvedOptions().timeZone;  // eslint-disable-line new-cap
+
+			return timezone !== '' ? timezone : 'Europe/London';
+		}
 	}
 
-	function checkForClock(timezone){
+	function checkForClock (timezone){
 		return document.querySelector('[data-tz="' + timezone + '"]') !== null;
 	}
 
-	function setActiveClock(timezone){
+	function setActiveClock (timezone){
 		$('[data-tz="' + timezone + '"]').closest('li').first().attr('data-active-timezone', 'true');
 	}
 
-	function createClock(timezone){
-
-		timezone = timezone || "Europe/London";
+	function createClock (timezone){
 
 		const clockLi = document.createElement('li');
 		const clockName = document.createElement('h3');
@@ -440,7 +451,7 @@ const __bigFT = (function (){
 		const clockTime = document.createElement('time');
 
 		clockLi.setAttribute('class', 'footer-cards__card');
-		clockName.textContent = timezone.split("/")[1];
+		clockName.textContent = getCityFromTimezone(timezone);
 		clockTime.setAttribute('data-tz', timezone);
 
 		clockP.appendChild(clockTime);

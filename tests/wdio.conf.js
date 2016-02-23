@@ -8,9 +8,20 @@ const spawn = require('child_process').spawn;
 const path = require('path');
 
 // Start application server
-const app = spawn(path.join(__dirname, '../server/bin/www'), []);
-
 const bs_local = spawn('BrowserStackLocal', [process.env.BROWSERSTACK_KEY]);
+
+const app = spawn(path.join(__dirname, '../server/bin/www'));
+app.stdout.on('data', function (data) {
+  console.log('stdout: ' + data);
+});
+
+app.stderr.on('data', function (data) {
+  console.log('stderr: ' + data);
+});
+
+app.on('exit', function (code) {
+  console.log('child process exited with code ' + code);
+});
 
 /*
  * Installs Selenium and starts the server, ready to control browsers
@@ -29,17 +40,6 @@ function installAndStartSelenium () {
 }
 
 exports.config = {
-
-    //
-    // =================
-    // Service Providers
-    // =================
-    // WebdriverIO supports Sauce Labs, Browserstack and Testing Bot (other cloud providers
-    // should work too though). These services define specific user and key (or access key)
-    // values you need to put in here in order to connect to these services.
-    //
-    user: process.env.BROWSERSTACK_USER,
-    key:  process.env.BROWSERSTACK_KEY,
 
     // Define which test specs should run. The pattern is relative to the directory
     // from which `wdio` was called. Notice that, if you are calling `wdio` from an
@@ -61,9 +61,7 @@ exports.config = {
     // Sauce Labs platform configurator - a great tool to configure your capabilities:
     // https://docs.saucelabs.com/reference/platforms-configurator
     capabilities: [{
-        browserName: 'chrome',
-        'browserstack.local' : 'true',
-        'browserstack.debug': 'true',
+        browserName: 'chrome'
     }],
 
     // Level of logging verbosity: silent | verbose | command | data | result | error
@@ -136,6 +134,5 @@ exports.config = {
     onComplete: function() {
         selenium.child.kill();
         app.kill();
-        bs_local.kill();
     }
 };

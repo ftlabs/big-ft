@@ -6,6 +6,7 @@
 - [NodeJS](https://nodejs.org/en/) -- The runtime the application requires
 - [Heroku Toolbelt](https://toolbelt.heroku.com/) -- _Used for interacting with the production/testing instances_
 - [Java Development Kit](http://www.oracle.com/technetwork/java/javase/downloads/index.html) -- Used for testing.
+- Install [Origami build tools](http://origami.ft.com/docs/developer-guide/building-modules/)
 
 #### Setting up development environment
 - Clone the repository -- `git clone git@github.com:ftlabs/big-ft.git`

@@ -1,7 +1,11 @@
 {
   "dependencies": {
+    "babel-core": "^6.3.21",
+    "babel-loader": "^6.2.0",
+    "babel-preset-es2015": "^6.3.13",
     "bluebird": "^3.0.5",
     "body-parser": "^1.14.1",
+    "co": "^4.6.0",
     "compression": "^1.6.0",
     "cookie-parser": "^1.4.0",
     "debug": "^2.2.0",
@@ -14,6 +18,8 @@
     "moment-timezone": "^0.4.1",
     "morgan": "^1.6.1",
     "node-fetch": "^1.3.3",
+    "npm-run-all": "^1.4.0",
+    "origami-build-tools": "^4.3.2",
     "query-string": "^3.0.0",
     "ramda": "^0.18.0",
     "raven": "^0.9.0",
@@ -24,14 +30,12 @@
   "version": "1.0.0",
   "main": "server/bin/www",
   "devDependencies": {
-    "babel-core": "^6.3.21",
-    "babel-loader": "^6.2.0",
-    "babel-preset-es2015": "^6.3.13",
     "browserstacklocal": "0.0.4",
     "chai": "^3.4.1",
     "chai-as-promised": "^5.1.0",
     "denodeify": "^1.2.1",
     "istanbul": "^0.4.1",
+    "json-loader": "^0.5.4",
     "karma": "^0.13.15",
     "karma-browserstack-launcher": "^0.1.8",
     "karma-chrome-launcher": "^0.2.2",
@@ -41,8 +45,6 @@
     "mocha-generators": "^1.2.0",
     "mockery": "^1.4.0",
     "nodemon": "^1.8.1",
-    "npm-run-all": "^1.4.0",
-    "origami-build-tools": "^4.3.2",
     "selenium-standalone": "^4.8.0",
     "sinon": "^1.17.2",
     "supertest": "^1.1.0",
@@ -71,7 +73,7 @@
   "license": "",
   "description": "Big FT front-end and back-end",
   "engines": {
-    "node": "5.0.0"
+    "node": "5.6.0"
   },
   "private": true
 }
