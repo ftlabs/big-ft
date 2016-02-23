@@ -23,6 +23,8 @@ const edition = (parsed.edition) ? parsed.edition : defaultEdition;
 
 const organisation = parsed.organisation;
 
+const partner = parsed.partner;
+
 const exportData = {
 	organisation,
 	edition,
@@ -35,7 +37,8 @@ const exportData = {
 	secondaryType,
 	secondarySearch,
 	secondaryOffset,
-	secondaryMax
+	secondaryMax,
+	partner
 };
 
 module.exports = {

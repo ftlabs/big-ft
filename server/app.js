@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const routes = require('./routes/index');
 const data = require('./routes/data');
 const update = require('./routes/update');
+const partners = require('./routes/partners');
 const app = express();
 const ftwebservice = require('express-ftwebservice');
 const hbs = require('express-hbs');
@@ -47,6 +48,7 @@ app.use('/static', express.static(path.join(__dirname, '../client/dist')));
 app.use('/', routes);
 app.use('/data', data);
 app.use('/update', update);
+app.use('/check-partner', partners);
 
 app.use(function (req, res) {
   res.sendStatus(404); // TODO: Redirect to FT 404 Page?
