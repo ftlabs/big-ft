@@ -80,6 +80,8 @@ const __bigFT = (function (){
 	const mediaHolder = document.getElementsByClassName('main-stories')[0];
 	let clocks = undefined;
 
+	const partnerURLElement = document.querySelector('.footer-partner-address');
+
 	const openingHour = 9;
 	const closingHour = 18;
 
@@ -389,6 +391,34 @@ const __bigFT = (function (){
 
 	}
 
+	function updatePartner (){
+
+		const partner = getQueryParam('partner')
+
+		if (partner !== undefined) {
+			
+			fetch('/check-partner?partner=' + partner)
+				.then(res => { return res.json(); } )
+				.then(json => {
+					const data = json.data;
+
+					if(data.url !== undefined && data.url !== ''){
+						partnerURLElement.textContent = data.url;
+					}
+
+				})
+				.catch(function (err){
+					console.log('An error ocurred when we tried to check the validity of the partner:' + partner);
+					console.log(err);
+				})
+			;
+
+		} else {
+			return false;
+		}
+
+	}
+
 	function update (){
 
 		fetch('/__gtg')
@@ -477,6 +507,7 @@ const __bigFT = (function (){
 
 		updateContent();
 		updateClocks();
+		updatePartner();
 
 		// Update the clocks 2 seconds after the minute has changed
 		setTimeout(function (){
