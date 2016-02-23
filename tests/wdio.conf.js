@@ -8,8 +8,6 @@ const spawn = require('child_process').spawn;
 const path = require('path');
 
 // Start application server
-const bs_local = spawn('BrowserStackLocal', [process.env.BROWSERSTACK_KEY]);
-
 const app = spawn(path.join(__dirname, '../server/bin/www'));
 app.stdout.on('data', function (data) {
   console.log('stdout: ' + data);
