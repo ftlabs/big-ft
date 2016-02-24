@@ -5,6 +5,7 @@
 global.$ = global.jQuery = require('jquery');
 const moment = require('moment-timezone');
 const SVGLoader = require('./js/svgloader');
+require('./js/service-worker');
 require('./js/ticker');
 
 const getCityFromTimezone = require('./js/getCityFromTimezone');

@@ -45,6 +45,11 @@ app.use(cookieParser());
 
 app.use('/static', express.static(path.join(__dirname, '../client/dist')));
 
+// Special static path for service worker
+// since it can interfere with requests to it's path or below
+app.use('/sw.js', express.static(path.join(__dirname, '../client/dist/sw.js')));
+app.use('/sw.js.map', express.static(path.join(__dirname, '../client/dist/sw.js.map')));
+
 app.use('/', routes);
 app.use('/data', data);
 app.use('/update', update);
