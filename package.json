@@ -24,7 +24,8 @@
     "ramda": "^0.18.0",
     "raven": "^0.9.0",
     "semver": "^5.1.0",
-    "snapsvg": "^0.4.0"
+    "snapsvg": "^0.4.0",
+    "sw-toolbox": "^3.1.1"
   },
   "name": "big-ft",
   "version": "1.0.0",
@@ -48,7 +49,6 @@
     "selenium-standalone": "^4.8.0",
     "sinon": "^1.17.2",
     "supertest": "^1.1.0",
-    "sw-toolbox": "^3.1.1",
     "webdriverio": "^3.3.0"
   },
   "scripts": {
