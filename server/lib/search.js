@@ -43,5 +43,5 @@ module.exports = (keyword, startFrom, numberOfArticles) => {
 			.then(a => a.item)
 			.then(present)
 	)
-	.then(articles => articles.filter(article => article.image !== ''))
+	.then(articles => articles.filter(article => article.image !== ''));
 };

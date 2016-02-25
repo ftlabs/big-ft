@@ -12,7 +12,7 @@ const frontPageIdUK = '4c499f12-4e94-11de-8d4c-00144feabdc0';
 const frontPageIdUS = 'b0ed86f4-4e94-11de-8d4c-00144feabdc0';
 
 // edition can be "US" or "INTL" (both meaning US), or "UK" (and anything except "US"/"INTL", including null or "", i.e. its the default)
-module.exports = function topStories(startFrom, numberOfArticles, edition, organisation) {
+module.exports = function topStories (startFrom, numberOfArticles, edition, organisation) {
 	'use strict';
 
 	if (isNaN(startFrom)) {
@@ -102,4 +102,4 @@ module.exports = function topStories(startFrom, numberOfArticles, edition, organ
 		}
 		return articles;
 	});
-}
+};

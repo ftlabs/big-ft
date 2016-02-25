@@ -9,6 +9,7 @@ const routes = require('./routes/index');
 const data = require('./routes/data');
 const update = require('./routes/update');
 const partners = require('./routes/partners');
+const timeStampMiddleware = require('./middleware/timestamp');
 const app = express();
 const ftwebservice = require('express-ftwebservice');
 const hbs = require('express-hbs');
@@ -45,7 +46,15 @@ app.use(cookieParser());
 
 app.use('/static', express.static(path.join(__dirname, '../client/dist')));
 
+// Special static path for service worker
+// since it can interfere with requests to it's path or below
+// e.g. a /static/sw.js could only intercept fetch events to /static/*
+//      but /sw.js can do /* i.e. /__about, /__gtg, /data/* and /static/*
+app.use('/sw.js', express.static(path.join(__dirname, '../client/dist/sw.js')));
+app.use('/sw.js.map', express.static(path.join(__dirname, '../client/dist/sw.js.map')));
+
 app.use('/', routes);
+app.use('*', timeStampMiddleware);
 app.use('/data', data);
 app.use('/update', update);
 app.use('/check-partner', partners);

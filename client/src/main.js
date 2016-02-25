@@ -5,6 +5,7 @@
 global.$ = global.jQuery = require('jquery');
 const moment = require('moment-timezone');
 const SVGLoader = require('./js/svgloader');
+require('./js/service-worker');
 require('./js/ticker');
 
 const getCityFromTimezone = require('./js/getCityFromTimezone');
@@ -40,13 +41,22 @@ function getStories (type, offset, amount, options = {}) {
 	switch (type) {
 		case 'search':
 			return getSearchStories(offset, amount, options.term);
-			break
+			break;
 		case 'topStories':
 			return getTopStories(offset, amount, options);
-			break
+			break;
 		default:
 			return getTopStories(offset, amount, options);
 	}
+}
+
+function timestampHeader () {
+
+	// included in fetch polyfill
+	const h = new Headers();
+	h.append('x-ft-timestamp', Date.now());
+	return h;
+
 }
 
 function getTopStories (offset, amount, options = {}) {
@@ -55,19 +65,39 @@ function getTopStories (offset, amount, options = {}) {
 
 	const edition = options.edition ? ('&edition=' + options.edition) : '';
 
-	return fetch(topStoriesUrl + '?startFrom=' + offset + '&numberOfArticles=' + amount + edition + organisation)
-		.then(function (response) {
-			return response.json();
-		})
-	;
+	return fetch(topStoriesUrl + '?startFrom=' + offset + '&numberOfArticles=' + amount + edition + organisation, {
+		headers: timestampHeader()
+	})
+	.then(function (response) {
+		return response.json().then(function (data) {
+			let timestamp = Date.now();
+			if (response.headers.has('x-ft-timestamp')) {
+				timestamp = response.headers.get('x-ft-timestamp');
+			}
+			return {
+				data,
+				timestamp
+			};
+		});
+	});
 }
 
 function getSearchStories (offset, amount, term) {
-	return fetch(searchStoriesUrl + '?startFrom=' + offset + '&numberOfArticles=' + amount + '&keyword=' + term)
-		.then(function (response) {
-			return response.json();
-		})
-	;
+	return fetch(searchStoriesUrl + '?startFrom=' + offset + '&numberOfArticles=' + amount + '&keyword=' + term, {
+		headers: timestampHeader()
+	})
+	.then(function (response) {
+		return response.json().then(function (data) {
+			let timestamp = Date.now();
+			if (response.headers.has('x-ft-timestamp')) {
+				timestamp = response.headers.get('x-ft-timestamp');
+			}
+			return {
+				data,
+				timestamp
+			};
+		});
+	});
 }
 
 const __bigFT = (function (){
@@ -110,7 +140,7 @@ const __bigFT = (function (){
 
 				if(idx === 0){
 					imgClass += ' main-stories__media--current';
-					textClass += ' main-stories__story--current'
+					textClass += ' main-stories__story--current';
 				}
 
 				img.setAttribute('class', imgClass);
@@ -121,7 +151,7 @@ const __bigFT = (function (){
 						img.onload = resolve(img);
 						img.onerror = reject();
 					})
-				)
+				);
 
 				text.textContent = story.headline;
 				headlines.appendChild(text);
@@ -172,7 +202,7 @@ const __bigFT = (function (){
 
 		return new Promise(function (resolve) {
 			tickerMessageIds.forEach(function (id) {
-				console.log('removing', id)
+				console.log('removing', id);
 				newsTicker.removeMsg(id);
 			});
 
@@ -292,27 +322,27 @@ const __bigFT = (function (){
 
 	function updateContent () {
 		const qp = getQueryParams();
-		const primaryStories = getStories(qp.primaryType, qp.primaryOffset, qp.primaryMax, {
+		const primaryStoriesPromise = getStories(qp.primaryType, qp.primaryOffset, qp.primaryMax, {
 			term: qp.primarySearch,
 			edition: qp.edition,
 			organisation: qp.organisation
 		});
-		const secondaryStories = getStories(qp.secondaryType, qp.secondaryOffset, qp.secondaryMax, {
+		const secondaryStoriesPromise = getStories(qp.secondaryType, qp.secondaryOffset, qp.secondaryMax, {
 			term: qp.secondarySearch,
 			edition: qp.edition,
 			organisation: qp.organisation
 		});
 
-		Promise.all([primaryStories, secondaryStories])
+		Promise.all([primaryStoriesPromise, secondaryStoriesPromise])
 			.then(function (stories) {
-				const primaryStories = getUniqueStories(stories[0]).slice(0,3);
-				const secondaryStories = getUniqueStories(stories[1]);
-				const uniqueSecondaryStories = secondaryStories
+				const primaryStoriesData = getUniqueStories(stories[0].data).slice(0,3);
+				const secondaryStoriesData = getUniqueStories(stories[1].data);
+				const uniqueSecondaryStories = secondaryStoriesData
 				.filter(secondaryStory =>
-					!primaryStories.some(primaryStory =>
+					!primaryStoriesData.some(primaryStory =>
 						secondaryStory.headline === primaryStory.headline
 					)
-				)
+				);
 
 				const oldMsgs = newsTicker.getMsgs();
 
@@ -327,10 +357,10 @@ const __bigFT = (function (){
 
 				const oldStories = Array.prototype.slice.call(document.querySelectorAll('.main-stories__story'));
 
-				return checkForChanges(primaryStories, oldStories)
+				return checkForChanges(primaryStoriesData, oldStories)
 					.then((difference) => {
 						if(difference){
-							return prepareMainStories(primaryStories);
+							return prepareMainStories(primaryStoriesData);
 						} else {
 							return false;
 						}
@@ -344,11 +374,11 @@ const __bigFT = (function (){
 						interstitial.show();
 						return wait(1000).then(function (){
 							return populateMainStories(content).then( () => {
-								lastUpdated.setAttribute('data-isotime', moment().toISOString());
+								lastUpdated.setAttribute('data-isotime', moment(stories[0].timestamp, 'x').toISOString());
 								whenWasContentLastUpdated();
 								sizeHeadlineTextAccordingly();
 							});
-						})
+						});
 
 					})
 
@@ -393,7 +423,7 @@ const __bigFT = (function (){
 
 	function updatePartner (){
 
-		const partner = getQueryParam('partner')
+		const partner = getQueryParam('partner');
 
 		if (partner !== undefined) {
 			

@@ -9,6 +9,7 @@ machine:
     - gem install scss-lint
 test:
   pre:
+    - "npm install"
     - "npm run build"
 dependencies:
   cache_directories:

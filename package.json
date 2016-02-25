@@ -24,7 +24,8 @@
     "ramda": "^0.18.0",
     "raven": "^0.9.0",
     "semver": "^5.1.0",
-    "snapsvg": "^0.4.0"
+    "snapsvg": "^0.4.0",
+    "sw-toolbox": "^3.1.1"
   },
   "name": "big-ft",
   "version": "1.0.0",
@@ -51,8 +52,9 @@
     "webdriverio": "^3.3.0"
   },
   "scripts": {
-    "build": "npm-run-all clean copy build:app",
+    "build": "npm-run-all clean copy build:app build:service-worker",
     "build:app": "obt build --js=./client/src/main.js --sass=./client/src/main.scss --buildFolder=./client/dist",
+    "build:service-worker": "obt build --js=./client/src/sw.js --buildFolder=./client/dist --buildJs=sw.js",
     "clean": "rimraf client/dist/**/*",
     "copy": "mkdir -p client/dist && cp client/src/js/vendor/* client/dist",
     "develop": "npm run watch -- --exec 'npm-run-all -p start build'",
