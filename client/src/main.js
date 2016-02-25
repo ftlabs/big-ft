@@ -41,10 +41,10 @@ function getStories (type, offset, amount, options = {}) {
 	switch (type) {
 		case 'search':
 			return getSearchStories(offset, amount, options.term);
-			break
+			break;
 		case 'topStories':
 			return getTopStories(offset, amount, options);
-			break
+			break;
 		default:
 			return getTopStories(offset, amount, options);
 	}
@@ -77,7 +77,7 @@ function getTopStories (offset, amount, options = {}) {
 			return {
 				data,
 				timestamp
-			}
+			};
 		});
 	});
 }
@@ -95,7 +95,7 @@ function getSearchStories (offset, amount, term) {
 			return {
 				data,
 				timestamp
-			}
+			};
 		});
 	});
 }
@@ -140,7 +140,7 @@ const __bigFT = (function (){
 
 				if(idx === 0){
 					imgClass += ' main-stories__media--current';
-					textClass += ' main-stories__story--current'
+					textClass += ' main-stories__story--current';
 				}
 
 				img.setAttribute('class', imgClass);
@@ -151,7 +151,7 @@ const __bigFT = (function (){
 						img.onload = resolve(img);
 						img.onerror = reject();
 					})
-				)
+				);
 
 				text.textContent = story.headline;
 				headlines.appendChild(text);
@@ -202,7 +202,7 @@ const __bigFT = (function (){
 
 		return new Promise(function (resolve) {
 			tickerMessageIds.forEach(function (id) {
-				console.log('removing', id)
+				console.log('removing', id);
 				newsTicker.removeMsg(id);
 			});
 
@@ -342,7 +342,7 @@ const __bigFT = (function (){
 					!primaryStoriesData.some(primaryStory =>
 						secondaryStory.headline === primaryStory.headline
 					)
-				)
+				);
 
 				const oldMsgs = newsTicker.getMsgs();
 
@@ -378,7 +378,7 @@ const __bigFT = (function (){
 								whenWasContentLastUpdated();
 								sizeHeadlineTextAccordingly();
 							});
-						})
+						});
 
 					})
 
@@ -423,7 +423,7 @@ const __bigFT = (function (){
 
 	function updatePartner (){
 
-		const partner = getQueryParam('partner')
+		const partner = getQueryParam('partner');
 
 		if (partner !== undefined) {
 			

@@ -22,7 +22,7 @@ router.get('/top-stories', (req, res) => {
 		client.captureException(error);
 		res.sendStatus(503);
 	});
-})
+});
 
 router.get('/search', (req, res) => {
 	const searchTerm = req.query.keyword;
@@ -37,6 +37,6 @@ router.get('/search', (req, res) => {
 		client.captureException(error);
 		res.sendStatus(503);
 	});
-})
+});
 
 module.exports = router;

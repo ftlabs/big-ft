@@ -77,7 +77,7 @@ describe('topStories', function () {
 					return topStoriesFixture;
 				}
 			}));
-		})
+		});
 
 		it('if no offset is passed it will return from the start of the article list', function (done) {
 			expect(topStories().then(a => a[0])).to.eventually.deep.equal(topStoriesFixture.pageItems[0]).notify(done);
@@ -112,7 +112,7 @@ describe('topStories', function () {
 				expect(offsetOfSeven).to.deep.equal(topStoriesFixture.pageItems[7]);
 				expect(offsetOfEight).to.deep.equal(topStoriesFixture.pageItems[8]);
 				done();
-			}).catch(done)
+			}).catch(done);
 		});
 
 		it('returns undefined if the offset is larger than the amount of articles', function (done) {
@@ -122,7 +122,7 @@ describe('topStories', function () {
 				const offsetOfTen = results[0];
 				expect(offsetOfTen).to.equal(undefined);
 				done();
-			}).catch(done)
+			}).catch(done);
 		});
 
 		it('if no maximum amount of articles is passed, it will return all of the articles', function (done) {
@@ -161,7 +161,7 @@ describe('topStories', function () {
 				expect(maximumOfEight).to.be.at.most(8);
 				expect(maximumOf9000).to.be.at.most(9000);
 				done();
-			}).catch(done)
+			}).catch(done);
 		});
 
 		it('if article contains no images, it is not returned', function (done) {

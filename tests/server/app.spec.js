@@ -15,7 +15,7 @@ const app = require(moduleUnderTest);
 
 describe('App', function () {
 	before(done => {
-		app.listen(9999, done)
+		app.listen(9999, done);
 	});
 
 	after(() => {
