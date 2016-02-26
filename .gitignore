@@ -5,3 +5,4 @@ npm-debug.log
 npm-debug.log.*
 /client/dist
 /coverage/
+/resources/*.psd
