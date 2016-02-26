@@ -33,6 +33,14 @@ To experience the big view glory:
 
 - http://big.ft.com
 
+To display the US home page:
+
+- http://big.ft.com/?edition=US
+
+To include recent articles about a specific organisation whih may not ordinarily make it to the front page
+
+- http://big.ft.com/?organisation=amazon
+
 To configure the big view glory to display articles about Amazon:
 
 - http://big.ft.com/?primaryType=search&primarySearch=amazon
