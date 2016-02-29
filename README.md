@@ -29,7 +29,7 @@ Selenium is used for integration testing. In order to get Selenium running you w
 
 ### Usage
 
-To experience the big view glory: 
+To experience the big view glory:
 
 - http://big.ft.com
 
@@ -52,3 +52,7 @@ To configure the big view glory to display only the first top-story in the prima
 To customise everything in the big view glory which is customisable:
 
 - http://big.ft.com/?primaryType=search&primarySearch=amazon&primaryOffset=0&primaryMax=1&secondaryType=search&secondarySearch=banks&secondaryOffset=0&secondaryMax=3
+
+#### Vanity URLs
+
+For our partners, we can display a vanity URL in the corner of Big FT. To display the vanity url, pass the partners name (as listed [here](https://docs.google.com/spreadsheets/d/12dCHQVzYEJyg2uv1ggxNZjCq_tJz3dsb_JJyM3a6twk/) ) a query parameter to the Big FT service. For example `http://big.ft.com/?partner=labs` will display the URL `labs.ft.com` in the bottom right corner. If the value passed does not relate to one of our partners, `www.ft.com` will display instead.
