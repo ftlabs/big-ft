@@ -1,4 +1,4 @@
-const validPartners = {
+const validPartners = process.env.PARTNERS !== undefined ? JSON.parse(process.env.PARTNERS) : {
 	labs : 'labs.ft.com'
 };
 
