@@ -303,17 +303,19 @@ const __bigFT = (function (){
 				window.fitText(headline, amp);
 			}
 
-				headlineEls.forEach(adjustTextSize);
+            headlineEls.forEach(adjustTextSize);
 
-				while((footer.offsetTop + footer.offsetHeight) > window.innerHeight){
+            /*
+             * HACK: the `-1` here is to work around an issue where Safari does not work correctly
+            */
+            while((footer.offsetTop + footer.offsetHeight - 1) > window.innerHeight){
+                headlineEls.forEach(adjustTextSize);
 
-					headlineEls.forEach(adjustTextSize);
+                amp += 0.1;
 
-					amp += 0.1;
+            }
 
-				}
-
-				resolve();
+            resolve();
 
 			})
 		;
