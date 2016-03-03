@@ -489,7 +489,7 @@ const __bigFT = (function (){
 		if (getQueryParam('useCustomTimezone')) {
 			return getQueryParam('customTimezone');
 		} else {
-			const timezone = window.Intl === undefined ? '' : Intl.DateTimeFormat().resolvedOptions().timeZone;  // eslint-disable-line new-cap
+			const timezone = moment.tz.guess();
 
 			return timezone !== '' ? timezone : 'Europe/London';
 		}
