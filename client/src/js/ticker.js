@@ -49,9 +49,10 @@ module.exports = (function ($){
 			isscrolling = true;
 			updatecount = 1;
 			eltape.bind('webkitTransitionEnd', slide);
-			eltape.bind('oTransitionEnd', slide);
-			eltape.bind('mozTransitionEnd', slide);
-			eltape.bind('transitionEnd', slide);
+			eltape.bind('otransitionend', slide);
+
+			// transitionend lower case is the spec version
+			eltape.bind('transitionend', slide);
 
 			window.addEventListener('resize', function () {
 				clearTimeout(resizeDebounceTimer);
