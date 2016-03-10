@@ -33,6 +33,9 @@ To experience the big view glory:
 
 - http://big.ft.com
 
+To display a specific timezone:
+- http://big.ft.com/?timezone=Europe/London
+
 To display the US home page:
 
 - http://big.ft.com/?edition=US
