@@ -435,7 +435,7 @@ const __bigFT = (function (){
 					const data = json.data;
 
 					if(data.url !== undefined && data.url !== ''){
-						partnerURLElement.textContent = data.url;
+						partnerURLElement.textContent = `${window.location.host}/${data.partner}`;
 					}
 
 				})
