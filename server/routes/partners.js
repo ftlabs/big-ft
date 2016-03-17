@@ -1,4 +1,3 @@
-const debug = require('debug')('big-ft:routes:partners');
 const validPartners = require('../lib/partners');
 
 module.exports = function (req, res){
