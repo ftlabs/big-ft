@@ -29,6 +29,7 @@ const {
 	&secondarySearch=banks
 	&secondaryOffset=0
 	&secondaryMax=10
+	&monotone=true
 */
 
 function wait (ms) {
@@ -528,7 +529,11 @@ const __bigFT = (function (){
 
 		const currentTimezone = detectTimezone();
 		const clockExistsForTimezone = checkForClock(currentTimezone);
-
+		
+		if(getQueryParam('monotone') === true){
+			document.body.classList.add('monotone');
+		}
+		
 		if(!clockExistsForTimezone){
 			const newClock = createClock(currentTimezone);
 			document.getElementsByClassName('footer-cards')[0].appendChild(newClock);
