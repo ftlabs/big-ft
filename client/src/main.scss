@@ -17,6 +17,9 @@ body {
 	font-size: 5vh;
 }
 
+.monotone {
+	filter: grayscale(100%);
+}
 
 .ft-logo-square {
     background-image: url('//image.webservices.ft.com/v1/images/raw/fticon:brand-ft-logo-square?format=svg&source=big-ft'), none;

@@ -53,11 +53,11 @@ app.use('/static', express.static(path.join(__dirname, '../client/dist')));
 app.use('/sw.js', express.static(path.join(__dirname, '../client/dist/sw.js')));
 app.use('/sw.js.map', express.static(path.join(__dirname, '../client/dist/sw.js.map')));
 
+app.use('/check-partner', partners);
 app.use('/', routes);
 app.use('*', timeStampMiddleware);
 app.use('/data', data);
 app.use('/update', update);
-app.use('/check-partner', partners);
 
 app.use(function (req, res) {
   res.sendStatus(404); // TODO: Redirect to FT 404 Page?
