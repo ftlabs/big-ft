@@ -24,7 +24,7 @@ const edition = (parsed.edition) ? parsed.edition : defaultEdition;
 const organisation = parsed.organisation;
 
 const partner = parsed.partner;
-const monotone = parsed.monotone === "true" ? true : false;
+const monotone = parsed.monotone === 'true';
 
 const exportData = {
 	organisation,
