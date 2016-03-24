@@ -11,6 +11,17 @@ const apiOrigin = 'http://api.ft.com/site/v1/pages';
 const frontPageIdUK = '4c499f12-4e94-11de-8d4c-00144feabdc0';
 const frontPageIdUS = 'b0ed86f4-4e94-11de-8d4c-00144feabdc0';
 
+
+function ensureGoodResponse (response) {
+	if (!response.ok) {
+		return response.text().then(text => {
+			throw Error(text);
+		});
+	} else {
+		return response;
+	}
+}
+
 // edition can be "US" or "INTL" (both meaning US), or "UK" (and anything except "US"/"INTL", including null or "", i.e. its the default)
 module.exports = function topStories (startFrom, numberOfArticles, edition, organisation) {
 	'use strict';
@@ -38,10 +49,12 @@ module.exports = function topStories (startFrom, numberOfArticles, edition, orga
 		organisationPromise = co(function * fetchArticlesByOrganisation () {
 
 			const id = yield fetch('https://next.ft.com/search-suggestions?flatten=true&limit=1&exclude=special&q=' + organisation)
+			.then(ensureGoodResponse)
 			.then(response => response.json())
 			.then(json => json[0].id);
 
 			const orgArticles = yield fetch(`http://api.ft.com/content?isAnnotatedBy=${id}&authority=http://api.ft.com/system/FT-TME&bindings=v1&apiKey=${apiKey}`)
+			.then(ensureGoodResponse)
 			.then(response => response.json())
 			.then(json => json.content);
 
@@ -51,6 +64,7 @@ module.exports = function topStories (startFrom, numberOfArticles, edition, orga
 				// get v1 article
 				const newApiReq = orgArticle.apiUrl.replace(/^http:\/\/api.ft.com\/content\//, 'http://api.ft.com/content/items/v1/');
 				const article = yield fetch(newApiReq + `?apiKey=${apiKey}`)
+				.then(ensureGoodResponse)
 				.then(response => response.json())
 				.then(json => json.item);
 
