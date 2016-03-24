@@ -1,9 +1,20 @@
 const fetch = require('node-fetch');
 const present = require('./viewModel');
 const bluebird = require('bluebird');
+const debug = require('debug')('big-ft:search');
 
 const searchApiEndpoint = 'http://api.ft.com/content/search/v1';
 const apiKey = process.env.apiKey;
+
+function ensureGoodResponse (response) {
+	if (!response.ok) {
+		return response.text().then(text => {
+			throw Error(text);
+		});
+	} else {
+		return response;
+	}
+}
 
 module.exports = (keyword, startFrom, numberOfArticles) => {
 	const searchPayload = {
@@ -24,7 +35,9 @@ module.exports = (keyword, startFrom, numberOfArticles) => {
 		'Content-Type': 'application/json',
 		body: JSON.stringify(searchPayload)
 	})
-	.then(response => response.json());
+	.then(ensureGoodResponse)
+	.then(response => response.json())
+	.catch(e => debug(e.message + ' ' + e.stack));
 
 	const articleApiUrls = searchResponse
 	.then(data => {
@@ -39,9 +52,13 @@ module.exports = (keyword, startFrom, numberOfArticles) => {
 
 	return bluebird.map(articleApiUrls, article =>
 			fetch(article)
+			.then(ensureGoodResponse)
 			.then(article => article.json())
 			.then(a => a.item)
 			.then(present)
+
+			// if it errors log it then, return an empty object so it gets filtered out
+			.catch(e => (debug(e.message + ' ' + e.stack), {}))
 	)
 	.then(articles => articles.filter(article => article.image !== ''));
 };
