@@ -56,7 +56,7 @@ To customise everything in the big view glory which is customisable:
 
 - http://big.ft.com/?primaryType=search&primarySearch=amazon&primaryOffset=0&primaryMax=1&secondaryType=search&secondarySearch=banks&secondaryOffset=0&secondaryMax=3
 
-To switch to the simlistic black and white version
+To switch to the simplistic black and white version
 
 - http://big.ft.com?monotone=true
 
