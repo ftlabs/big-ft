@@ -25,8 +25,7 @@
     "raven": "^0.9.0",
     "semver": "^5.1.0",
     "snapsvg": "^0.4.0",
-    "sw-toolbox": "^3.1.1",
-    "snyk": "^1.19.1"
+    "sw-toolbox": "^3.1.1"
   },
   "name": "big-ft",
   "version": "1.0.0",
@@ -68,8 +67,6 @@
     "test:integration": "wdio ./tests/wdio.conf.js",
     "test:server": "istanbul cover _mocha -- -R spec ./tests/server/**/*.spec.js",
     "watch": "nodemon --ignore client/dist --ignore coverage -e js,scss,json",
-    "snyk-protect": "snyk protect",
-    "prepublish": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -81,6 +78,5 @@
   "engines": {
     "node": "5.6.0"
   },
-  "private": true,
-  "snyk": true
+  "private": true
 }
