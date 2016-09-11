@@ -66,7 +66,7 @@
     "test:client": "karma start ./tests/karma.conf.js",
     "test:integration": "wdio ./tests/wdio.conf.js",
     "test:server": "istanbul cover _mocha -- -R spec ./tests/server/**/*.spec.js",
-    "watch": "nodemon --ignore client/dist --ignore coverage -e js,scss,json",
+    "watch": "nodemon --ignore client/dist --ignore coverage -e js,scss,json"
   },
   "repository": {
     "type": "git",
