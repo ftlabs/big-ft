@@ -78,5 +78,8 @@
   "engines": {
     "node": "5.6.0"
   },
-  "private": true
+  "private": true,
+  "engines": {
+    "node": "> 6.11.0 < 7.0.0"
+  }
 }
