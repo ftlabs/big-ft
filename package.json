@@ -13,7 +13,7 @@
     "express": "^4.13.3",
     "express-ftwebservice": "^2.0.0",
     "express-hbs": "^0.8.4",
-    "jquery": "^2.1.4",
+    "jquery": "^3.0.0 <-- Updated because of automated security vulnerability check, but not tested. In fact, hopefully will break because of this comment. The code is not live. Caveat emptor",
     "lodash": "^3.10.1",
     "moment-timezone": "^0.5.1",
     "morgan": "^1.6.1",
