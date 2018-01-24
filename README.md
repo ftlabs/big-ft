@@ -1,3 +1,8 @@
+## Warning
+
+In package.json, the version of jquery has been bumped to 3.0.0, in response to an automate vulnerability check, but not tested. The code is not live. *Caveat emptor*.
+
+
 ## Big FT [![Test Coverage](https://codeclimate.com/github/ftlabs/big-ft/badges/coverage.svg)](https://codeclimate.com/github/ftlabs/big-ft/coverage) [![Code Climate](https://codeclimate.com/github/ftlabs/big-ft/badges/gpa.svg)](https://codeclimate.com/github/ftlabs/big-ft)
 
 ### Development
