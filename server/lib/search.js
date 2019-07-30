@@ -3,7 +3,7 @@ const present = require('./viewModel');
 const bluebird = require('bluebird');
 const debug = require('debug')('big-ft:search');
 
-const searchApiEndpoint = 'http://api.ft.com/content/search/v1';
+const searchApiEndpoint = 'https://api.ft.com/content/search/v1';
 const apiKey = process.env.apiKey;
 
 function ensureGoodResponse (response) {

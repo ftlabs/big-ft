@@ -7,7 +7,7 @@ const co = require('co');
 const debug = require('debug')('big-ft:topStories');
 
 const apiKey = process.env.apiKey;
-const apiOrigin = 'http://api.ft.com/site/v1/pages';
+const apiOrigin = 'https://api.ft.com/site/v1/pages';
 const frontPageIdUK = '4c499f12-4e94-11de-8d4c-00144feabdc0';
 const frontPageIdUS = 'b0ed86f4-4e94-11de-8d4c-00144feabdc0';
 
@@ -53,7 +53,7 @@ module.exports = function topStories (startFrom, numberOfArticles, edition, orga
 			.then(response => response.json())
 			.then(json => json[0].id);
 
-			const orgArticles = yield fetch(`http://api.ft.com/content?isAnnotatedBy=${id}&authority=http://api.ft.com/system/FT-TME&bindings=v1&apiKey=${apiKey}`)
+			const orgArticles = yield fetch(`https://api.ft.com/content?isAnnotatedBy=${id}&authority=https://api.ft.com/system/FT-TME&bindings=v1&apiKey=${apiKey}`)
 			.then(ensureGoodResponse)
 			.then(response => response.json())
 			.then(json => json.content);
@@ -62,7 +62,7 @@ module.exports = function topStories (startFrom, numberOfArticles, edition, orga
 			for (let orgArticle of orgArticles) {
 
 				// get v1 article
-				const newApiReq = orgArticle.apiUrl.replace(/^http:\/\/api.ft.com\/content\//, 'http://api.ft.com/content/items/v1/');
+				const newApiReq = orgArticle.apiUrl.replace(/^http:\/\/api.ft.com\/content\//, 'https://api.ft.com/content/items/v1/');
 				const article = yield fetch(newApiReq + `?apiKey=${apiKey}`)
 				.then(ensureGoodResponse)
 				.then(response => response.json())
