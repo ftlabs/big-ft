@@ -29,7 +29,7 @@ describe('viewModel', function () {
 			image: 'http://im.ft-static.com/content/images/3f78880a-183e-48b2-80f9-00492f3b81c7.img',
 			lastPublishDateTime: '2015-12-09T16:22:18Z',
 			url: {
-				href: 'http://api.ft.com/content/items/v1/722174a2-9e6b-11e5-b45d-4812f209f861',
+				href: 'https://api.ft.com/content/items/v1/722174a2-9e6b-11e5-b45d-4812f209f861',
 				rel: 'content-item'
 			}
 		});
